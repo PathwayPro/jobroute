@@ -1,1 +1,0 @@
-# acuspire-project
