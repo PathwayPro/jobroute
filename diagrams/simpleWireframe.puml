@@ -1,0 +1,73 @@
+@startuml JobRouteSimpleWireframe
+component currentJob [
+  Current job screen
+  Most recent job - <input type='text'/>
+
+  <button>Continue</button>
+]
+
+component skills [
+  Skills screen
+Minimum three main skills - <textarea></textarea>
+
+  <button>Continue</button>
+]
+
+component choice [
+  Choice screen
+
+  <button>Boost your current job</button>
+
+  Switch to new profession <input type='text'/>
+
+  <button>Check the most relevant job list to switch</button>
+]
+
+component boost [
+  Boost the job
+  Advices what skill to gain to boost
+  the income and how to do it
+]
+
+component relevantJobs [
+  List of Relevant Jobs
+  List of relevant jobs with descriptions
+  All jobs should be clickable to Job Roadmap
+]
+
+component jobRoadmap [
+Single Job Roadmap
+]
+
+database chatgpt [
+  ChatGPT
+]
+
+frame state [
+  State
+]
+
+currentJob ..> chatgpt : get NOC
+
+chatgpt ..> state : store results
+
+relevantJobs ..> chatgpt : fetch jobs \n roadmaps 
+
+skills ..> chatgpt : fetch boost the job
+skills ..> chatgpt : fetch list of \n relevant jobs 
+
+choice ..> chatgpt : fetch job roadmap
+
+state ...> jobRoadmap
+state ...> relevantJobs
+state ...> boost
+
+currentJob -> skills : goto skills
+skills -> choice : goto choice
+relevantJobs --> jobRoadmap : goto job roadmap
+choice --> boost : goto boost roadmap
+choice -> relevantJobs : goto job list
+choice -> jobRoadmap : goto job
+
+
+@enduml

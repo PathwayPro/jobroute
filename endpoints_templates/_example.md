@@ -11,6 +11,8 @@ creating objects, please add what simple types will be returned "num", "str", "b
 ```
 
 ### Work
+#### Prompt example
+> Some awesome prompt.
 Description
 ``` jsonc
 {
