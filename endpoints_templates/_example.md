@@ -2,20 +2,23 @@
 
 ## Info section
 ### Salary
-creating objects, please add what simple types will be returned "num", "str", "bool"
+
+#### Prompt
+> Final prompt here
+#### Response result
+
 ``` jsonc
 {
-  // [min salary, max salary, currency code according the ISO 4217]
-    "salary": ["num", "num", "str" ]
+  //response example here. To simplify, please paste ChatGPT result
 }
 ```
 
 ### Work
-#### Prompt example
-> Some awesome prompt.
-Description
+#### Prompt
+> Final prompt here
+#### Response result
 ``` jsonc
 {
-    // some cool stuff here
+  //response example here. To simplify, please paste ChatGPT result
 }
 ```
