@@ -1,6 +1,7 @@
 import TopHead from './TopHead';
 
 const Header = () => {
+
   return (
     <header className='relative flex flex-col items-center col-span-12'>
       <TopHead />

@@ -1,3 +1,4 @@
+import { Header2, HrDashed } from "../Elements";
 
 const Skills = () => {
   const response = [
@@ -32,18 +33,20 @@ const Skills = () => {
       ],
     }
   ];
-  return <div>
-    {response.map((list, i) => {
-      return <div key={i}>
-        <span>{list.title}</span>
-        <ol className='list-decimal'>
-          {list.content.map((skill, i) => {
-            return <li key={i}>{skill}</li>
-          })}
-        </ol>
-      </div>
-    })}
-
+  return <div className='mt-12'>
+    <HrDashed />
+    <div className='mt-12 grid grid-cols-2 place-items-center'>
+      {response.map((list, i) => {
+        return <div key={i}>
+          <Header2>{list.title}</Header2>
+          <ol className='list-decimal'>
+            {list.content.map((skill, i) => {
+              return <li key={i}>{skill}</li>
+            })}
+          </ol>
+        </div>
+      })}
+    </div>
   </div>
 }
 

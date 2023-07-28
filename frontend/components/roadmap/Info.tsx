@@ -1,4 +1,10 @@
-import Image from "next/image";
+import Image from 'next/image';
+import { Header2, HrDashed } from '../Elements';
+
+type Card = {
+  title: string;
+  content: string[];
+};
 
 const SALARY = 'Salary';
 const DEGREE = 'Degree';
@@ -7,7 +13,7 @@ const VALIDATION = 'Credential Validation';
 const LANGUAGE = 'Language Proficiency';
 
 const Info = () => {
-  const response = [
+  const response: Card[] = [
     {
       title: 'Salary',
       content: [
@@ -44,9 +50,14 @@ const Info = () => {
   ];
 
 
-  const defIcon = (title: any) => {
+  const defIcon = (title: string): string => {
 
-    const actions = [
+    type Action = {
+      condition: () => boolean;
+      action: () => string;
+    };
+
+    const actions: Action[] = [
       {
         condition: () => title === SALARY,
         action: () => '/img/salary.svg',
@@ -72,17 +83,24 @@ const Info = () => {
     const action = actions.find(({ condition }) => condition());
 
     if (action) return action.action();
+
+    console.warn('cannot find proper icon to show');
+
+    return '/img/work.svg';
   }
 
 
-  return <div>
-    <span>Info</span>
-    <div>
+  return <div className='mt-12'>
+    <HrDashed />
+    <Header2 className='mt-12'>Info</Header2>
+    <div className='grid grid-cols-2 gap-8'>
       {response.map((card, i) => {
-        return <div key={i}>
-          <Image src={defIcon(card.title)} width={40} height={40} alt='Info icon' />
-          <span>{card.title}</span>
-          <div className="my-4 border border-gray-300 border-dashed"></div>
+        return <div className={ `border-solid border-2 shadow-xl card card-body ${card.title === WORK && 'row-span-2'}` } key={i}>
+          <div className='flex items-center gap-4'>
+            <Image src={defIcon(card.title)} width={60} height={60} alt='Info icon' />
+            <span className='card-title'>{card.title}</span>
+          </div>
+          <HrDashed />
           {
             card.content.map((field, i) => {
               return <div key={i}>
