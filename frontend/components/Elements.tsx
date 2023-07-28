@@ -91,20 +91,49 @@ type SelectProps = {
   className?: string;
   label?: string;
   options: string[];
+  disabled?: 'none' | number[];
+  defaultValue?: number;
 };
 
-export const Select: React.FC<SelectProps> = ({ className = 'w-[472px]', label, options }) => {
+export const Select: React.FC<SelectProps> = ({ className = 'w-[472px]', label, options, disabled = 'none', defaultValue = 0 }) => {
   const textStyle = 'trackng-wide leading-7';
 
-  return <label className={`${className} ${textStyle} flex flex-col mb-5 gap-y-4`}>
-    {label && <span className='text-base text-center'>{label}</span>}
+  const checkForDisabled = (disabled: SelectProps['disabled'], i: number) => {
+    type Action = {
+      condition: () => boolean;
+      action: () => boolean;
+    };
 
-    <select defaultValue={options[0]} className='mb-10 text-sm border-black ps-8 bg-disabledBtn hover:bg-hoverBtn active:bg-lightJr select select-bordered'>
+    const actions: Action[] = [
       {
-        options.map((string: string, i: number) => (<option disabled={i === 0} className='text-sm group-hover:bg-gray-100' key={i}>{string}</option>))
-      }
-    </select>
-  </label>
+        condition: () => disabled === 'none',
+        action: () => false,
+      },
+      {
+        condition: () => Array.isArray(disabled),
+        action: () => (Array.isArray(disabled) ? disabled.includes(i) : false),
+      },
+    ];
+
+    return actions.some((a) => a.condition()) ? actions.find((a) => a.condition())?.action() ?? false : false;
+  };
+
+  return (
+    <label className={`${className} ${textStyle} flex flex-col mb-5 gap-y-4`}>
+      {label && <span className='text-base text-center'>{label}</span>}
+
+      <select
+        defaultValue={options[defaultValue]}
+        className='mb-10 text-sm border-black ps-8 bg-disabledBtn hover:bg-hoverBtn active:bg-lightJr select select-bordered'
+      >
+        {options.map((string: string, i: number) => (
+          <option disabled={checkForDisabled(disabled, i)} className='text-sm group-hover:bg-gray-100' key={i}>
+            {string}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
 };
 
 type InputProps = {
