@@ -1,7 +1,7 @@
 import Footer from "@/components/Footer";
-import RoadmapCards from "@/components/RoadmapCards";
+import Cards from "@/components/roadmap/Cards";
 import TopHead from "@/components/TopHead";
-import CommonDetails from "@/components/commonDetails/CommonDetails";
+import Details from "@/components/roadmap/Details";
 
 const Roadmap = () => {
   return <div>
@@ -13,9 +13,9 @@ const Roadmap = () => {
       <button className='btn bg-secBg btn-outline'>Search again</button>
     </div>
 
-    <div className='flex justify-between'>
-      <RoadmapCards />
-      <CommonDetails />
+    <div className='mx-12 my-12 grid grid-cols-2 gap-12'>
+      <Cards />
+      <Details />
     </div>
     <Footer />
   </div >
