@@ -7,10 +7,18 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'galvji': ['Galvji', 'sans-serif'],
+      },
       colors: {
-        primeBg: 'rgba(223, 4, 77, 1)',
-        secBg: 'rgba(62, 62, 62, 1)',
-        primeColor: '#fff',
+        primJr: '#DF044D',
+        secJr: '#3E3E3E',
+        tertJr: '#0B0B0B',
+        disabledBtn: '#D7D7D7',
+        hoverBtn: '#8E8E8E',
+        outlineBtn: '#0B0B0B',
+        fieldBg: '#606060',
+        lightJr: '#fff',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
