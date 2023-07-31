@@ -5,3 +5,6 @@ from .models import ExampleModel
 def example_view(request):
     data = ExampleModel.objects.all().values()
     return JsonResponse(list(data), safe=False)
+
+def sample(request):
+    return "HEllo Worrld"
