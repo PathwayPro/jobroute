@@ -1,15 +1,16 @@
+import { DetailsProps } from "@/types/PropsTypes";
 import Info from "./Info";
 import Overview from "./Overview";
 import Skills from "./Skills";
 
-const CommonDetails = () => {
+const Details: React.FC<DetailsProps> = ({ overview, info, skills }) => {
 
   return <div>
-    <Overview />
-    <Info />
-    <Skills />
+    <Overview overview={overview} />
+    <Info info={info} />
+    <Skills skills={skills} />
 
   </div>
 }
 
-export default CommonDetails;
+export default Details;

@@ -1,27 +1,39 @@
-import { ButtonHTMLAttributes, ReactNode } from 'react';
+import {
+  btnBaseStyle,
+  btnOutlineDarkStyle,
+  btnOutlineSquareStyle,
+  btnPrimaryStyle,
+  btnSecondaryStyle,
+  h1Style,
+  h2Style,
+  hText,
+  hrDashedStyle,
+  logoStyle,
+  optionStyle,
+  captionStyle,
+  labelStyle,
+  selectStyle,
+  textStyle,
+  inputStyle,
+  btnOutlineLightStyle
+} from '@/styles/elementStyles';
+import { ActionBool, ActionString, ButtonProps, HeaderProps, InputProps, SelectProps } from '@/types/PropsTypes';
 
 export const Logo = () => {
   return (
-    <div className='min-w-[12rem] h-[2rem] bg-no-repeat bg-content bg-center' style={{ backgroundImage: 'url(/img/logo.svg)' }}></div>
+    <div className={logoStyle} style={{ backgroundImage: 'url(/img/logo.svg)' }}></div>
   )
 }
 
 export const HrDashed = () => {
   return <>
-    <div className="my-4 border border-gray-300 border-dashed"></div>
+    <div className={hrDashedStyle}></div>
   </>
-}
-
-interface HeaderProps {
-  children: ReactNode;
-  className?: string;
 }
 
 export const Header1: React.FC<HeaderProps> = ({ children, className }) => {
   return (
-    <h1
-      className={`  tracking-wide text-5xl font-bold text-left text-titles text-center ${className}`}
-    >
+    <h1 className={`${h1Style} ${className}`} >
       {children}
     </h1>
   );
@@ -29,45 +41,44 @@ export const Header1: React.FC<HeaderProps> = ({ children, className }) => {
 
 export const Header2: React.FC<HeaderProps> = ({ children, className }) => {
   return (
-    <h2 className={` tracking-wide text-2xl font-bold text-center ${className}`}>{children}</h2>
+    <h2 className={`${h2Style} ${className}`}>{children}</h2>
   );
 };
 
 export const HeaderText: React.FC<HeaderProps> = ({ children, className }) => {
   return (
-    <p className={`text-xl tracking-wide leading-7 ${className}`}>{children}</p>)
+    <p className={`${hText} ${className}`}>{children}</p>)
 }
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  color: 'primary' | 'secondary' | 'tertiary';
-  children: ReactNode;
-}
-
-export const Btn: React.FC<ButtonProps> = ({ color = 'primary', children, ...rest }) => {
+export const Btn: React.FC<ButtonProps> = ({ color = 'primary', children, className, ...rest }) => {
   const defBtn = (color: string) => {
-    let btnClasses = 'mb-[1.5rem] btn text-base w-[290px] h-[25px]';
 
     const PRIMARY = 'primary';
     const SECONDARY = 'secondary';
-    const TERTIARY = 'tertiary';
+    const OUTLINE_LIGHT = 'outline-light';
+    const OUTLINE_DARK = 'outline-dark';
+    const OUTLINE_SQUARE_DARK = 'outline-square-dark';
 
-    type Action = {
-      condition: () => boolean;
-      action: () => string;
-    };
-
-    const actions: Action[] = [
+    const actions: ActionString[] = [
       {
         condition: () => color === PRIMARY,
-        action: () => btnClasses += ' bg-primJr text-lightJr border-none hover:bg-hoverBtn disabled:bg-disabledBtn',
+        action: () => `${btnBaseStyle} ${btnPrimaryStyle}`,
       },
       {
         condition: () => color === SECONDARY,
-        action: () => btnClasses += ' bg-secJr text-lightJr border-none hover:bg-primJr',
+        action: () => `${btnBaseStyle} ${btnSecondaryStyle}`,
       },
       {
-        condition: () => color === TERTIARY,
-        action: () => btnClasses += ' text-outlineBtn border-outlineBtn btn-outline hover:text-lightJr hover:bg-hoverBtn',
+        condition: () => color === OUTLINE_LIGHT,
+        action: () => `${btnBaseStyle} ${btnOutlineLightStyle}`,
+      },
+      {
+        condition: () => color === OUTLINE_DARK,
+        action: () => `${btnBaseStyle} ${btnOutlineDarkStyle}`,
+      },
+      {
+        condition: () => color === OUTLINE_SQUARE_DARK,
+        action: () => btnOutlineSquareStyle,
       },
     ];
 
@@ -77,49 +88,61 @@ export const Btn: React.FC<ButtonProps> = ({ color = 'primary', children, ...res
 
     console.warn('Cannot assign correct styles to button');
 
-    return `${btnClasses}`;
+    return `${btnBaseStyle}`;
   }
 
   return (
-    <button className={defBtn(color)} {...rest}>
+    <button className={`${defBtn(color)} ${className}`} {...rest}>
       {children}
     </button>
   );
 };
 
-type SelectProps = {
-  className?: string;
-  label?: string;
-  options: string[];
-};
+export const Select: React.FC<SelectProps> = ({ className = 'w-[472px]', label, options, disabled = 'none', defaultValue = '', onChange }) => {
 
-export const Select: React.FC<SelectProps> = ({ className = 'w-[472px]', label, options }) => {
-  const textStyle = 'trackng-wide leading-7';
+  const checkForDisabled = (disabled: SelectProps['disabled'], i: number) => {
 
-  return <label className={`${className} ${textStyle} flex flex-col mb-5 gap-y-4`}>
-    {label && <span className='text-base text-center'>{label}</span>}
-
-    <select defaultValue={options[0]} className='mb-10 text-sm border-black ps-8 bg-disabledBtn hover:bg-hoverBtn active:bg-lightJr select select-bordered'>
+    const actions: ActionBool[] = [
       {
-        options.map((string: string, i: number) => (<option disabled={i === 0} className='text-sm group-hover:bg-gray-100' key={i}>{string}</option>))
-      }
-    </select>
-  </label>
+        condition: () => disabled === 'none',
+        action: () => false,
+      },
+      {
+        condition: () => Array.isArray(disabled),
+        action: () => (Array.isArray(disabled) ? disabled.includes(i) : false),
+      },
+    ];
+
+    return actions.some((a) => a.condition()) ? actions.find((a) => a.condition())?.action() ?? false : false;
+  };
+
+  return (
+    <label className={`${textStyle} ${labelStyle} ${className}`}>
+      {label && <span className={captionStyle}>{label}</span>}
+
+      <select
+        defaultValue={defaultValue === '' ? '' : options[defaultValue]}
+        className={selectStyle}
+        onChange={onChange}
+      >
+        {options.map((string: string, i: number) => (
+          <option disabled={checkForDisabled(disabled, i)} className={optionStyle} key={i}>
+            {string}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
 };
 
-type InputProps = {
-  className?: string;
-  label?: string;
-  placeholder?: string;
-  type?: string;
-};
+export const InputField: React.FC<InputProps> = ({ className = 'w-[472px]', type = 'text', label, placeholder = '', onChange }) => {
+  return <label className={`${labelStyle} ${className}`}>
+    {label && <span className={captionStyle}>{label}</span>}
 
-export const InputField: React.FC<InputProps> = ({ className = 'w-[472px]', type = 'text', label, placeholder = '' }) => {
-  const textStyle = 'trackng-wide leading-7';
-
-  return <label className={`${className} flex flex-col mb-5 gap-y-4`}>
-    {label && <span className='text-base text-center'>{label}</span>}
-
-    <input type={type} placeholder={placeholder} className='mb-10 text-sm border-black ps-8 hover:bg-hoverBtn bg-lightJr input input-bordered' />
+    <input
+      type={type}
+      onChange={onChange}
+      placeholder={placeholder}
+      className={inputStyle} />
   </label>
 };

@@ -1,11 +1,10 @@
-import Image from 'next/image';
-import Logo from './Logo';
+import { Logo } from './Elements';
 
 const TopHead = () => {
   return (
-      <div className='w-screen h-[64px] flex justify-center p-3 bg-primeBg'>
-        <Logo />
-      </div>
+    <div className='w-screen h-[64px] flex justify-center p-3 bg-primary'>
+      <Logo />
+    </div>
   )
 }
 
