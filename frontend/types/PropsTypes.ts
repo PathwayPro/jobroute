@@ -13,19 +13,23 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export type SelectProps = {
   className?: string;
+  styleCaption?: string;
+  styleSelect?: string;
   label?: string;
   options: string[];
   disabled?: 'none' | number[];
   defaultValue?: '' | number;
-  onChange?: (event: any) => void; //TODO run unto the problem couldn't solve it : ChangeEvent<HTMLSelectElement>. Used a quick fix with any type
+  onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
 export type InputProps = {
   className?: string;
+  styleCaption?: string;
+  styleInput?: string;
   label?: string;
   placeholder?: string;
   type?: string;
-  onChange?: (event: any) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 
