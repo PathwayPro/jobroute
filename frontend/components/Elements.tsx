@@ -1,20 +1,27 @@
 import { ButtonProps, HeaderProps, InputProps, SelectProps } from '@/types/PropsTypes';
+import { twMerge } from 'tailwind-merge';
 
 export const Logo = () => {
+  const s = 'min-w-[8.68775rem] h-[1.5rem] bg-no-repeat bg-cover bg-center';
+
   return (
-    <div className='min-w-[12rem] h-[2rem] bg-no-repeat bg-content bg-center' style={{ backgroundImage: 'url(/img/logo.svg)' }}></div>
+    <div className={s} style={{ backgroundImage: 'url(/img/logo.svg)' }}></div>
   )
 }
 
 export const HrDashed = () => {
+  const s = 'my-4 border border-gray-300 border-dashed';
+
   return <>
-    <div className="my-4 border border-gray-300 border-dashed"></div>
+    <div className={s}></div>
   </>
 }
 
 export const Header1: React.FC<HeaderProps> = ({ children, className }) => {
+  const s = 'leading-6 tracking-normal text-4xl font-bold text-left text-titles text-center ${className}'
+
   return (
-    <h1 className={`leading-6 tracking-normal text-4xl font-bold text-left text-titles text-center ${className}`} >
+    <h1 className={twMerge(s, className)} >
       {children}
     </h1>
   );
@@ -22,24 +29,37 @@ export const Header1: React.FC<HeaderProps> = ({ children, className }) => {
 
 export const Header2: React.FC<HeaderProps> = ({ children, className }) => {
   return (
-    <h2 className={`leading-6 tracking-normal text-3xl font-bold text-center ${className}`}>{children}</h2>
+    <h2 className={`tracking-normal text-4xl font-bold text-center text-light-color leading-normal ${className}`}>{children}</h2>
+  );
+};
+
+export const Header3: React.FC<HeaderProps> = ({ children, className }) => {
+  return (
+    <h2 className={`tracking-normal text-2xl font-bold text-center text-light-color leading-normal ${className}`}>{children}</h2>
   );
 };
 
 export const HeaderText: React.FC<HeaderProps> = ({ children, className }) => {
+  const s = 'text-xl font-normal tracking-normal leading-7';
   return (
-    <p className={`text-xl font-normal tracking-normal leading-7 ${className}`}>{children}</p>)
+    <p className={twMerge(s, className)}>{children}</p>)
 }
 
 export const Btn: React.FC<ButtonProps> = ({ color = 'primary', children, className, ...rest }) => {
   const defBtn = (color: string) => {
-    let btnClasses = 'mb-[1.5rem] btn text-base w-[290px] h-[25px]';
-
     const PRIMARY = 'primary';
     const SECONDARY = 'secondary';
     const OUTLINE_LIGHT = 'outline-light';
     const OUTLINE_DARK = 'outline-dark';
     const OUTLINE_SQUARE_DARK = 'outline-square-dark';
+
+    const s = {
+      primary: 'bg-primary text-light-color border-none hover:bg-hover-btn disabled:bg-active-color',
+      secondary: 'bg-secondary text-light-color border-none hover:bg-primary',
+      outLight: 'btn-outline text-light-color border-light-color border-outline hover:text-light-color hover:bg-hover-btn',
+      outDark: 'btn-outline text-primary-text border-primary-text border-outline hover:text-light-color hover:bg-hover-btn',
+      outSqureDark: 'btn-square btn-outline h-auto w-auto border-none text-primary-text hover:text-light-color hover:bg-hover-btn',
+    };
 
 
     type Action = {
@@ -50,23 +70,23 @@ export const Btn: React.FC<ButtonProps> = ({ color = 'primary', children, classN
     const actions: Action[] = [
       {
         condition: () => color === PRIMARY,
-        action: () => btnClasses += ' bg-primary text-light-color border-none hover:bg-hover-btn disabled:bg-active-color',
+        action: () => s.primary,
       },
       {
         condition: () => color === SECONDARY,
-        action: () => btnClasses += ' bg-secondary text-light-color border-none hover:bg-primary',
+        action: () => s.secondary,
       },
       {
         condition: () => color === OUTLINE_LIGHT,
-        action: () => btnClasses += ' text-light-color border-light-color border-outline btn-outline hover:text-light-color hover:bg-hover-btn',
+        action: () => s.outLight,
       },
       {
         condition: () => color === OUTLINE_DARK,
-        action: () => btnClasses += ' text-primary-text border-primary-text border-outline btn-outline hover:text-light-color hover:bg-hover-btn',
+        action: () => s.outDark,
       },
       {
         condition: () => color === OUTLINE_SQUARE_DARK,
-        action: () => 'mb-[1.5rem] btn btn-square border-none text-base text-primary-text btn-outline hover:text-light-color hover:bg-hover-btn',
+        action: () => s.outSqureDark,
       },
     ];
 
@@ -76,18 +96,25 @@ export const Btn: React.FC<ButtonProps> = ({ color = 'primary', children, classN
 
     console.warn('Cannot assign correct styles to button');
 
-    return `${btnClasses}`;
+    return '';
   }
 
-  return (
-    <button className={`${defBtn(color)} ${className}`} {...rest}>
-      {children}
-    </button>
-  );
+  const s = 'btn text-base w-[18.125rem] h-[1.5625rem]';
+
+  return <button className={twMerge(s, defBtn(color), className)} {...rest}>
+    {children}
+  </button>
+    ;
 };
 
-export const Select: React.FC<SelectProps> = ({ className = 'w-[472px]', label, options, disabled = 'none', defaultValue = '', onChange }) => {
-  const textStyle = 'tracking-wide leading-7';
+export const Select: React.FC<SelectProps> = ({ className, styleCaption, styleSelect, label, options, disabled = 'none', defaultValue = '', onChange }) => {
+  const s = {
+    textStyle: 'tracking-wide leading-7',
+    label: 'flex flex-col gap-y-4 w-[30.5rem]',
+    select: 'text-sm border-black ps-8 bg-light-color hover:bg-hover-input active:bg-light-color select select-bordered',
+    caption: 'text-base text-center',
+    option: 'text-sm',
+  };
 
   const checkForDisabled = (disabled: SelectProps['disabled'], i: number) => {
 
@@ -111,16 +138,16 @@ export const Select: React.FC<SelectProps> = ({ className = 'w-[472px]', label, 
   };
 
   return (
-    <label className={`${textStyle} flex flex-col gap-y-4 ${className}`}>
-      {label && <span className='text-base text-center'>{label}</span>}
+    <label className={twMerge(s.textStyle, s.label, className)}>
+      {label && <span className={twMerge(s.caption, styleCaption)}>{label}</span>}
 
       <select
         defaultValue={defaultValue === '' ? '' : options[defaultValue]}
-        className='mb-10 text-sm border-black ps-8 bg-light-color hover:bg-hover-input active:bg-light-color select select-bordered'
+        className={twMerge(s.select, styleSelect)}
         onChange={onChange}
       >
         {options.map((string: string, i: number) => (
-          <option disabled={checkForDisabled(disabled, i)} className='text-sm' key={i}>
+          <option disabled={checkForDisabled(disabled, i)} className={s.option} key={i}>
             {string}
           </option>
         ))}
@@ -129,16 +156,21 @@ export const Select: React.FC<SelectProps> = ({ className = 'w-[472px]', label, 
   );
 };
 
-export const InputField: React.FC<InputProps> = ({ className = 'w-[472px]', type = 'text', label, placeholder = '', onChange }) => {
-  const textStyle = 'tracking-wide leading-7';
+export const InputField: React.FC<InputProps> = ({ className, styleCaption, styleInput, type = 'text', label, placeholder = '', onChange }) => {
+  const s = {
+    textStyle: 'tracking-wide leading-7',
+    label: 'flex flex-col gap-y-4 w-[29.5rem]',
+    caption: 'text-base text-center',
+    input: 'text-sm bg-white border-black ps-8 hover:bg-hover-input input input-bordered',
+  };
 
-  return <label className={`flex flex-col gap-y-4 ${className}`}>
-    {label && <span className='text-base text-center'>{label}</span>}
+  return <label className={twMerge(s.label, className)}>
+    {label && <span className={twMerge(s.textStyle, s.caption, styleCaption)}>{label}</span>}
 
     <input
       type={type}
       onChange={onChange}
       placeholder={placeholder}
-      className='mb-10 text-sm bg-white border-black ps-8 hover:bg-hover-input input input-bordered' />
+      className={twMerge(s.textStyle, s.input, styleInput)} />
   </label>
 };
