@@ -3,7 +3,7 @@ import { Logo } from './Elements';
 
 const Footer = () => {
   return (
-    <footer className='text-light-color col-span-12 flex justify-around items-center h-[165px] align-center' style={{ backgroundColor: 'rgba(62, 62, 62, 1)' }}>
+    <footer className='text-light-color flex justify-around items-center h-[10.3rem] mt-[13.5rem] align-center' style={{ backgroundColor: 'rgba(62, 62, 62, 1)' }}>
 
       <div className='flex content-center justify-between gap-12'>
         <Logo />

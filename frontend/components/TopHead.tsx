@@ -2,7 +2,7 @@ import { Logo } from './Elements';
 
 const TopHead = () => {
   return (
-    <div className='w-screen h-[64px] flex justify-center p-3 bg-primary'>
+    <div className='w-screen h-[4rem] flex justify-center items-center bg-primary'>
       <Logo />
     </div>
   )
