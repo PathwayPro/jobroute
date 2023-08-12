@@ -16,9 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from PathwayApp import consumers
 from PathwayApp.urls import urlpatterns as pathway_app_urls
+from PathwayApp.routing import websocket_urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(pathway_app_urls)),
+    # path('ws/result/', include(websocket_urlpatterns)),
 ]
+
