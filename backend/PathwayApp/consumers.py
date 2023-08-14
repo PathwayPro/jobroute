@@ -18,14 +18,33 @@ class ResultConsumer(AsyncWebsocketConsumer):
         await self.send(json.dumps(event['data']))
 
     async def send_one_by_one(self, function):
-        result = await function
+
+        function_name = function.__name__
+
+        print(f"Inside send_one_by_one: running function '{function_name}'" )
+        # result = await function
+        result = await function()
+
         await self.send_result({'data': result})
 
     async def generate_and_send_results(self):
-        task1 = asyncio.create_task(self.send_one_by_one(generate_NOC_result()))
-        task2 = asyncio.create_task(self.send_one_by_one(generate_summary()))
+        # task1 = self.send_one_by_one(generate_NOC_result())
+        # task2 = self.send_one_by_one(generate_summary())
+        # task3 = self.send_one_by_one(generate_Education())
 
-        await asyncio.gather(task1, task2)
+        # await asyncio.gather(task1, task2 ,task3)
+        task1 = self.send_one_by_one(generate_NOC_result)
+        task2 = self.send_one_by_one(generate_summary)
+        task3 = self.send_one_by_one(generate_Education)
+
+        await asyncio.gather(task1, task2, task3)
+
+
+    # async def generate_and_send_results(self):
+    #     task1 = asyncio.create_task(self.send_one_by_one(generate_NOC_result()))
+    #     task2 = asyncio.create_task(self.send_one_by_one(generate_summary()))
+
+    #     await asyncio.gather(task1, task2)
 
 
         # self.send_one_by_one(task1)

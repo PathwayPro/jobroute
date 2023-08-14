@@ -1,6 +1,7 @@
 # websocketFunctions.py
 import json
 from .chatgpt import generate_response
+import asyncio
 
 
 # role = "Software Engineer"
@@ -9,6 +10,8 @@ region = "Canada"
 
 async def generate_NOC_result():
     print("[Running generate_NOC_Result]")
+    # await asyncio.sleep(3)
+    print("[After Sleeping]")
     prompt = f'find NOC code for {role}. Return only NOC code.\nexample template:\n{{\n"NOC" : "0000"\n}}'
     result = await generate_response(prompt)
     # print("noc result type:", type(result))
@@ -20,6 +23,7 @@ async def generate_NOC_result():
 
 async def generate_summary():
     print("[Running generate_summary]")
+    await asyncio.sleep(3)
 
     prompt = f"Find the Overview for the role of {role} as per the NOC of Canada." + \
         " Return the response in JSON with a node called [Overview] containing a brief summary  description  \"\n"
@@ -30,6 +34,7 @@ async def generate_summary():
 
 async def generate_Education():
     print("[Running generate_Education]")
+    await asyncio.sleep(5)
 
     prompt = f'as an AI assistant that provides Canadian education paths for {role}, tell me what are the Canadian education requirements, I want you to provide a list of any degrees, diplomas, certificates, or designations required by the job, strictly follow this template and return reply as a JSON array of objects,' +   \
         "\nExample Template:\n{\ntitle: 'Education / Training',\
