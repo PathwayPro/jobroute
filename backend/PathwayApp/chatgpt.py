@@ -10,7 +10,7 @@ load_dotenv()
 openai.api_key = os.getenv('API_KEY')
 
 
-async def generate_response(prompt):
+def generate_response(prompt):
     response = openai.ChatCompletion.create(
     model="gpt-4",
     messages=[
@@ -26,7 +26,7 @@ async def generate_response(prompt):
     presence_penalty=0
     )
     # print(response)
-    generated_text = response.choices[0].message['content'].strip()
+    generated_text =  response.choices[0].message['content'].strip()
     print(generated_text)
     # print("Chat gpt result data type : ",type(generated_text))
     

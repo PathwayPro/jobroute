@@ -2,7 +2,7 @@
 import asyncio
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
-from .websocketFunctions import generate_NOC_result, generate_summary, generate_Education
+from .websocketFunctions import generate_NOC_result, generate_summary, generate_Education, generate_salary, generate_degree, generate_soft_skills,generate_hard_skills,generate_workType_info,generate_credential_validation,generate_language_req
 
 class ResultConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -19,25 +19,44 @@ class ResultConsumer(AsyncWebsocketConsumer):
 
     async def send_one_by_one(self, function):
 
+        print("Inside send_one_by_one" )
         function_name = function.__name__
 
         print(f"Inside send_one_by_one: running function '{function_name}'" )
         # result = await function
         result = await function()
 
-        await self.send_result({'data': result})
+        # await self.send_result({'data': result})
+        self.send_result({'data': result})
 
     async def generate_and_send_results(self):
-        # task1 = self.send_one_by_one(generate_NOC_result())
-        # task2 = self.send_one_by_one(generate_summary())
-        # task3 = self.send_one_by_one(generate_Education())
+        print("\nInside generate_and_send_results\n")
+        self.send_one_by_one(generate_NOC_result)
+        self.send_one_by_one(generate_summary)
+        self.send_one_by_one(generate_Education)
 
-        # await asyncio.gather(task1, task2 ,task3)
-        task1 = self.send_one_by_one(generate_NOC_result)
-        task2 = self.send_one_by_one(generate_summary)
-        task3 = self.send_one_by_one(generate_Education)
+    #     # await asyncio.gather(task1, task2 ,task3)
+    #     # task1 = self.send_one_by_one(generate_NOC_result)
+    #     task2 = self.send_one_by_one(generate_summary)
+    #     task3 = self.send_one_by_one(generate_Education)
+    #     task4 = self.send_one_by_one(generate_salary)
+    #     task5 = self.send_one_by_one(generate_degree)
+    #     task6 = self.send_one_by_one(generate_workType_info)
+    #     task7 = self.send_one_by_one(generate_hard_skills)
+    #     task8 = self.send_one_by_one(generate_soft_skills)
+    #     # task9 = self.send_one_by_one(g)
 
-        await asyncio.gather(task1, task2, task3)
+    #     # await asyncio.gather(task1, task2, task3)
+    #     await asyncio.gather( task2, task3, task4, task5, task6, task7)
+    
+    # async def generate_and_send_results(self):
+    #     tasks = [generate_summary(), generate_Education(), generate_salary(), generate_degree(), generate_workType_info(), generate_hard_skills(), generate_soft_skills()]
+    #     results = await asyncio.gather(*tasks)
+        
+    #     # Now 'results' contains the results of tasks in the same order as 'tasks'
+    #     for result in results:
+    #         await self.send_one_by_one(result)
+
 
 
     # async def generate_and_send_results(self):

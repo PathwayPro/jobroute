@@ -31,15 +31,15 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
+    'PathwayApp',
+    'path_finder',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'PathwayApp',
-    'path_finder',
-    'daphne'
     # 'channels',
 ]
 
@@ -130,4 +130,4 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # settings.py
-ASGI_APPLICATION = "PathwayApp.routing.application"
+# ASGI_APPLICATION = "PathwayApp.routing.application"

@@ -21,18 +21,42 @@ def get_NOC(request):
     prompt = f'find NOC code for {role}.' + \
         'return only NOC code .\nexample template:\n{\n\"NOC\" : \"0000\"\n}"'
     result = generate_response(prompt)
-    result = json.loads(result)
+    # result = json.loads(result)
     result = JsonResponse(result)
     return result
 
+# def role_summary(request):
+#     prompt = f"Find the Overview for the role of {role} as per the NOC of Canada for the region{region}." + \
+#         " Return the response in JSON with a node called [Overview] containing a brief summary  description  \"\n"
+
+#     result = generate_response(prompt)
+#     result = json.loads(result)
+#     result = JsonResponse(result)
+#     return result
 def role_summary(request):
-    prompt = f"Find the Overview for the role of {role} as per the NOC of Canada." + \
-        " Return the response in JSON with a node called [Overview] containing a brief summary  description  \"\n"
+    if request.method == "GET":
+        data = json.loads(request.body)
+        print("[JSON request] : ", data)
+        role = data.get('profession', '')
+        region = data.get('province', '')
+        industry = data.get('industry', '')
+        
+    prompt = (
+        f"Find the Overview for the role of {role} as per the NOC of Canada for the region {region}."
+        " Return the response in JSON with a node called [overview] containing a brief summary description."
+    )
 
-    result = generate_response(prompt)
-    result = json.loads(result)
-    result = JsonResponse(result)
-    return result
+    try:
+        result = generate_response(prompt)  # Make sure generate_response is defined and working properly
+        print("[role_summary] Result: ", result)
+        print("[role_summary] Result type: ", type(result))
+        result_json = json.loads(result)
+        response = JsonResponse(result_json)
+    except json.JSONDecodeError as e:
+        error_message = f"Error decoding JSON: {e}"
+        response = JsonResponse({"error": error_message}, status=500)
+    
+    return response
 
 def websocket_check(request):
     result1 = get_NOC(request)
