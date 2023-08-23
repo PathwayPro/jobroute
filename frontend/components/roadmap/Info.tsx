@@ -1,10 +1,6 @@
 import Image from 'next/image';
-import { Header2, HrDashed } from '../Elements';
-
-type Card = {
-  title: string;
-  content: string[];
-};
+import { Header3, HrDashed } from '../Elements';
+import { ActionString, RoadmapProps, TitleContent } from '@/types/PropsTypes';
 
 const SALARY = 'Salary';
 const DEGREE = 'Degree';
@@ -12,52 +8,9 @@ const WORK = 'Work';
 const VALIDATION = 'Credential Validation';
 const LANGUAGE = 'Language Proficiency';
 
-const Info = () => {
-  const response: Card[] = [
-    {
-      title: 'Salary',
-      content: [
-        '$00.00 - $0000.00',
-        'will vary according to seniority',
-      ]
-    },
-    {
-      title: 'Degree',
-      content: [
-        'Recommended',
-      ],
-    },
-    {
-      title: 'Work',
-      content: [
-        'Remote | Hybrid | In Person',
-        'Part-time | Full-time | Contract Freelance | Consulting',
-      ],
-    },
-    {
-      title: 'Credential Validation',
-      content: [
-        'Not required',
-      ],
-    },
-    {
-      title: 'Language Proficiency',
-      content: [
-        'English - Advanced oral and writting',
-      ],
-    },
-
-  ];
-
-
+const Info = ({info}: Pick<RoadmapProps, 'info'>) => {
   const defIcon = (title: string): string => {
-
-    type Action = {
-      condition: () => boolean;
-      action: () => string;
-    };
-
-    const actions: Action[] = [
+    const actions: ActionString[] = [
       {
         condition: () => title === SALARY,
         action: () => '/img/salary.svg',
@@ -92,13 +45,13 @@ const Info = () => {
 
   return <div className='mt-12'>
     <HrDashed />
-    <Header2 className='mt-12'>Info</Header2>
-    <div className='grid grid-cols-2 gap-8'>
-      {response.map((card, i) => {
-        return <div className={ `border-solid border-2 shadow-xl card card-body ${card.title === WORK && 'row-span-2'}` } key={i}>
+    <Header3 className='mt-12 text-primary-text'>Info</Header3>
+    <div className='grid grid-cols-2 gap-4'>
+      {info.map((card: TitleContent, i: number) => {
+        return <div className={ `border-solid border-2 shadow-xl p-3 card card-body ${card.title === WORK && 'row-span-2 mb-24'}` } key={i}>
           <div className='flex items-center gap-4'>
-            <Image src={defIcon(card.title)} width={60} height={60} alt='Info icon' />
-            <span className='card-title'>{card.title}</span>
+            <Image src={defIcon(card.title)} width={40} height={40} alt='Info icon' />
+            <span className='text-sm card-title'>{card.title}</span>
           </div>
           <HrDashed />
           {
