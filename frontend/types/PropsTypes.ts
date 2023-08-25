@@ -11,6 +11,11 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
 }
 
+export type RequestType = {
+  province: string;
+  profession: string;
+}
+
 export type SelectProps = {
   className?: string;
   styleCaption?: string;

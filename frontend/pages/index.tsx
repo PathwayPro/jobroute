@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 const Home: React.FC<MainProps> = (props) => {
   return (
-    <div className='flex flex-col justify-between min-h-screen'>
+    <div className='flex flex-col justify-around min-h-screen'>
       <Header />
       <Body provinces={props.provinces} searchBy={props.searchBy} />
       <Footer />
