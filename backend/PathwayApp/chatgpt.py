@@ -25,31 +25,12 @@ def generate_response(prompt):
     frequency_penalty=0,
     presence_penalty=0
     )
-    # print(response)
+    print("\n[CHAT GPT] Response : \n", response)
     generated_text =  response.choices[0].message['content'].strip()
-    print(generated_text)
-    # print("Chat gpt result data type : ",type(generated_text))
+    print("\n[CHAT GPT] response after Trimming :\n",generated_text)
+    print("\nChat gpt result data type : ",type(generated_text))
     
 
     return generated_text
 
-
-
-
-# def use_old_chatgpt(prompt):
-#     response = openai.ChatCompletion.create(
-#   model="gpt-3.5-turbo",
-#   messages=[
-#     {
-#       "role": "user",
-#       "content": prompt
-#     }
-#   ],
-#   temperature=0,
-#   max_tokens=256,
-#   top_p=1,
-#   frequency_penalty=0,
-#   presence_penalty=0
-# )
-#     return response.choices[0].text.strip()
 
