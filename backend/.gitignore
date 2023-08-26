@@ -1,4 +1,8 @@
+# Ignore local environment settings
 .env
+
+# Ignore virtual environment folder
+venv/
 
 # Database files
 *.sqlite3

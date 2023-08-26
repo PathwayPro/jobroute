@@ -20,30 +20,14 @@ def collect_result(prompt):
     try:
         result = generate_response(prompt)
         result_json = json.loads(result)
-        print("[collect_result]Trying to json.loads(result): \n", result_json)
-
         response = JsonResponse(result_json)
     except json.JSONDecodeError as e:
         error_message = f"Error decoding JSON: {e}"
         response = JsonResponse({"error": error_message}, status=500)
-    except Exception as e:
-        error_message = f"An error occurred: {e}"
-        response = JsonResponse({"error": error_message}, status=500)
-    return response
-
-
-def get_firstItem_from_collect_result(prompt):
-    try:
-        result = generate_response(prompt)
-        result_json = json.loads(result)
-        print("[collect_result]Trying to json.loads(result): \n", result_json)
+    except Exception:
         trimmed_json = result_json[0]
-        print("[After Trimming] : \n", trimmed_json)
         response = JsonResponse(trimmed_json)
-        return response
-    except Exception as e:
-        error_message = f"An error occurred: {e}"
-        return {"error": error_message}
+    return response
 
 
 def role_summary(request):
@@ -61,7 +45,7 @@ def role_summary(request):
     )
     response = generate_response(prompt)
     response = HttpResponse(response)
-
+    
     return response
 
 
@@ -108,7 +92,7 @@ def get_degree(request):
         }
         '''
 
-    response = get_firstItem_from_collect_result(prompt)
+    response = collect_result(prompt)
 
     return response
 
@@ -136,7 +120,7 @@ def get_hard_skills(request):
         }
         '''
 
-    response = get_firstItem_from_collect_result(prompt)
+    response = collect_result(prompt)
     # response = collect_result_as_is(prompt)
 
     return response
@@ -167,7 +151,7 @@ def get_soft_skills(request):
 
         '''
 
-    response = get_firstItem_from_collect_result(prompt)
+    response = collect_result(prompt)
 
     return response
 
@@ -198,7 +182,7 @@ def get_workType_info(request):
         }
         '''
 
-    result = get_firstItem_from_collect_result(prompt)
+    result = collect_result(prompt)
     return result
 
 
@@ -214,7 +198,7 @@ def credential_validation(request):
         }
         '''
 
-    result = get_firstItem_from_collect_result(prompt)
+    result = collect_result(prompt)
     return result
 
 
@@ -229,7 +213,7 @@ def language_req(request):
             ]
         }
         '''
-    result = get_firstItem_from_collect_result(prompt)
+    result = collect_result(prompt)
     return result
 
 
@@ -344,7 +328,7 @@ def get_License(request):
             ]
         }
     '''
-    result = get_firstItem_from_collect_result(prompt)
+    result = collect_result(prompt)
     return result
 
 
