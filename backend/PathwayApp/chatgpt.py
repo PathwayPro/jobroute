@@ -25,7 +25,7 @@ def generate_response(prompt):
     frequency_penalty=0,
     presence_penalty=0
     )
-    # print("\n[CHAT GPT] Response : \n", response)
+    print("\n[CHAT GPT] Response : \n", response)
     generated_text =  response.choices[0].message['content'].strip()
        
     return generated_text
