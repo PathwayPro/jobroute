@@ -27,10 +27,6 @@ def generate_response(prompt):
     )
     print("\n[CHAT GPT] Response : \n", response)
     generated_text =  response.choices[0].message['content'].strip()
-    print("\n[CHAT GPT] response after Trimming :\n",generated_text)
-    print("\nChat gpt result data type : ",type(generated_text))
-    
-
+       
     return generated_text
-
 
