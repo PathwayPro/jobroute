@@ -21,27 +21,23 @@ def regulation_check(request):
 
 def get_networking(request):
     role, region, _ = get_input(request)
-    prompt = f" Please provide necessary information regarding 'Job Search / Networking' required to be successful in the role of {role} for the region {region}." + \
-        '''\nPlease provide the information in a step-by-step manner. Please provide a maximum of 6 steps.\
-    Please provide a response in JSON format in the following template: \
+    prompt = f" Provide necessary information regarding 'Job Search / Networking' required to be successful in the role of {role} for the region {region}." + \
+        '''provide the information in a step-by-step manner. Provide a maximum of 6 steps.
+    provide a response in JSON format in the following template: \
     \nExample Template:
     {
         "title": "Job Search / Networking",
         "content": [
-            {
-                "First Step": "20-word maximum description"
-            },
-            {
-                "Second Step": "20-word maximum description"
-            },
-            {
-                "nth Step": "20-word maximum description"
-            }
+            {\n'
+              "title": "short name (maximum 7 tokens)",\n'
+              "desc":  "description (maximum 25 tokens)"\n'
+            }\n'
+                // ... and so on for the rest of the steps
         ]
     }
     '''
 
-    result = collect_result(prompt)
+    result = collect_result(prompt, 4)
 
     return result
 
@@ -49,25 +45,21 @@ def get_networking(request):
 def get_Experience(request):
     role, region, _ = get_input(request)
 
-    prompt = f"Please provide necessary information regarding Experience/Projects required to be successful in the role of {role} for the region{region}." + \
-        '''Please provide the information in a step-by-step manner. Please provide a maximum of 6 steps. Please provide a response in JSON format in the following template:\
-        \nExample Template:\n
+    prompt = f"Provide necessary information regarding Experience/Projects required to be successful in the role of {role} for the region{region}." + \
+        '''Provide the information in a step-by-step manner. Provide a maximum of 6 steps. Please provide a response in JSON format in the following template:\
+        Example Template:
         {
             "title": "Experience / Projects",
             "content": [
                 {
-                    "First Step": "20-word maximum description"
-                },
-                {
-                    "Second Step": "20-word maximum description"
-                },
-                {
-                    "nth Step": "20-word maximum description"
+                  "title": "short name (maximum 7 tokens)",
+                  "desc":  "description (maximum 25 tokens)"
                 }
-            ]
+                // ... and so on for the rest of the steps
+        ]
         }
         '''
-    result = collect_result(prompt)
+    result = collect_result(prompt, 4)
     return result
 
 
@@ -95,7 +87,7 @@ def get_License(request):
             ]
         }
     '''
-    result = collect_result(prompt)
+    result = collect_result(prompt, 4)
     return result
 
 
@@ -108,7 +100,7 @@ def get_Education(request):
         { title: 'Step 2', desc: '20 words maximum description' },\n        \
         { title: 'Step 3', desc: '20 words maximum description' },\n      ]\n}"
 
-    response = collect_result(prompt)
+    response = collect_result(prompt, 4)
 
     return response
 
