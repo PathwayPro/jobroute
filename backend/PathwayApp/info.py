@@ -35,7 +35,7 @@ def credential_validation(request):
         }
         '''
 
-    result = collect_result(prompt)
+    result = collect_result(prompt, 3)
     return result
 
 
@@ -50,7 +50,7 @@ def language_req(request):
             ]
         }
         '''
-    result = collect_result(prompt)
+    result = collect_result(prompt, 3)
     return result
 
 
@@ -65,7 +65,7 @@ def get_salary(request):
     "will vary according to seniority"   ]\
     }  '
 
-    response = collect_result(prompt)
+    response = collect_result(prompt, 3)
 
     return response
 
@@ -83,7 +83,7 @@ def get_degree(request):
         }
         '''
 
-    response = collect_result(prompt)
+    response = collect_result(prompt, 3)
 
     return response
 
@@ -102,5 +102,5 @@ def get_workType_info(request):
         }
         '''
 
-    result = collect_result(prompt)
+    result = collect_result(prompt, 3)
     return result

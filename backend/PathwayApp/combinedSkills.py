@@ -27,8 +27,7 @@ def get_hard_skills(request):
         }
         '''
 
-    response = collect_result(prompt)
-    # response = collect_result_as_is(prompt)
+    response = collect_result(prompt, 3)
 
     return response
 
@@ -58,7 +57,7 @@ def get_soft_skills(request):
 
         '''
 
-    response = collect_result(prompt)
+    response = collect_result(prompt, 3)
 
     return response
 

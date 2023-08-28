@@ -1,6 +1,6 @@
 import json
 from django.http import JsonResponse
-from .chatgpt import generate_response
+from .chatgpt import choose_model
 
 
 def get_input(request):
@@ -15,9 +15,10 @@ def get_input(request):
         return JsonResponse({"error": error_message}, status=400)
 
 
-def collect_result(prompt):
+def collect_result(prompt, model_no):
     try:
-        result = generate_response(prompt)
+        # result = generate_response(prompt)
+        result = choose_model(prompt, model_no)
         result_json = json.loads(result)
         response = JsonResponse(result_json)
     except json.JSONDecodeError as e:
