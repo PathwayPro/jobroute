@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','.vercel.app']
+ALLOWED_HOSTS = ['127.0.0.1','.vercel.app', 'localhost']
 # ALLOWED_HOSTS = []
 
 
@@ -39,6 +39,7 @@ ALLOWED_HOSTS = ['127.0.0.1','.vercel.app']
 INSTALLED_APPS = [
     # 'daphne',
     'PathwayApp',
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -56,6 +57,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware', 
+
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -111,6 +114,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
