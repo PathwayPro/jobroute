@@ -5,11 +5,11 @@ import { useState } from "react";
 
 const Body: React.FC<MainProps> = ({ provinces, searchBy }) => {
   const [request, setRequest] = useState({});
-  const [province, setProvince] = useState<boolean>(false);
+  const [showProvince, setProvinces] = useState<boolean>(false);
   const [searchType, setSearchType] = useState<boolean>(false);
 
   const handleSubmit = (request: RequestType) => {
-
+     
   }
 
   return (
@@ -21,14 +21,14 @@ const Body: React.FC<MainProps> = ({ provinces, searchBy }) => {
         disabled={[0]}
         defaultValue={0}
         onChange={(event) => {
-          setProvince(true);
+          setProvinces(true);
           setRequest({ ...request, province: event.target.value })
         }}
         label='Begin your search by selecting the Country or Province'
         options={provinces}
       />
 
-      {province &&
+      {showProvince &&
         <Select
           className='mt-[1.5rem]'
           disabled={[0, 1, 2]}

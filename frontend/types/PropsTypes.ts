@@ -44,10 +44,10 @@ export interface MainProps {
 };
 
 export interface RoadmapItem {
-  title: string;
-  content: {
-    title: string,
-    desc: string,
+    title: string;
+    content: {
+      title: string,
+      desc: string,
   }[],
 };
 
@@ -60,14 +60,22 @@ export type InfoProps = { info: TitleContent[] };
 
 export type SkillsProps = { skills: TitleContent[] };
 
+export type CardProps = {
+  education: RoadmapItem;
+  experience: RoadmapItem;
+  networking: RoadmapItem;
+}
+
 export interface RoadmapProps {
-  cards: RoadmapItem[];
+  profession: string;
+  industry: string;
+  province: string;
   overview: string;
   info: TitleContent[];
   skills: TitleContent[];
 }
 
-export interface DetailsProps extends Omit<RoadmapProps, 'cards'> { }
+export interface DetailsProps extends Omit<RoadmapProps, 'profession' | 'industry' | 'province'> { }
 
 export interface Field {
   title: string;
