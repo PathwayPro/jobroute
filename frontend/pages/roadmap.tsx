@@ -82,7 +82,7 @@ const Roadmap: React.FC<RoadmapProps> = () => {
       }
     };
     fetchProps();
-  }, [industry, profession, province]);
+  }, [industry, profession, province, fetched]);
   return (
     <div>
       <TopHead />
