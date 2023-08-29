@@ -1,6 +1,7 @@
 import { server } from "@/tools/routes";
+import ReCAPTCHA from 'react-google-recaptcha';
 import { Btn, Header1, Select, InputField } from "./Elements";
-import { MainProps, RequestType } from "@/types/PropsTypes";
+import { MainProps } from "@/types/PropsTypes";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -14,6 +15,7 @@ const Body: React.FC<MainProps> = ({ provinces, searchBy }) => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [professionOptions, setProfessionOptions] = useState<string[]>([]);
   const [dropdownToggle, setDropdownToggle] = useState<boolean>(false);
+  const [captcha, setCaptcha] = useState(false);
   const router = useRouter();
 
   const handleSubmit = (
@@ -71,6 +73,29 @@ const Body: React.FC<MainProps> = ({ provinces, searchBy }) => {
     setSearchTerm(event.target.value);
   }
 
+  const handleCaptcha: any = async (value: any) => {
+    try {
+      const res = await fetch('/api/verify', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ captcha: value }),
+      });
+
+      const success = await res.json();
+
+      if (success) {
+        setCaptcha(true);
+      } else {
+        setCaptcha(false)
+        alert('captcha failed');
+      }
+    } catch (err) {
+      alert(`An error occurred while verifying the reCAPTCHA:\n${err}`);
+    }
+  }
+
   return (
     <div className='flex flex-col items-center grow justify-start mt-[2rem] ' >
       <Header1 className='mt-[6rem]'>Let’s get started!</Header1>
@@ -98,32 +123,36 @@ const Body: React.FC<MainProps> = ({ provinces, searchBy }) => {
         />
       }
 
-      {searchType &&
-        <>
-          <div className='dropdown'>
-            <InputField
-              value={profession}
-              className='w-[30.5rem] mt-[1.5rem]'
-              onChange={handleChange}
-              label='Search or type the profession you want to know more about'
-            />
-            {dropdownToggle &&
-              <ul className='p-2 menu dropdown-content z-[1] bg-light-color rounded-box'>
-                {professionOptions.length > 0 && professionOptions.map((option: string, i: number) => {
-                  return <li key={i} >
-                    <button className='p-3 text-sm hover:bg-hover-input active:bg-light-color'
-                      onClick={handleDropdown}>
-                      {option}
-                    </button></li>
-                })}
-              </ul>
-            }
-          </div>
+      {searchType && <>
+        <div className='dropdown'>
+          <InputField
+            value={profession}
+            className='w-[30.5rem] mt-[1.5rem]'
+            onChange={handleChange}
+            label='Search or type the profession you want to know more about'
+          />
+          {dropdownToggle &&
+            <ul className='p-2 menu dropdown-content z-[1] bg-light-color rounded-box'>
+              {professionOptions.length > 0 && professionOptions.map((option: string, i: number) => {
+                return <li key={i} >
+                  <button className='p-3 text-sm hover:bg-hover-input active:bg-light-color'
+                    onClick={handleDropdown}>
+                    {option}
+                  </button></li>
+              })}
+            </ul>
+          }
+        </div>
 
+        <ReCAPTCHA className='mt-12' sitekey='6Lc2aOUnAAAAAMrKLgyJRqRCgIfpmySyraGG5U-v'
+          onChange={handleCaptcha} />
+        {captcha &&
           <Btn color='primary' className='mt-[2.5rem]' onClick={() => handleSubmit(province, profession, industry)}> See the roadmap</Btn>
-        </>
+        }
+
+      </>
       }
-    </div>
+    </div >
   )
 }
 
