@@ -35,7 +35,7 @@ const Roadmap: React.FC<RoadmapProps> = () => {
   const [info, setInfo] = useState<any>('');
   const [infoLoader, setInfoLoader] = useState(true);
 
-  const [skills, setSkills] = useState<any[]>('');
+  const [skills, setSkills] = useState<any>('');
   const [skillsLoader, setSkillsLoader] = useState(true);
 
   const [fetched, setFetched] = useState(false);
