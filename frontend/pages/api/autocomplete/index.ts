@@ -1,6 +1,6 @@
+
 import OpenAI from "openai";
 import { NextApiHandler } from 'next';
-import * as prompts from '@/fetch/roadmapPrompts';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -9,20 +9,27 @@ const openai = new OpenAI({
 
 const handler: NextApiHandler = async (req, res) => {
   if (req.method === 'GET') {
-    const { endpoint, province, profession, industry }: any = req.query;
+    const { province, term }: any = req.query;
 
     const response = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo-16k',
       // model: "gpt-4",
-      messages: (prompts as any)[endpoint as any]({ province, profession, industry }) as any,
+      messages:[
+    {
+      role: 'system',
+      content: `You are an expert career consultant and a pro in professions definitions in the Canadian ${province}`,
+    },
+    {
+      role: 'user',
+      content: `Return 5 most relevant professions started with "${term}" symbols in the Canadian ${province} as JSON array of strings`,
+    },
+  ],
       temperature: 0,
-      max_tokens: 712,
+      max_tokens: 50,
       top_p: 1,
       frequency_penalty: 0,
       presence_penalty: 0,
     });
-
-    // console.log(response.choices[0].message.content);
 
     res.status(200).json(response.choices[0].message.content);
   } else {

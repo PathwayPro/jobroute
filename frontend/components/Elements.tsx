@@ -156,7 +156,7 @@ export const Select: React.FC<SelectProps> = ({ className, styleCaption, styleSe
   );
 };
 
-export const InputField: React.FC<InputProps> = ({ className, styleCaption, styleInput, type = 'text', label, placeholder = '', onChange }) => {
+export const InputField: React.FC<InputProps> = ({value, className, styleCaption, styleInput, type = 'text', label, placeholder = '', onChange }) => {
   const s = {
     textStyle: 'tracking-wide leading-7',
     label: 'flex flex-col gap-y-4 w-[29.5rem]',
@@ -169,6 +169,7 @@ export const InputField: React.FC<InputProps> = ({ className, styleCaption, styl
 
     <input
       type={type}
+      value={value}
       onChange={onChange}
       placeholder={placeholder}
       className={twMerge(s.textStyle, s.input, styleInput)} />

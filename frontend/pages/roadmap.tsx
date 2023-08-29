@@ -3,11 +3,10 @@ import TopHead from '@/components/TopHead';
 import Details from '@/components/roadmap/Details';
 import { Btn, Header2 } from '@/components/Elements';
 import Link from 'next/link';
-import { apiRoadmap } from '@/tools/routes';
 import { RoadmapItem, RoadmapProps } from '@/types/PropsTypes';
 import Card from '@/components/roadmap/Card';
 import fetchServerData from '@/fetch/fetchRoadmap';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CardLoader } from '@/components/roadmap/Loaders';
 import { useRouter } from 'next/router';
 
@@ -35,7 +34,7 @@ const Roadmap: React.FC<RoadmapProps> = () => {
   const [info, setInfo] = useState<any>('');
   const [infoLoader, setInfoLoader] = useState(true);
 
-  const [skills, setSkills] = useState<any[]>('');
+  const [skills, setSkills] = useState<any>('');
   const [skillsLoader, setSkillsLoader] = useState(true);
 
   const [fetched, setFetched] = useState(false);
