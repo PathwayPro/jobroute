@@ -114,9 +114,9 @@ export const info = ({ profession, province, industry }: Props) => {
   },
   {
     title: 'Work',
-    content: [ // operating next phrases show the relevant options fot the chosen ${profession} at Canadian ${province}
-      "Remote | Hybrid | In Person",
-      "Part-time | Full-time | Contract Freelance | Consulting",
+    content: [ // Provide all possible options for the chosen ${profession} at Canadian ${province},
+      "All possible options for type of work as Remote, Hybrid, In Person use | separator to list options",
+      "All possible options for types of employment as Part-time, Full-time, Contract Freelance, Consulting, use | separator to list options",
     ],
   },
   {
