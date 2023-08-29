@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, ReactNode } from "react";
+import { ButtonHTMLAttributes, ReactNode } from 'react';
 
 export interface HeaderProps {
   children: ReactNode;
@@ -6,15 +6,21 @@ export interface HeaderProps {
 }
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  color: 'primary' | 'secondary' | 'outline-light' | 'outline-dark' | 'outline-square-dark';
+  color:
+    | 'primary'
+    | 'secondary'
+    | 'outline-light'
+    | 'outline-dark'
+    | 'outline-square-dark';
   children: ReactNode;
   className?: string;
 }
 
 export type RequestType = {
   province: string;
+  industry: string;
   profession: string;
-}
+};
 
 export type SelectProps = {
   className?: string;
@@ -37,24 +43,23 @@ export type InputProps = {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-
 export interface MainProps {
-  provinces: string[],
-  searchBy: string[],
-};
+  provinces: string[];
+  searchBy: string[];
+}
 
 export interface RoadmapItem {
+  title: string;
+  content: {
     title: string;
-    content: {
-      title: string,
-      desc: string,
-  }[],
-};
+    desc: string;
+  }[];
+}
 
 export type TitleContent = {
   title: string;
   content: string[];
-}
+};
 
 export type InfoProps = { info: TitleContent[] };
 
@@ -64,18 +69,22 @@ export type CardProps = {
   education: RoadmapItem;
   experience: RoadmapItem;
   networking: RoadmapItem;
-}
+};
 
 export interface RoadmapProps {
   profession: string;
   industry: string;
   province: string;
   overview: string;
+  overviewLoader: boolean;
+  infoLoader: boolean;
+  skillsLoader: boolean;
   info: TitleContent[];
   skills: TitleContent[];
 }
 
-export interface DetailsProps extends Omit<RoadmapProps, 'profession' | 'industry' | 'province'> { }
+export interface DetailsProps
+  extends Omit<RoadmapProps, 'profession' | 'industry' | 'province'> {}
 
 export interface Field {
   title: string;
