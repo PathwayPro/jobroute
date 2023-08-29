@@ -11,7 +11,6 @@ const fetchServerData = async (
   try {
     const response = await fetch(url);
 
-
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
@@ -19,7 +18,7 @@ const fetchServerData = async (
     return await response.json();
 
   } catch (error) {
-console.error('Error in fetchServerData:', error);
+    console.error('Error in fetchServerData:', error);
     throw error;
   }
 }

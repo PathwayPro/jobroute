@@ -22,7 +22,7 @@ const handler: NextApiHandler = async (req, res) => {
       presence_penalty: 0,
     });
 
-    console.log(response.choices[0].message.content);
+    // console.log(response.choices[0].message.content);
 
     res.status(200).json(response.choices[0].message.content);
   } else {
