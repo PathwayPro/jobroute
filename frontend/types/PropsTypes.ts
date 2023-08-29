@@ -39,6 +39,7 @@ export type InputProps = {
   styleInput?: string;
   label?: string;
   placeholder?: string;
+  value?: string;
   type?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
