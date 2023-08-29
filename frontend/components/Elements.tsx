@@ -9,11 +9,11 @@ export const Logo = () => {
   )
 }
 
-export const HrDashed = () => {
+export const HrDashed: React.FC<{ className?: string }> = ({className}) => {
   const s = 'my-4 border border-gray-300 border-dashed';
 
   return <>
-    <div className={s}></div>
+    <div className={twMerge(s, className)}></div>
   </>
 }
 
