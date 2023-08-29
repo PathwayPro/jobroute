@@ -2,9 +2,8 @@
 import { useState } from 'react';
 import { Btn, Header3 } from '../Elements';
 import { RoadmapProps } from '@/types/PropsTypes';
-import { OverviewLoader } from './Loaders';
 
-const Overview = ({ overview }: Pick<RoadmapProps, 'overview'>) => {
+const Overview = ({ overview }: any) => {
   const [expanded, setExpanded] = useState(false);
 
   const toggleExpand = () => {
@@ -13,7 +12,7 @@ const Overview = ({ overview }: Pick<RoadmapProps, 'overview'>) => {
 
   const containerClasses = `overflow-hidden ${expanded ? 'h-auto' : 'h-16'}`;
   const maxChars = 200;
-  const truncatedOverview = overview.slice(0, maxChars);
+  const truncatedOverview = overview[0] ? overview[0].slice(0, maxChars) : '';
 
   return (
     <div>
