@@ -2,8 +2,9 @@
 import { useState } from 'react';
 import { Btn, Header3 } from '../Elements';
 import { RoadmapProps } from '@/types/PropsTypes';
+import { OverviewLoader } from './Loaders';
 
-const Overview = ({overview}: Pick<RoadmapProps, 'overview'>) => {
+const Overview = ({ overview }: Pick<RoadmapProps, 'overview'>) => {
   const [expanded, setExpanded] = useState(false);
 
   const toggleExpand = () => {
@@ -16,7 +17,6 @@ const Overview = ({overview}: Pick<RoadmapProps, 'overview'>) => {
 
   return (
     <div>
-      <Header3 className='text-primary-text'>Overview</Header3>
       <div className={containerClasses}>
         <p>{expanded ? overview : truncatedOverview}</p>
       </div>

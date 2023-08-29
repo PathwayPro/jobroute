@@ -44,11 +44,9 @@ const Info = ({info}: Pick<RoadmapProps, 'info'>) => {
 
 
   return <div className='mt-12'>
-    <HrDashed />
-    <Header3 className='mt-12 text-primary-text'>Info</Header3>
     <div className='grid grid-cols-2 gap-4'>
       {info.map((card: TitleContent, i: number) => {
-        return <div className={ `border-solid border-2 shadow-xl p-3 card card-body ${card.title === WORK && 'row-span-2 mb-24'}` } key={i}>
+        return <div className={ `border-solid border-2 p-3 card card-body ${card.title === WORK && 'row-span-2 mb-24'}` } key={i}>
           <div className='flex items-center gap-4'>
             <Image src={defIcon(card.title)} width={40} height={40} alt='Info icon' />
             <span className='text-sm card-title'>{card.title}</span>
