@@ -9,7 +9,6 @@ const Skills = ({skills}: Pick<RoadmapProps, 'skills'>) => {
           <Header3 className='text-primary-text'>{skill.title}</Header3>
           <ol className='list-decimal'>
             {skill.content.map((skill, i) => {
-            console.log(skill)
               return <li key={i}>{skill}</li>
             })}
           </ol>
