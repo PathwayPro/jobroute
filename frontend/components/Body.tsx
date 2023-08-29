@@ -1,15 +1,21 @@
 import { Btn, Header1, Select, InputField } from "./Elements";
 import { MainProps, RequestType } from "@/types/PropsTypes";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 const Body: React.FC<MainProps> = ({ provinces, searchBy }) => {
-  const [request, setRequest] = useState({});
+  const [request, setRequest] = useState({ province: '', profession: '', industry: '' });
   const [showProvince, setProvinces] = useState<boolean>(false);
   const [searchType, setSearchType] = useState<boolean>(false);
+  const router = useRouter();
 
   const handleSubmit = (request: RequestType) => {
-     
+
+    const prepareStr = (inputString: string) => inputString.trim().toLowerCase();
+
+    router.push(`/roadmap?province=${prepareStr(request.province)}
+&profession=${prepareStr(request.profession)}`);
   }
 
   return (
@@ -47,9 +53,7 @@ const Body: React.FC<MainProps> = ({ provinces, searchBy }) => {
             label='Search or type the profession you want to know more about'
           />
 
-          <Link className='mt-[2.5rem]' href='/roadmap'>
-            <Btn color='primary' onClick={() => handleSubmit(request)}> See the roadmap</Btn>
-          </Link>
+          <Btn color='primary' className='mt-[2.5rem]' onClick={() => handleSubmit(request)}> See the roadmap</Btn>
         </>
       }
     </div>
