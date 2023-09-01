@@ -65,21 +65,27 @@ export const InfoLoader = () => {
 
 export const SkillsLoader = () => {
   const s = {
-    wrapper: 'w-[80%]',
+    wrapper: 'w-[90%] bg-hover-input border-solid border-2 p-3 card card-body p-5 ml-[-2rem]',
     skeleton: 'mb-4',
   }
   return <SkeletonTheme baseColor='#D7D7D7' highlightColor='#eee'>
     <div className='mt-12'>
-      <div className='mt-12 gap-10 grid grid-cols-2 place-items-center'>
+      <div className='mt-12 gap-6 grid grid-cols-2 place-items-tip'>
         <div className={s.wrapper}>
-          <Skeleton width={'90%'} height={32} className={s.skeleton} />
-          <Skeleton width={'80%'} height={16} count={10} />
+          <Skeleton width={'100%'} height={32} className={s.skeleton} />
+          <Skeleton width={'90%'} height={16} count={10} />
         </div>
-        <div className='w-[80%]'>
-          <Skeleton width={'90%'} height={32} className={s.skeleton} />
+        <div className={s.wrapper}>
+          <Skeleton width={'100%'} height={32} className={s.skeleton} />
           <Skeleton width={'80%'} height={16} count={10} />
         </div>
       </div>
     </div>
   </SkeletonTheme>
 }
+
+
+export const AutoLoader = () => {
+  return <div className='absolute right-3 w-12 h-10 bg-center bg-no-repeat bg-cover top-[4.1rem]' style={{ backgroundImage: 'url(/img/loader.gif)' }}> </div>
+}
+

@@ -35,7 +35,7 @@ export const Header2: React.FC<HeaderProps> = ({ children, className }) => {
 
 export const Header3: React.FC<HeaderProps> = ({ children, className }) => {
   return (
-    <h2 className={`tracking-normal text-2xl font-bold text-center text-light-color leading-normal ${className}`}>{children}</h2>
+    <h2 className={twMerge( 'tracking-normal text-2xl font-bold text-center text-light-color leading-normal', className )}>{children}</h2>
   );
 };
 
@@ -161,7 +161,7 @@ export const InputField: React.FC<InputProps> = ({value, className, styleCaption
     textStyle: 'tracking-wide leading-7',
     label: 'flex flex-col gap-y-4 w-[29.5rem]',
     caption: 'text-base text-center',
-    input: 'text-sm bg-white border-black ps-8 hover:bg-hover-input input input-bordered',
+    input: 'text-sm bg-white border-black ps-8 input input-bordered',
   };
 
   return <label className={twMerge(s.label, className)}>

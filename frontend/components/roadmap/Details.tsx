@@ -19,14 +19,19 @@ const Details: React.FC<DetailsProps> = ({
         <OverviewLoader />
       ) : (
         <>
-          <Header3 className='text-primary-text'>Overview</Header3>
+          <Header3 className='text-left text-primary-text'>Overview</Header3>
           <Overview overview={overview} />
         </>
       )}
 
       <HrDashed className='mt-[3rem]' />
-      <Header3 className='mb-[-2rem] mt-8 text-primary-text'>Info</Header3>
-      {infoLoader ? <InfoLoader /> : <Info info={info} />}
+      {infoLoader ? <InfoLoader /> :
+        <>
+          <Header3 className='text-left mb-[-2rem] mt-8 text-primary-text'>Info</Header3>
+          <Info info={info} />
+        </>
+      }
+
       <HrDashed className='mt-[3rem]' />
       {skillsLoader ? <SkillsLoader /> : <Skills skills={skills} />}
     </div>
