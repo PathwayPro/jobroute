@@ -11,15 +11,15 @@ const Footer = () => {
       </div>
 
       <div className='flex justify-between gap-8'>
-        <Link href='/terms' className='flex items-center '>
+        <span className='flex items-center '>
           <span>Terms & Policies</span>
-        </Link >
-        <Link href='/privacy' className='flex items-center'>
+        </span >
+        <span className='flex items-center'>
           <span>Privacy Policy</span>
-        </Link>
-        <Link href='/contact' className='flex items-center'>
+        </span>
+        <span className='flex items-center'>
           <span>Contact</span>
-        </Link>
+        </span>
       </div>
     </footer>
   )

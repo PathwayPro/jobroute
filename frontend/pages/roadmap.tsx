@@ -37,6 +37,8 @@ const Roadmap: React.FC<RoadmapProps> = () => {
   const [skills, setSkills] = useState<any>('');
   const [skillsLoader, setSkillsLoader] = useState(true);
 
+  const [counter, setCounter] = useState(0);
+
   const [fetched, setFetched] = useState(false);
 
   const capitalizeWords = (string: string) => {
@@ -52,6 +54,7 @@ const Roadmap: React.FC<RoadmapProps> = () => {
     const fetchProps = async () => {
       if (!fetched && profession && province) {
         const getPrompts = async (setter: any, endpoint: string, loader: any) => {
+          try {
           const response = await fetchServerData(
             endpoint,
             profession,
@@ -60,6 +63,15 @@ const Roadmap: React.FC<RoadmapProps> = () => {
           );
           setter(JSON.parse(response));
           loader(false);
+          } catch (error: any) {
+            // if(error.message === 'Function execution timed out' && counter < 4) {
+            if(counter < 8) {
+              getPrompts(setter, endpoint, loader);
+              setCounter(counter + 1);
+              console.warn( `Another attempt to call the ${endpoint} prompt`)
+            }
+          }
+
         };
 
         try {

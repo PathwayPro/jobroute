@@ -4,6 +4,8 @@ import { Btn, Header1, Select, InputField } from "./Elements";
 import { MainProps } from "@/types/PropsTypes";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import { AutoLoader } from "./roadmap/Loaders";
 
 const Body: React.FC<MainProps> = ({ provinces, searchBy }) => {
   const [profession, setProfession] = useState<string>('');
@@ -13,6 +15,7 @@ const Body: React.FC<MainProps> = ({ provinces, searchBy }) => {
   const [searchType, setSearchType] = useState<boolean>(false);
   const [debouncedTerm, setDebouncedTerm] = useState<string>('');
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [autoLoading, setAutoLoading] = useState<boolean>(false);
   const [professionOptions, setProfessionOptions] = useState<string[]>([]);
   const [dropdownToggle, setDropdownToggle] = useState<boolean>(false);
   const [captcha, setCaptcha] = useState(false);
@@ -41,6 +44,7 @@ const Body: React.FC<MainProps> = ({ provinces, searchBy }) => {
 
   useEffect(() => {
     const search = async () => {
+      setAutoLoading(true);
       const url = `${server}/autocomplete?term=${debouncedTerm}&province=${province}`;
       try {
         const response = await fetch(url);
@@ -51,6 +55,7 @@ const Body: React.FC<MainProps> = ({ provinces, searchBy }) => {
 
         setProfessionOptions(JSON.parse(await response.json()));
 
+        setAutoLoading(false);
         setDropdownToggle(true);
       } catch (error) {
         console.error('Error in fetchServerData:', error);
@@ -124,13 +129,14 @@ const Body: React.FC<MainProps> = ({ provinces, searchBy }) => {
       }
 
       {searchType && <>
-        <div className='dropdown'>
+        <div className='relative dropdown'>
           <InputField
             value={profession}
             className='w-[30.5rem] mt-[1.5rem]'
             onChange={handleChange}
             label='Search or type the profession you want to know more about'
           />
+          {autoLoading && <AutoLoader />}
           {dropdownToggle &&
             <ul className='p-2 menu dropdown-content z-[1] bg-light-color rounded-box'>
               {professionOptions.length > 0 && professionOptions.map((option: string, i: number) => {
