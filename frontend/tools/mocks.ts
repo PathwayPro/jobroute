@@ -1,6 +1,6 @@
 export const main = {
   provinces: [
-    'Country or Province',
+    'Province / Territory',
     'Canada',
     'Alberta',
     'British Columbia',
@@ -15,12 +15,6 @@ export const main = {
     'Quebec',
     'Saskatchewan',
     'Yukon'
-  ],
-  searchby: [
-    'Choose by',
-    'High-Demand Industries (in development)',
-    'Industry (in development)',
-    'Profession'
   ]
 };
 

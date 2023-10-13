@@ -19,7 +19,34 @@
 }
 
 body {
-  color: black;
   background: white;
   font-family: 'Galvji', sans-serif;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 700;
+  color: #000000;
+}
+
+h1 {
+  font-size: 80px;
+  line-height: 110%;
+}
+
+h2 {
+  font-size: 40px;
+  line-height: 110%;
+}
+
+h3 {
+  font-size: 16px;
+  line-height: 110%;
+  text-transform: uppercase;
+}
+
+p,
+span {
+  color: #42444D;
 }

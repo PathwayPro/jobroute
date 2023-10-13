@@ -1,7 +1,7 @@
 import Footer from '@/components/Footer';
-import TopHead from '@/components/TopHead';
+import TopHead from '@/components/Navbar';
 import Details from '@/components/roadmap/Details';
-import { Btn, Header2 } from '@/components/Elements';
+import { Button, Header2 } from '@/components/Elements';
 import Link from 'next/link';
 import { RoadmapItem, RoadmapProps } from '@/types/PropsTypes';
 import Card from '@/components/roadmap/Card';
@@ -55,20 +55,20 @@ const Roadmap: React.FC<RoadmapProps> = () => {
       if (!fetched && profession && province) {
         const getPrompts = async (setter: any, endpoint: string, loader: any) => {
           try {
-          const response = await fetchServerData(
-            endpoint,
-            profession,
-            industry,
-            province,
-          );
-          setter(JSON.parse(response));
-          loader(false);
+            const response = await fetchServerData(
+              endpoint,
+              profession,
+              industry,
+              province,
+            );
+            setter(JSON.parse(response));
+            loader(false);
           } catch (error: any) {
             // if(error.message === 'Function execution timed out' && counter < 4) {
-            if(counter < 8) {
+            if (counter < 8) {
               getPrompts(setter, endpoint, loader);
               setCounter(counter + 1);
-              console.warn( `Another attempt to call the ${endpoint} prompt`)
+              console.warn(`Another attempt to call the ${endpoint} prompt`)
             }
           }
 
@@ -103,12 +103,12 @@ const Roadmap: React.FC<RoadmapProps> = () => {
           {capitalizeWords(profession)} Roadmap - {capitalizeWords(province)}
         </Header2>
         <Link href='/' className='me-[4.2rem] '>
-          <Btn
+          <Button
             color='outline-light'
-            className='btn w-[19.5625rem] h-[3.56rem] '
+            className='Button w-[19.5625rem] h-[3.56rem] '
           >
             Search again
-          </Btn>
+          </Button>
         </Link>
       </div>
 

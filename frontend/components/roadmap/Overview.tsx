@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Btn, Header3 } from '../Elements';
+import { Button, Header3 } from '../Elements';
 import { RoadmapProps } from '@/types/PropsTypes';
 
 const Overview = ({ overview }: any) => {
@@ -20,19 +20,19 @@ const Overview = ({ overview }: any) => {
         <p>{expanded ? overview : truncatedOverview}</p>
       </div>
       {!expanded ? (
-        <Btn color='outline-dark'
+        <Button color='outline-dark'
           className='mt-4 w-[13rem] h-[2.5rem]'
           onClick={toggleExpand}
         >
           Continue reading
-        </Btn>
+        </Button>
       ) : (
-        <Btn color='outline-square-dark'
+        <Button color='outline-square-dark'
           className='w-12 mt-4'
           onClick={toggleExpand}
         >
           <svg xmlns='http://www.w3.org/2000/svg' className='w-6 h-6' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M6 18L18 6M6 6l12 12' /></svg>
-        </Btn>
+        </Button>
       )
       }
     </div>

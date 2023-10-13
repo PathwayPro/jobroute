@@ -10,12 +10,21 @@ module.exports = {
       fontFamily: {
         'galvji': ['Galvji', 'sans-serif'],
       },
+      fontSize: {
+        '2xl': ['24px', {
+          lineHeight: '158%',
+        }],
+      },
       colors: {
         primary: '#DF044D',
         secondary: '#3E3E3E',
+        dark: '#242529',
+        disabled: '#959595',
+        'dialog': '#42444D',
         'primary-text': '#0B0B0B',
-        'active-color': '#D7D7D7',
-        'hover-btn': '#8E8E8E',
+        'secondary-text': '#3C3D40',
+        'active-color': '#BE0342',
+        'hover-btn': '#242529',
         'hover-input': '#EFEFEF',
         'outline-color': '#0B0B0B',
         'field-color': '#606060',
@@ -26,6 +35,9 @@ module.exports = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      boxShadow: {
+        inner: 'inset 0 -1px 0 0 #242529, 0 1px 0 0 #242529'
+      }
     },
   },
   plugins: [require('daisyui')],

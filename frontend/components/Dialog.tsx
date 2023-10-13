@@ -1,0 +1,37 @@
+
+import { Root, Trigger, Portal, Overlay, Content, Close } from '@radix-ui/react-dialog';
+import { Arrow, Button, Icon } from './Elements';
+
+interface DialogProps {
+  children: React.ReactNode;
+}
+
+const Dialog = ({ children }: DialogProps) => {
+
+  return (
+    <Root>
+      <Trigger asChild>
+        <Button trailingIcon={<Icon className="p-2 ml-auto"><Arrow variant="primary" className="w-[20px] h-[20px]" /></Icon>} className="mt-10 pl-8" variant='primary'>Get Started</Button>
+      </Trigger>
+      <Portal>
+        <Overlay className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm" />
+        <Content className="bg-white fixed w-[454px] h-[476px] rounded-3xl border-2 border-dialog left-1/3 top-1/4">
+          <div className='flex p-[12px] justify-end'>
+            <Close asChild>
+              <button aria-label="Close">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8 9.51305L2.34315 15.1699L0.457528 13.2843L6.11438 7.62743L0.457528 1.97057L2.34315 0.0849549L8 5.74181L13.6569 0.0849549L15.5425 1.97057L9.88562 7.62743L15.5425 13.2843L13.6569 15.1699L8 9.51305Z" fill="#42444D" />
+                </svg>
+              </button>
+            </Close>
+          </div>
+          <div className='px-[40px] pb-[40px]'>
+            {children}
+          </div>
+        </Content>
+      </Portal>
+    </Root>
+  )
+};
+
+export default Dialog;

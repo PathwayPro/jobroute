@@ -6,14 +6,14 @@ export interface HeaderProps {
 }
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  color:
-    | 'primary'
-    | 'secondary'
-    | 'outline-light'
-    | 'outline-dark'
-    | 'outline-square-dark';
+  variant?:
+  | 'primary'
+  | 'secondary'
+  | 'disabled';
   children: ReactNode;
-  className?: string;
+  additionalStyle?: string;
+  leadingIcon?: any;
+  trailingIcon?: any;
 }
 
 export type RequestType = {
@@ -46,7 +46,6 @@ export type InputProps = {
 
 export interface MainProps {
   provinces: string[];
-  searchBy: string[];
 }
 
 export interface RoadmapItem {
@@ -85,7 +84,7 @@ export interface RoadmapProps {
 }
 
 export interface DetailsProps
-  extends Omit<RoadmapProps, 'profession' | 'industry' | 'province'> {}
+  extends Omit<RoadmapProps, 'profession' | 'industry' | 'province'> { }
 
 export interface Field {
   title: string;

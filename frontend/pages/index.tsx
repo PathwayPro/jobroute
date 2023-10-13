@@ -1,18 +1,14 @@
 import Body from '@/components/Body';
 import Footer from '@/components/Footer';
-import Header from '@/components/Header';
 import { apiMain } from '@/tools/routes';
-
-import { Inter } from 'next/font/google'
 import { MainProps } from '@/types/PropsTypes';
-
-const inter = Inter({ subsets: ['latin'] })
+import Navbar from '@/components/Navbar';
 
 const Home: React.FC<MainProps> = (props) => {
   return (
     <div className='flex flex-col justify-around min-h-screen'>
-      <Header />
-      <Body provinces={props.provinces} searchBy={props.searchBy} />
+      <Navbar />
+      <Body provinces={props.provinces} />
       <Footer />
     </div>
   )
@@ -25,7 +21,6 @@ export const getStaticProps = async () => {
   return {
     props: {
       provinces: data.provinces,
-      searchBy: data.searchby,
     },
   };
 }
