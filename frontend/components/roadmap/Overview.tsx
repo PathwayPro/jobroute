@@ -12,12 +12,11 @@ const Overview = ({ overview }: any) => {
 
   const containerClasses = `overflow-hidden ${expanded ? 'h-auto' : 'h-16'}`;
   const maxChars = 200;
-  const truncatedOverview = overview[0] ? overview[0].slice(0, maxChars) : '';
 
   return (
     <div>
       <div className={containerClasses}>
-        <p>{expanded ? overview : truncatedOverview}</p>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusantium aut sequi impedit labore dolorem facere iste sed quis provident consequuntur sint commodi nemo doloremque adipisci fuga blanditiis ullam sunt iusto cum atque, voluptate culpa doloribus. Odio expedita facilis voluptatum vitae provident dolores? Soluta provident fugit velit odio voluptates eos et?</p>
       </div>
       {!expanded ? (
         <Button color='outline-dark'
