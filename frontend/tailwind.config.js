@@ -25,6 +25,7 @@ module.exports = {
         'secondary-text': '#3C3D40',
         'active-color': '#BE0342',
         'hover-btn': '#242529',
+        'hover-option': '#FEEED7',
         'hover-input': '#EFEFEF',
         'outline-color': '#0B0B0B',
         'field-color': '#606060',
@@ -36,7 +37,8 @@ module.exports = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       boxShadow: {
-        inner: 'inset 0 -1px 0 0 #242529, 0 1px 0 0 #242529'
+        inner: 'inset 0 -1px 0 0 #242529, 0 1px 0 0 #242529',
+        outline: ' -1px 4px 20px 0px rgba(18, 24, 80, 0.12)',
       }
     },
   },

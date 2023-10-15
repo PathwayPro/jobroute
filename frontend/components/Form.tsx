@@ -49,8 +49,6 @@ const Form = ({ provinces }: FormProps) => {
   }, [debouncedValue]);
 
   const handleSubmit = (
-    province: string,
-    profession: string,
   ) => {
     const prepareStr = (inputString: string) => inputString.trim().toLowerCase();
 
@@ -113,22 +111,22 @@ const Form = ({ provinces }: FormProps) => {
               setSelectedLocation(event.target.value);
             }} />
           <InputField onChange={handleProfessionChange} value={profession} placeholder='Job title' />
-          
-
           {dropdownToggle &&
-            <ul className='p-2 menu dropdown-content z-[1] bg-light-color rounded-box'>
-              {professionOptions.length > 0 && professionOptions.map((option: string, i: number) => {
-                return <li key={i} >
-                  <button className='p-3 text-sm hover:bg-hover-input active:bg-light-color'
-                    onClick={handleDropdown}>
-                    {option}
-                  </button></li>
-              })}
-            </ul>
+            <div className="relative">
+              <ul className='p-2 w-[374px] shadow-outline absolute menu dropdown-content z-[99] bg-light-color rounded-box'>
+                {professionOptions.length > 0 && professionOptions.map((option: string, i: number) => {
+                  return <li key={i} >
+                    <button className='p-3 text-sm hover:bg-hover-option active:bg-light-color'
+                      onClick={handleDropdown}>
+                      {option}
+                    </button></li>
+                })}
+              </ul>
+            </div>
           }
-          <Button text="Profession Overview" intent="primary" size="small" />
-          <div className='flex flex-1 items-center justify-center w-full'>
-            <ReCAPTCHA className='w-full justify-center' sitekey='6LeTy1soAAAAAAHKzYpT4lqFgH_nGWfcaNg8Nukc' onChange={handleCaptcha} />
+          <div className='flex flex-1 flex-col items-center justify-center w-full gap-10'>
+            <ReCAPTCHA sitekey='6LeTy1soAAAAAAHKzYpT4lqFgH_nGWfcaNg8Nukc' onChange={handleCaptcha} />
+          <Button className='w-[100%]' onClick={handleSubmit} text="Profession Overview" intent="primary" size="full" />
           </div>
         </div>
       </Content>
@@ -142,19 +140,21 @@ const Form = ({ provinces }: FormProps) => {
             }} />
           <InputField onChange={handleProfessionChange} value={profession} placeholder='Your current job' />
           {dropdownToggle &&
-            <ul className='p-2 menu dropdown-content z-[1] bg-light-color rounded-box'>
-              {professionOptions.length > 0 && professionOptions.map((option: string, i: number) => {
-                return <li key={i} >
-                  <button className='p-3 text-sm hover:bg-hover-input active:bg-light-color'
-                    onClick={handleDropdown}>
-                    {option}
-                  </button></li>
-              })}
-            </ul>
+            <div className="relative">
+              <ul className='p-2 absolute w-[374px] menu dropdown-content z-[99] bg-light-color rounded-box'>
+                {professionOptions.length > 0 && professionOptions.map((option: string, i: number) => {
+                  return <li key={i} >
+                    <button className='p-3 text-sm hover:bg-hover-option active:bg-light-color'
+                      onClick={handleDropdown}>
+                      {option}
+                    </button></li>
+                })}
+              </ul>
+            </div>
           }
-          <Button disabled={!captcha} intent="primary" text="Explore Jobs" size="small" />
-          <div className='flex flex-1 items-center justify-center w-full'>
-            <ReCAPTCHA className='w-full justify-center' sitekey='6LeTy1soAAAAAAHKzYpT4lqFgH_nGWfcaNg8Nukc' onChange={handleCaptcha} />
+          <div className='flex flex-1 flex-col items-center justify-center w-full gap-10'>
+            <ReCAPTCHA sitekey='6LeTy1soAAAAAAHKzYpT4lqFgH_nGWfcaNg8Nukc' onChange={handleCaptcha} />
+            <Button className='w-[100%]' onClick={handleSubmit} text="Explore Jobs" intent="primary" size="full" />
           </div>
         </div>
       </Content>

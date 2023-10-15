@@ -4,6 +4,8 @@ import { VariantProps, cva } from "class-variance-authority";
 interface ButtonProps extends VariantProps<typeof buttonStyles> {
   text: string;
   disabled?: boolean;
+  onClick: () => void;
+  className?: string;
 }
 
 const buttonStyles = cva("py-[15px] flex flex-row items-center rounded-full text-white text-base font-bold leading-[17.60px]", {
@@ -16,6 +18,7 @@ const buttonStyles = cva("py-[15px] flex flex-row items-center rounded-full text
     size: {
       medium: "w-[215px] h-[50px] pl-8 pr-1",
       small: "w-[142px] flex items-center justify-center h-12 px-8",
+      full: "w-full flex items-center justify-center h-12 px-8",
     },
     defaultVariants: {
       intent: "primary",
@@ -24,12 +27,13 @@ const buttonStyles = cva("py-[15px] flex flex-row items-center rounded-full text
   },
 });
 
-export default function Button({ defaultVariants, intent, size, text, disabled = false }: ButtonProps) {
+export default function Button({ defaultVariants, intent, size, text, disabled = false, onClick, className }: ButtonProps) {
 
   return (
     <button
-      className={buttonStyles({ defaultVariants, size, intent })}
+      className={buttonStyles({ defaultVariants, size, intent, className })}
       disabled={disabled}
+      onClick={onClick}
     >
       {intent !== 'loading' && text}
       {size === 'medium' && (
