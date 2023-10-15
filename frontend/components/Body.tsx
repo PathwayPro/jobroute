@@ -5,6 +5,8 @@ import Dialog from "./Dialog";
 import Form from "./Form";
 import Paragraph from "@/ui/Paragraph";
 import CardsContainer from "./CardsContainer";
+import Overview from "./roadmap/Overview";
+import { Arrow, Button } from "./Elements";
 
 const Body: React.FC<MainProps> = ({ provinces }) => {
 
@@ -14,16 +16,42 @@ const Body: React.FC<MainProps> = ({ provinces }) => {
         <div className="max-w-[536px]">
           <h1>Your path to a <strong className="text-primary">new career</strong> in Canada</h1>
         </div>
-        <Dialog>
+        <Dialog
+          trigger={
+            <Button
+              trailingIcon={<Arrow variant="tertiary" className="w-[20px] h-[20px]" />}
+              className="mt-10 pl-8"
+              variant='primary'
+            >
+              Get Started
+            </Button>
+          }
+        >
           <Form provinces={provinces} />
         </Dialog>
+
         <div className="mt-16">
           <Paragraph className="max-w-[190px]">
             3 easy steps to getting new job:
           </Paragraph>
           <CardsContainer />
         </div>
+        <Dialog
+          trigger={
+            <Button
+              trailingIcon={<Arrow variant="tertiary" className="w-[20px] h-[20px]" />}
+              className="mt-10 p-2"
+              variant='primary'
+            >
+              Open overview
+            </Button>
+          }
+        >
+          <Overview />
+        </Dialog>
+
       </div>
+
       <div className='flex flex-col mt-[100px]'>
         <Image alt="Hero" src="/img/Illustration.svg" width={758} height={671} />
         <div className="flex flex-col ml-[100px] mt-[130px] max-w-[600px] items-start">

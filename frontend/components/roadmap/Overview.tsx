@@ -1,7 +1,7 @@
-
 import { useState } from 'react';
 import { Button, Header3 } from '../Elements';
 import { RoadmapProps } from '@/types/PropsTypes';
+import { Iconly } from 'react-iconly';
 
 const Overview = ({ overview }: any) => {
   const [expanded, setExpanded] = useState(false);
@@ -10,31 +10,24 @@ const Overview = ({ overview }: any) => {
     setExpanded(!expanded);
   };
 
-  const containerClasses = `overflow-hidden ${expanded ? 'h-auto' : 'h-16'}`;
-  const maxChars = 200;
-  const truncatedOverview = overview[0] ? overview[0].slice(0, maxChars) : '';
+  const containerClasses = `bg-white overflow-y-auto scrollbar scrollbar-thumb-gray-500 scrollbar-track-gray-300 h-auto max-h-[800px] rounded-lg p-4 shadow-none border-none font-Galvji text-md text-[#42444D] ${expanded ? 'h-auto' : 'h-[200px]'}`;
+
 
   return (
     <div>
-      <div className={containerClasses}>
-        <p>{expanded ? overview : truncatedOverview}</p>
+      <div className="inline-flex items-center bg-black p-2 rounded-full shadow-md">
+        <div className="bg-white rounded-full p-1">
+          <Iconly name="Chat" set="bold" primaryColor="black" size={20} />
+        </div>
+        <span className="ml-2 text-sm font-bold uppercase text-white">Overview</span>
       </div>
-      {!expanded ? (
-        <Button color='outline-dark'
-          className='mt-4 w-[13rem] h-[2.5rem]'
-          onClick={toggleExpand}
-        >
-          Continue reading
-        </Button>
-      ) : (
-        <Button color='outline-square-dark'
-          className='w-12 mt-4'
-          onClick={toggleExpand}
-        >
-          <svg xmlns='http://www.w3.org/2000/svg' className='w-6 h-6' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M6 18L18 6M6 6l12 12' /></svg>
-        </Button>
-      )
-      }
+      
+      <div className={containerClasses}>
+        <p>
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nisi delectus commodi, quos veniam rem nostrum labore minima vero aspernatur obcaecati sit voluptate, voluptatum inventore ipsam ex consequuntur repudiandae nesciunt debitis sapiente fuga. Doloribus eligendi exercitationem magni amet earum aspernatur quasi in porro expedita voluptatum error rerum at commodi ipsa fugiat, atque sed corporis quae. Optio quis saepe facere temporibus eaque ullam eum, totam quas facilis quod dolorum voluptatibus exercitationem voluptas? Necessitatibus harum, voluptate officia tempore voluptatem distinctio, inventore explicabo doloribus ipsum totam pariatur veniam optio nobis eius sapiente quod iusto temporibus nesciunt! Saepe in quas excepturi assumenda molestias repellat quo dolorem iste consectetur, reprehenderit nam facilis mollitia voluptate aut iure rem temporibus voluptatum, odio earum eveniet! Possimus praesentium distinctio autem nemo eos explicabo aspernatur blanditiis fuga error animi beatae consectetur ipsa non recusandae odit dignissimos earum minus eius soluta corrupti, inventore porro. Accusamus ad illo id ipsam alias deleniti sit nostrum praesentium sunt assumenda cupiditate porro reiciendis illum a et, quam tenetur dolor ea omnis eligendi veritatis magnam odio voluptate! Provident quidem adipisci nihil ullam consequuntur minima laudantium, expedita sit nam deleniti voluptas pariatur asperiores! Doloremque, optio. Possimus odit explicabo recusandae molestiae nemo at minima ex velit eum soluta adipisci eius neque ea blanditiis enim, impedit deserunt atque rem praesentium. Nihil consequuntur doloribus vitae iusto obcaecati aspernatur, architecto eius perspiciatis delectus numquam sit nesciunt laborum, perferendis eum unde. Dolor, veritatis recusandae cumque natus error, esse perferendis deserunt incidunt nisi, repellendus officia quam velit? Commodi sequi inventore quasi corrupti officiis iure magnam neque beatae id! Quas incidunt voluptatum blanditiis neque laboriosam molestias illo, sapiente deserunt aspernatur recusandae! Obcaecati sunt commodi facilis? Harum dolorum aut nesciunt cupiditate deleniti reiciendis mollitia repudiandae cum blanditiis accusantium, dolorem dicta placeat nisi aperiam veritatis, consequuntur nobis laboriosam quasi libero laudantium officia? Quos deleniti iusto perferendis doloremque!
+        </p>
+        
+      </div>
     </div>
   );
 };
