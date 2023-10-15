@@ -1,27 +1,20 @@
 import { Root, Trigger, Portal, Overlay, Content, Close } from '@radix-ui/react-dialog';
-import { Arrow, Button, Icon } from './Elements';
 
 interface DialogProps {
   children: React.ReactNode;
+  trigger: React.ReactNode;
 }
 
-const Dialog = ({ children }: DialogProps) => {
+const Dialog = ({ children, trigger }: DialogProps) => {
   return (
     <Root>
       <Trigger asChild>
-        <Button 
-          trailingIcon={<Icon className="p-2 ml-auto"><Arrow variant="primary" className="w-[20px] h-[20px]" /></Icon>} 
-          className="mt-10 pl-8" 
-          variant='primary'
-        >
-          Get Started
-        </Button>
+        {trigger}
       </Trigger>
-      
       <Portal>
         <Overlay className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm" />
-        <Content 
-          className="bg-white fixed max-w-[800px] max-h-[600px] overflow-auto rounded-3xl border-2 border-dialog left-1/3 top-1/4" 
+        <Content
+          className="bg-white fixed max-w-[800px] max-h-[600px] overflow-auto scrollbar rounded-3xl border-2 border-dialog left-1/3 top-1/4"
         >
           <div className='flex p-[12px] justify-end'>
             <Close asChild>

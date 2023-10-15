@@ -103,7 +103,7 @@ export const Button: React.FC<ButtonProps> = ({ variant = 'primary', trailingIco
     return '';
   }
 
-  const style = 'flex flex-row items-center rounded-full p-1 font-bold normal-case text-base w-[215px] h-[50px]';
+  const style = 'flex flex-row items-center justify-center gap-[24px] rounded-full p-1 font-bold normal-case text-base w-[215px] h-[50px]';
 
   return <button className={twMerge(style, defaultButton(variant, leadingIcon, trailingIcon), className)} {...rest}>
     {leadingIcon}
@@ -113,10 +113,11 @@ export const Button: React.FC<ButtonProps> = ({ variant = 'primary', trailingIco
     ;
 };
 
-export const Arrow = ({ variant, className }: { variant: 'primary' | 'secondary', className?: any }) => {
+export const Arrow = ({ variant, className }: { variant: 'primary' | 'secondary' | 'tertiary', className?: any }) => {
   const color = {
     primary: '#DF044D',
     secondary: '#000000',
+    tertiary: '#FFFFFF'
   };
 
   return (
