@@ -14,7 +14,7 @@ const Dialog = ({ children, trigger }: DialogProps) => {
       <Portal>
         <Overlay className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm" />
         <Content
-          className="bg-white fixed max-w-[800px] max-h-[600px] overflow-auto scrollbar rounded-3xl border-2 border-dialog left-1/3 top-1/4"
+          className="bg-white fixed min-w-[454px] max-w-[800px] max-h-[600px] overflow-auto scrollbar rounded-3xl border-2 border-dialog left-1/3 top-1/4"
         >
           <div className='flex p-[12px] justify-end'>
             <Close asChild>

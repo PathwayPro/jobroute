@@ -10,8 +10,7 @@ const Overview = ({ overview }: any) => {
     setExpanded(!expanded);
   };
 
-  const containerClasses = `bg-white overflow-y-auto scrollbar scrollbar-thumb-gray-500 scrollbar-track-gray-300 h-auto max-h-[800px] rounded-lg p-4 shadow-none border-none font-Galvji text-md text-[#42444D] ${expanded ? 'h-auto' : 'h-[200px]'}`;
-
+  const containerClasses = `bg-white overflow-y-auto scrollbar h-auto max-h-[800px] rounded-lg p-4 shadow-none border-none text-md text-[#42444D] ${expanded ? 'h-auto' : 'h-[200px]'}`;
 
   return (
     <div>
