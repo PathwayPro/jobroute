@@ -6,9 +6,8 @@
 
 @layer utilities {
   .scrollbar::-webkit-scrollbar {
-    width: 6px;
+    width: 21px;
     height: 20px;
-    margin-right: 16px;
   }
 
   .scrollbar::-webkit-scrollbar-track {
@@ -19,6 +18,7 @@
   .scrollbar::-webkit-scrollbar-thumb {
     background: #D0D0D0;
     border-radius: 100vh;
+    border: 8px white solid;
   }
 
   .scrollbar::-webkit-scrollbar-thumb:hover {
@@ -71,4 +71,14 @@ h3 {
 p,
 span {
   color: #42444D;
+}
+
+a {
+  color: #242529;
+  text-decoration: underline;
+}
+
+a:hover {
+  color: #DF044D;
+  text-decoration: underline;
 }
