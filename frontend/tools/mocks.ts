@@ -114,3 +114,36 @@ export const skills = [
     ],
   }
 ];
+
+export const professionsMatch = [
+  {
+    percentage: 82,
+    title: 'Financial Analyst',
+    salary: '48,000',
+    noc: '1212'
+  },
+  {
+    percentage: 76,
+    title: 'Auditor',
+    salary: '48,000',
+    noc: '1212'
+  },
+  {
+    percentage: 71,
+    title: 'Tax Consultant',
+    salary: '48,000',
+    noc: '1212'
+  },
+  {
+    percentage: 64,
+    title: 'Financial Planner',
+    salary: '48,000',
+    noc: '1212'
+  },
+  {
+    percentage: 58,
+    title: 'Cost Estimator',
+    salary: '48,000',
+    noc: '1212'
+  },
+]
