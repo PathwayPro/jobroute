@@ -7,8 +7,11 @@ import Paragraph from "@/ui/Paragraph";
 import CardsContainer from "./CardsContainer";
 import Overview from "./roadmap/Overview";
 import { Arrow, Button } from "./Elements";
+import PercentageCard from "./PercentageCard";
+import { useRouter } from "next/router";
 
 const Body: React.FC<MainProps> = ({ provinces }) => {
+  const router = useRouter();
 
   return (
     <div className='flex flex-row max-w-[1500px] m-auto p-10 grow justify-between'>
@@ -29,7 +32,6 @@ const Body: React.FC<MainProps> = ({ provinces }) => {
         >
           <Form provinces={provinces} />
         </Dialog>
-
         <div className="mt-16">
           <Paragraph className="max-w-[190px]">
             3 easy steps to getting new job:
@@ -49,6 +51,8 @@ const Body: React.FC<MainProps> = ({ provinces }) => {
         >
           <Overview />
         </Dialog>
+
+        <Button className="mt-10" onClick={() => router.push('/explore?location=Alberta&profession=Accountant')}>Click to go to Explore Jobs</Button>
 
       </div>
 
