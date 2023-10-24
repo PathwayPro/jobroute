@@ -7,13 +7,12 @@ export interface HeaderProps {
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?:
-  | 'primary'
+  | 'primary-medium'
+  | 'primary-small'
   | 'secondary'
-  | 'disabled';
+  | 'outlined';
   children: ReactNode;
-  additionalStyle?: string;
-  leadingIcon?: any;
-  trailingIcon?: any;
+  loading?: boolean;
 }
 
 export type RequestType = {
