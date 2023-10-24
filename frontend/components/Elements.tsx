@@ -1,6 +1,7 @@
 import { ButtonProps, HeaderProps, InputProps, SelectProps } from '@/types/PropsTypes';
 import React from 'react';
 import { twMerge } from 'tailwind-merge';
+import Spinner from './Spinner';
 
 export const Logo = ({ variant }: { variant: 'primary' | 'secondary' }) => {
   const style = 'min-w-[8.68775rem] h-[1.5rem] bg-no-repeat bg-cover bg-center';
@@ -49,22 +50,20 @@ export const HeaderText: React.FC<HeaderProps> = ({ children, className }) => {
     <p className={twMerge(style, className)}>{children}</p>)
 }
 
-export const Button: React.FC<ButtonProps> = ({ variant = 'primary', trailingIcon, leadingIcon, children, className, disabled, ...rest }) => {
-  const defaultButton = (variant: string, leadingIcon?: any, trailingIcon?: any) => {
-    const PRIMARY = 'primary';
+// TODO - Clean this file to remove redundant components
+export const Button: React.FC<ButtonProps> = ({ variant = 'primary-medium', children, className, disabled, loading, ...rest }) => {
+  const defaultButton = (variant: string) => {
+    const PRIMARY_M = 'primary-medium';
+    const PRIMARY_S = 'primary-small';
+    const OUTLINED = 'outlined';
     const SECONDARY = 'secondary';
-    const DISABLED = 'disabled';
 
     const style = {
-      primary: 'bg-primary text-light-color hover:bg-hover-btn disabled:bg-active-color',
-      secondary: 'bg-secondary text-light-color border-none hover:bg-primary',
-      disabled: 'btn-outline text-light-color border-light-color border-outline hover:text-light-color hover:bg-hover-btn', // TBD
+      'primary-medium': 'h-[56px] min-w-[215px] bg-primary text-light-color hover:bg-dark active:bg-active-color hover:flex-row-reverse transition hover:duration-150',
+      'primary-small': 'h-[48px] bg-primary text-light-color hover:bg-dark active:bg-active-color hover:flex-row-reverse transition hover:duration-150',
+      outlined: 'h-[48px] bg-white text-primary border-primary border-2 hover:text-dark hover:border-dark active:border-active-color active:text-active-color transition-all',
+      secondary: 'group flex gap-2 text-primary hover:text-primary hover:flex-row-reverse transition hover:duration-150',
     };
-
-    const iconStyle = {
-      leading: 'pr-8',
-      trailing: 'pl-8',
-    }
 
     type Action = {
       condition: () => boolean;
@@ -73,25 +72,21 @@ export const Button: React.FC<ButtonProps> = ({ variant = 'primary', trailingIco
 
     const actions: Action[] = [
       {
-        condition: () => variant === PRIMARY,
-        action: () => style.primary,
+        condition: () => variant === PRIMARY_M,
+        action: () => style['primary-medium'],
+      },
+      {
+        condition: () => variant === PRIMARY_S,
+        action: () => style['primary-small'],
       },
       {
         condition: () => variant === SECONDARY,
         action: () => style.secondary,
       },
       {
-        condition: () => variant === DISABLED,
-        action: () => style.disabled,
+        condition: () => variant === OUTLINED,
+        action: () => style.outlined,
       },
-      {
-        condition: () => !!trailingIcon,
-        action: () => iconStyle.trailing,
-      },
-      {
-        condition: () => !!leadingIcon,
-        action: () => iconStyle.leading,
-      }
     ];
 
     const action = actions.find(({ condition }) => condition());
@@ -103,12 +98,23 @@ export const Button: React.FC<ButtonProps> = ({ variant = 'primary', trailingIco
     return '';
   }
 
-  const style = 'flex flex-row items-center justify-center gap-[24px] rounded-full p-1 font-bold normal-case text-base w-[215px] h-[50px]';
+  const style = 'flex flex-row py-4 px-8 items-center justify-around rounded-full font-bold normal-case text-base w-max min-w-[142px]';
 
-  return <button className={twMerge(style, defaultButton(variant, leadingIcon, trailingIcon), className)} {...rest}>
-    {leadingIcon}
-    {children}
-    {trailingIcon}
+  return <button className={twMerge(style, defaultButton(variant), className)} {...rest}>
+    {loading && <Spinner />}
+    {!loading && children}
+    {variant === 'primary-medium' && !loading && (
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path id="Vector" d="M1.28205 11.282H15.641L9.35897 17.564C8.84615 18.0769 8.84615 18.8461 9.35897 19.3589C9.87179 19.8717 10.641 19.8717 11.1538 19.3589L19.6154 10.8974C20.1282 10.3846 20.1282 9.61532 19.6154 9.1025L11.1538 0.640963C10.641 0.128143 9.87179 0.128143 9.35897 0.640963C8.84615 1.15378 8.84615 1.92301 9.35897 2.43583L15.641 8.71789H1.28205C0.51282 8.71789 0 9.23071 0 9.99994C0 10.7692 0.51282 11.282 1.28205 11.282Z" fill="white" />
+      </svg>
+    )}
+    {variant === 'secondary' && !loading && (
+      <div className='bg-primary rounded-full p-2 group-hover:bg-dark group-active:bg-active-color'>
+        <svg width="10" height="10" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path id="Vector" d="M1.28205 11.282H15.641L9.35897 17.564C8.84615 18.0769 8.84615 18.8461 9.35897 19.3589C9.87179 19.8717 10.641 19.8717 11.1538 19.3589L19.6154 10.8974C20.1282 10.3846 20.1282 9.61532 19.6154 9.1025L11.1538 0.640963C10.641 0.128143 9.87179 0.128143 9.35897 0.640963C8.84615 1.15378 8.84615 1.92301 9.35897 2.43583L15.641 8.71789H1.28205C0.51282 8.71789 0 9.23071 0 9.99994C0 10.7692 0.51282 11.282 1.28205 11.282Z" fill="white" />
+        </svg>
+      </div>
+    )}
   </button>
     ;
 };

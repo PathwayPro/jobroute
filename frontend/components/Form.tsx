@@ -1,10 +1,11 @@
 import { Root, List, Trigger, Content } from '@radix-ui/react-tabs';
-import { InputField, Select, Button } from './Elements';
+import { InputField, Select } from './Elements';
 import { ChangeEvent, useEffect, useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { useRouter } from 'next/router';
 import { useDebounce } from '@/hooks/useDebounce';
 import { server } from '@/tools/routes';
+import Button from '@/ui/Button';
 
 interface FormProps {
   provinces: string[];
@@ -125,7 +126,7 @@ const Form = ({ provinces }: FormProps) => {
           }
           <div className='flex flex-1 flex-col items-center justify-center w-full gap-10'>
             <ReCAPTCHA sitekey='6LeTy1soAAAAAAHKzYpT4lqFgH_nGWfcaNg8Nukc' onChange={handleCaptcha} />
-            <Button className='w-[100%]' onClick={handleSubmit}>Profession Overview</Button>
+            <Button variant='primary-medium' className='w-[100%]' onClick={handleSubmit}>Profession Overview</Button>
           </div>
         </div>
       </Content>
@@ -153,7 +154,7 @@ const Form = ({ provinces }: FormProps) => {
           }
           <div className='flex flex-1 flex-col items-center justify-center w-full gap-10'>
             <ReCAPTCHA sitekey='6LeTy1soAAAAAAHKzYpT4lqFgH_nGWfcaNg8Nukc' onChange={handleCaptcha} />
-            <Button className='w-[100%]' onClick={handleSubmit}>Explore Jobs</Button>
+            <Button variant="medium" className='w-[100%]' onClick={handleSubmit}>Explore Jobs</Button>
           </div>
         </div>
       </Content>

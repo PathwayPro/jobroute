@@ -6,9 +6,8 @@ import Form from "./Form";
 import Paragraph from "@/ui/Paragraph";
 import CardsContainer from "./CardsContainer";
 import Overview from "./roadmap/Overview";
-import { Arrow, Button } from "./Elements";
-import PercentageCard from "./PercentageCard";
 import { useRouter } from "next/router";
+import Button from "@/ui/Button";
 
 const Body: React.FC<MainProps> = ({ provinces }) => {
   const router = useRouter();
@@ -22,9 +21,7 @@ const Body: React.FC<MainProps> = ({ provinces }) => {
         <Dialog
           trigger={
             <Button
-              trailingIcon={<Arrow variant="tertiary" className="w-[20px] h-[20px]" />}
               className="mt-10 pl-8"
-              variant='primary'
             >
               Get Started
             </Button>
@@ -41,9 +38,8 @@ const Body: React.FC<MainProps> = ({ provinces }) => {
         <Dialog
           trigger={
             <Button
-              trailingIcon={<Arrow variant="tertiary" className="w-[20px] h-[20px]" />}
               className="mt-10 p-2"
-              variant='primary'
+              variant="secondary"
             >
               Open overview
             </Button>
@@ -52,7 +48,7 @@ const Body: React.FC<MainProps> = ({ provinces }) => {
           <Overview />
         </Dialog>
 
-        <Button className="mt-10" onClick={() => router.push('/explore?location=Alberta&profession=Accountant')}>Click to go to Explore Jobs</Button>
+        <Button variant="outlined" className="mt-10" onClick={() => router.push('/explore?location=Alberta&profession=Accountant')}>Click to go to Explore Jobs</Button>
 
       </div>
 

@@ -1,7 +1,7 @@
-import { Button } from "@/components/Elements";
 import Navbar from "@/components/Navbar";
 import PercentageCard from "@/components/PercentageCard";
 import { professionsMatch } from "@/tools/mocks";
+import Button from "@/ui/Button";
 import Paragraph from "@/ui/Paragraph";
 import { useRouter } from "next/router";
 import { useState } from "react";
