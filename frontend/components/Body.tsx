@@ -21,7 +21,7 @@ const Body: React.FC<MainProps> = ({ provinces }) => {
         <Dialog
           trigger={
             <Button
-              className="mt-10 pl-8"
+              className="mt-10"
             >
               Get Started
             </Button>

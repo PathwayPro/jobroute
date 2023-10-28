@@ -35,9 +35,9 @@ const cards = [
 const cardStyles = cva("w-[244px] h-[210px] flex flex-col justify-between p-6 border-2 border-zinc-700 rounded-2xl shadow-md transition-transform transform scale-100 group-hover:scale-100", {
   variants: {
     intent: {
-      primary: "bg-[#FEEED7]",
+      primary: "bg-light-brown",
       secondary: "bg-white",
-      tertiary: "bg-[#D0D0D0]",
+      tertiary: "bg-light-gray",
     },
   },
 });
