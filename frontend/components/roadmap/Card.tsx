@@ -1,76 +1,54 @@
-import { ActionString, CardProps, Field, RoadmapItem, RoadmapProps } from '@/types/PropsTypes';
-import Image from 'next/image';
-import { CardLoader } from './Loaders';
-import { useEffect, useState } from 'react';
+import Badge, { BadgeType } from "@/ui/Badge";
+import Button from "@/ui/Button";
+import Paragraph from "@/ui/Paragraph";
+import { VariantProps, cva } from "class-variance-authority";
+import Dialog from "../Dialog";
 
-const defIcon = (title: string): string => {
-  const EDUCATION = 'Education / Training';
-  const EXPERIENCE = 'Experience / Projects';
-  const LICENSING = 'Licensing / Certification';
-  const NETWORKING = 'Job Search / Networking';
-
-  const actions: ActionString[] = [
-    {
-      condition: () => title === EDUCATION,
-      action: () => '/img/education.svg',
-    },
-    {
-      condition: () => title === EXPERIENCE,
-      action: () => '/img/experience.svg',
-    },
-    {
-      condition: () => title === LICENSING,
-      action: () => '/img/licensing.svg',
-    },
-    {
-      condition: () => title === NETWORKING,
-      action: () => '/img/networking.svg',
-    },
-  ];
-
-  const action = actions.find(({ condition }) => condition());
-
-  if (action) return action.action();
-
-  console.warn('cannot find proper icon to show');
-
-  return '/img/networking.svg';
-};
-
-const ListItem: React.FC<{ field: Field }> = ({ field }) => {
-  return <li>
-    <span>{field.title}: </span>
-    <span>{field.desc}</span>
-  </li>
+interface CardProps extends VariantProps<typeof cardStyles> {
+  children: React.ReactNode;
+  color?: 'gray' | 'white' | 'brown';
+  className?: string;
+  type: 'overview' | 'info' | 'skills' | 'education' | 'certification' | 'networking';
+  isLoading?: boolean;
 }
 
-const Card: React.FC<{ props: RoadmapItem }> = ({ props }) => {
-  const {title, content} = props;
+const cardStyles = cva("flex flex-col cursor-pointer w-[405px] p-6 h-[356px] gap-8 rounded-3xl border-2 border-stone-300 hover:border-black", {
+  variants: {
+    color: {
+      gray: "bg-light-gray",
+      white: "bg-white",
+      brown: "bg-light-brown",
+    },
+  },
+});
 
-  const card = () => {
-    return <div className='relative flex-grow flex-shrink-0 pt-3 pl-8 ml-4 border-2 bg-hover-input'>
-      <span className='card-title mb-[-1rem]'>
-        {title}
-      </span>
-      <Image className='h-[5.625rem] w-[6.875rem] absolute left-[-3.75rem] top-[50%] transform -translate-y-1/2'
-        src={defIcon(title)}
-        width={110} height={90}
-        alt='card icons' />
-      <ol className='list-decimal list-outside ms-3 card-body'>
-        {content.map((field: Field, i: number) => {
-          return <ListItem field={field} key={i} />
-        })}
-      </ol>
-    </div>
-  }
+// TODO: Replace with proper loader when design is ready
 
-  try {
-    return card();
-  }
-  catch {
-    return <CardLoader />
-  }
+const Card = ({ children, color = 'gray', isLoading = false, className, type }: CardProps) => {
+  return (
+    <Dialog
+      trigger={
+        <div className={cardStyles({ color, className })}>
+          <div>
+            <Badge type={type} />
+          </div>
+          <div className="line-clamp-6">
+            {isLoading ? (
+              <span>Loading...</span>
+            ) : children}
+          </div>
+          <Button variant="secondary" className="mt-auto ml-auto">Read more</Button>
+        </div>
+      }
+    >
+      <div className="flex flex-col gap-4">
+        <Badge type={type} />
+        {isLoading ? (
+          <span>Loading...</span>
+        ) : children}
+      </div>
+    </Dialog>
+  )
 }
 
 export default Card;
-

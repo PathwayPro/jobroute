@@ -20,6 +20,8 @@ module.exports = {
         secondary: '#3E3E3E',
         dark: '#242529',
         disabled: '#959595',
+        'light-gray': '#F0F0F0',
+        'light-brown': '#FEEED7',
         'dialog': '#42444D',
         'primary-text': '#0B0B0B',
         'secondary-text': '#3C3D40',

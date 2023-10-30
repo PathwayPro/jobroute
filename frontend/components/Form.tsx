@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { useDebounce } from '@/hooks/useDebounce';
 import { server } from '@/tools/routes';
 import Button from '@/ui/Button';
+import { trim } from '@/utils/utils';
 
 interface FormProps {
   provinces: string[];
@@ -24,7 +25,8 @@ const Form = ({ provinces }: FormProps) => {
 
   useEffect(() => {
     const search = async () => {
-      setIsLoading
+      setIsLoading(true)
+      setDropdownToggle(true);
       const url = `${server}/autocomplete?term=${debouncedValue}&province=${selectedLocation}`;
       try {
         const response = await fetch(url);
@@ -36,7 +38,6 @@ const Form = ({ provinces }: FormProps) => {
         setProfessionOptions(JSON.parse(await response.json()));
 
         setIsLoading(false);
-        setDropdownToggle(true);
       } catch (error) {
         console.error('Error in fetchServerData:', error);
         throw error;
@@ -44,15 +45,18 @@ const Form = ({ provinces }: FormProps) => {
     };
 
     if (debouncedValue) {
+      setProfessionOptions([]);
       search();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedValue]);
 
   const handleSubmit = (
   ) => {
-    const prepareStr = (inputString: string) => inputString.trim().toLowerCase();
-
-    router.push(`/roadmap?province=${prepareStr(selectedLocation)}&profession=${prepareStr(profession)}`);
+    if (!captcha || !profession || !selectedLocation) {
+      return;
+    }
+    router.push(`/roadmap?province=${trim(selectedLocation)}&profession=${trim(profession)}`);
   };
 
   function handleProfessionChange(e: ChangeEvent<HTMLInputElement>) {
@@ -64,6 +68,8 @@ const Form = ({ provinces }: FormProps) => {
     setProfession(event.target.textContent);
     setDropdownToggle(false);
   }
+
+  // TODO: reset inputted data when switching between tabs
 
   const handleCaptcha: any = async (value: any) => {
     try {
@@ -94,11 +100,9 @@ const Form = ({ provinces }: FormProps) => {
     <Root className='flex flex-col w-[100%]' defaultValue="tab1">
       <List className='flex flex-shrink-0 border-b-[1px] border-[#D0D0D0] justify-around' aria-label="Manage your account">
         <Trigger className={triggerStyle} value="tab1">
-          {/*Look for jobs*/}
           I know what job<br /> I want
         </Trigger>
         <Trigger className={triggerStyle} value="tab2">
-          {/*Start a new career*/}
           I want to start a new career
         </Trigger>
       </List>
@@ -110,20 +114,23 @@ const Form = ({ provinces }: FormProps) => {
             onChange={(event) => {
               setSelectedLocation(event.target.value);
             }} />
-          <InputField onChange={handleProfessionChange} value={profession} placeholder='Job title' />
-          {dropdownToggle &&
-            <div className="relative">
-              <ul className='p-2 w-[374px] shadow-outline absolute menu dropdown-content z-[99] bg-light-color rounded-box'>
-                {professionOptions.length > 0 && professionOptions.map((option: string, i: number) => {
-                  return <li key={i} >
-                    <button className='p-3 text-sm hover:bg-hover-option active:bg-light-color'
-                      onClick={handleDropdown}>
-                      {option}
-                    </button></li>
-                })}
-              </ul>
-            </div>
-          }
+            <InputField onChange={handleProfessionChange} value={profession} placeholder='Job title' />
+            {dropdownToggle &&
+              <div className="relative">
+                <ul className='p-2 w-[374px] shadow-outline absolute menu dropdown-content z-[99] bg-light-color rounded-box'>
+                  {isLoading && <li className="flex w-full justify-center items-center">
+                    <span className="loading loading-dots loading-xs"></span>
+                  </li>}
+                  {professionOptions.length > 0 && professionOptions.map((option: string, i: number) => {
+                    return <li key={i} >
+                      <button className='p-3 text-sm hover:bg-hover-option active:bg-light-color'
+                        onClick={handleDropdown}>
+                        {option}
+                      </button></li>
+                  })}
+                </ul>
+              </div>
+            }
           <div className='flex flex-1 flex-col items-center justify-center w-full gap-10'>
             <ReCAPTCHA sitekey='6LeTy1soAAAAAAHKzYpT4lqFgH_nGWfcaNg8Nukc' onChange={handleCaptcha} />
             <Button variant='primary-medium' className='w-[100%]' onClick={handleSubmit}>Profession Overview</Button>
@@ -142,6 +149,9 @@ const Form = ({ provinces }: FormProps) => {
           {dropdownToggle &&
             <div className="relative">
               <ul className='p-2 absolute w-[374px] menu dropdown-content z-[99] bg-light-color rounded-box'>
+                {isLoading && <li className="flex w-full justify-center items-center">
+                  <span className="loading loading-dots loading-xs"></span>
+                </li>}
                 {professionOptions.length > 0 && professionOptions.map((option: string, i: number) => {
                   return <li key={i} >
                     <button className='p-3 text-sm hover:bg-hover-option active:bg-light-color'
@@ -154,7 +164,7 @@ const Form = ({ provinces }: FormProps) => {
           }
           <div className='flex flex-1 flex-col items-center justify-center w-full gap-10'>
             <ReCAPTCHA sitekey='6LeTy1soAAAAAAHKzYpT4lqFgH_nGWfcaNg8Nukc' onChange={handleCaptcha} />
-            <Button variant="medium" className='w-[100%]' onClick={handleSubmit}>Explore Jobs</Button>
+            <Button variant="primary-medium" className='w-[100%]' onClick={handleSubmit}>Explore Jobs</Button>
           </div>
         </div>
       </Content>

@@ -20,10 +20,10 @@ const Button: React.FC<ButtonProps> = ({ variant = 'primary-medium', children, c
     const SECONDARY = 'secondary';
 
     const style = {
-      'primary-medium': 'h-[56px] min-w-[215px] bg-primary text-light-color hover:bg-dark active:bg-active-color hover:flex-row-reverse transition hover:duration-150',
-      'primary-small': 'h-[48px] bg-primary text-light-color hover:bg-dark active:bg-active-color hover:flex-row-reverse transition hover:duration-150',
-      outlined: 'h-[48px] bg-white text-primary border-primary border-2 hover:text-dark hover:border-dark active:border-active-color active:text-active-color transition-all',
-      secondary: 'group flex gap-2 text-dark hover:text-primary hover:flex-row-reverse transition hover:duration-150',
+      'primary-medium': 'h-[56px] min-w-[215px] justify-center gap-6 py-4 px-8 bg-primary text-light-color hover:bg-dark active:bg-active-color hover:flex-row-reverse transition hover:duration-150',
+      'primary-small': 'h-[48px] py-4 px-8 bg-primary text-light-color hover:bg-dark active:bg-active-color hover:flex-row-reverse transition hover:duration-150',
+      outlined: 'h-[48px] bg-white py-4 px-8 text-primary border-primary border-2 hover:text-dark hover:border-dark active:border-active-color active:text-active-color transition-all',
+      secondary: 'group flex gap-2 w-max text-dark hover:text-primary hover:flex-row-reverse transition hover:duration-150',
     };
 
     type Action = {
@@ -59,7 +59,7 @@ const Button: React.FC<ButtonProps> = ({ variant = 'primary-medium', children, c
     return '';
   }
 
-  const style = 'flex flex-row py-4 px-8 items-center justify-around rounded-full font-bold normal-case text-base w-max min-w-[142px]';
+  const style = 'flex flex-row items-center rounded-full font-bold normal-case text-base w-max';
 
   return <button className={twMerge(style, defaultButton(variant), className)} {...rest}>
     {loading && <Spinner />}
@@ -70,7 +70,7 @@ const Button: React.FC<ButtonProps> = ({ variant = 'primary-medium', children, c
       </svg>
     )}
     {variant === 'secondary' && !loading && (
-      <div className='bg-black rounded-full p-2 group-hover:bg-primary group-active:bg-active-color'>
+      <div className='bg-black rounded-full p-2 m-0 group-hover:bg-primary group-active:bg-active-color'>
         <svg width="10" height="10" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path id="Vector" d="M1.28205 11.282H15.641L9.35897 17.564C8.84615 18.0769 8.84615 18.8461 9.35897 19.3589C9.87179 19.8717 10.641 19.8717 11.1538 19.3589L19.6154 10.8974C20.1282 10.3846 20.1282 9.61532 19.6154 9.1025L11.1538 0.640963C10.641 0.128143 9.87179 0.128143 9.35897 0.640963C8.84615 1.15378 8.84615 1.92301 9.35897 2.43583L15.641 8.71789H1.28205C0.51282 8.71789 0 9.23071 0 9.99994C0 10.7692 0.51282 11.282 1.28205 11.282Z" fill="white" />
         </svg>
