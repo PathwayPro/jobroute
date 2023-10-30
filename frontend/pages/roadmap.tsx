@@ -1,19 +1,18 @@
 import Footer from '@/components/Footer';
-import Card from '@/components/roadmap/Card';
 import fetchServerData from '@/fetch/fetchRoadmap';
 import { useEffect, useState } from 'react';
-import { CardLoader } from '@/components/roadmap/Loaders';
 import { useRouter } from 'next/router';
 import Navbar from '@/components/Navbar';
 import Button from '@/ui/Button';
 import { capitalize } from '@/utils/utils';
-import NewCard from '@/components/roadmap/NewCard';
+import { Field } from '@/types/PropsTypes';
+import Paragraph from '@/ui/Paragraph';
+import Card from '@/components/roadmap/Card';
 
 type TitleContent = {
   title: string;
   content: string[];
 };
-
 
 interface RoadmapProps {
   profession: string;
@@ -122,27 +121,18 @@ const Roadmap: React.FC<RoadmapProps> = () => {
             <Button onClick={handleSearchAgain}>Search again</Button>
           </div>
         </div>
+        <Card type="education" isLoading={educationLoader}>
+          <div className="flex flex-col gap-3">
+            {education.content.map((field: Field) => (
+              <div key={field.title}>
+                <Paragraph weight='bold'>{field.title}</Paragraph>
+                <Paragraph>{field.desc}</Paragraph>
+              </div>
+            ))
+            }
+          </div>
+        </Card>
       </div>
-      <NewCard type="education" isLoading={false}>
-
-      </NewCard>
-
-
-      {/*        {educationLoader ? <CardLoader /> : <Card props={education} />}
-              {qualificationLoader ? (
-                <CardLoader />
-              ) : (
-                <Card props={qualification} />
-              )}
-              {networkingLoader ? <CardLoader /> : <Card props={networking} />}*/}
-      {/*<Details
-          overviewLoader={overviewLoader}
-          infoLoader={infoLoader}
-          skillsLoader={skillsLoader}
-          overview={overview}
-          info={info}
-          skills={skills}
-              />*/}
       <Footer />
     </>
   );
