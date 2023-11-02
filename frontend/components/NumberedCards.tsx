@@ -61,13 +61,12 @@ const Card = ({ content, hoveredContent, intent, className }: CardProps) => {
   );
 };
 
-const CardsContainer = () => {
+const NumberedCards = () => {
   return (
     <div className="flex justify-center items-center mt-6">
       <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4">
         <div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-2 gap-4">
-            {/* First card in the top row */}
+          <div className="grid grid-cols-1 grid-row-1 md:grid-cols-1 lg:grid-cols-2 lg:grid-rows-2 gap-4">
             <div className="lg:col-span-2 w-[244px]">
               <Card
                 content={{
@@ -81,7 +80,6 @@ const CardsContainer = () => {
                 intent="primary"
               />
             </div>
-            {/* Second card in the bottom-left cell */}
             <div>
               <Card
                 content={{
@@ -95,7 +93,6 @@ const CardsContainer = () => {
                 intent="secondary"
               />
             </div>
-            {/* Third card in the bottom-right cell */}
             <div>
               <Card
                 content={{
@@ -116,4 +113,4 @@ const CardsContainer = () => {
   )
 }
 
-export default CardsContainer;
+export default NumberedCards;

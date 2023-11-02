@@ -1,6 +1,8 @@
 import Spinner from "@/components/Spinner";
-import { ButtonHTMLAttributes, ReactNode } from "react";
+import React, { ButtonHTMLAttributes, ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
+
+type Ref = HTMLButtonElement;
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?:
@@ -10,9 +12,10 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   | 'outlined';
   children: ReactNode;
   loading?: boolean;
+  buttonRef?: React.Ref<Ref>;
 }
 
-const Button: React.FC<ButtonProps> = ({ variant = 'primary-medium', children, className, disabled, loading, ...rest }) => {
+const Button = React.forwardRef<Ref, ButtonProps>(({ variant = 'primary-medium', children, className, disabled, loading, ...rest }, ref) => {
   const defaultButton = (variant: string) => {
     const PRIMARY_M = 'primary-medium';
     const PRIMARY_S = 'primary-small';
@@ -61,7 +64,7 @@ const Button: React.FC<ButtonProps> = ({ variant = 'primary-medium', children, c
 
   const style = 'flex flex-row items-center rounded-full font-bold normal-case text-base w-max';
 
-  return <button className={twMerge(style, defaultButton(variant), className)} {...rest}>
+  return <button ref={ref} className={twMerge(style, defaultButton(variant), className)} {...rest}>
     {loading && <Spinner />}
     {!loading && children}
     {variant === 'primary-medium' && !loading && (
@@ -78,6 +81,8 @@ const Button: React.FC<ButtonProps> = ({ variant = 'primary-medium', children, c
     )}
   </button>
     ;
-};
+});
+
+Button.displayName = "Button"
 
 export default Button;
