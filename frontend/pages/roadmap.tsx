@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Navbar from '@/components/Navbar';
 import Button from '@/ui/Button';
-import { capitalize } from '@/utils/utils';
+import { capitalizeWords } from '@/utils/utils';
 import { Field } from '@/types/PropsTypes';
 import Paragraph from '@/ui/Paragraph';
 import Card from '@/components/roadmap/Card';
@@ -34,6 +34,11 @@ interface RoadmapItem {
   }[];
 }
 
+interface InfoProps {
+  title: string;
+  content: string[];
+}
+
 const Roadmap: React.FC<RoadmapProps> = () => {
   const router = useRouter();
   const { profession, industry, province } = router.query as {
@@ -55,10 +60,10 @@ const Roadmap: React.FC<RoadmapProps> = () => {
   const [overview, setOverview] = useState<string>('');
   const [overviewLoader, setOverviewLoader] = useState<boolean>(true);
 
-  const [info, setInfo] = useState<any>('');
+  const [info, setInfo] = useState<InfoProps[]>([]);
   const [infoLoader, setInfoLoader] = useState(true);
 
-  const [skills, setSkills] = useState<any>('');
+  const [skills, setSkills] = useState<InfoProps[]>([]);
   const [skillsLoader, setSkillsLoader] = useState(true);
 
   const [counter, setCounter] = useState(0);
@@ -111,27 +116,109 @@ const Roadmap: React.FC<RoadmapProps> = () => {
     router.push('/')
   }
 
+
+  const InfoMinimized = (info: InfoProps[]) => {
+    return (
+      <div className='grid grid-cols-2 gap-2 h-[180px]'>
+        {info.map((field: InfoProps) => (
+          <div className='flex flex-col bg-light-gray rounded-xl p-2 h-[80px] line-clamp-1' key={field.title}>
+            <p className="text-sm font-bold">{field.title}</p>
+            {field.content.map((content: string) => (
+              <p className='text-xs line-clamp-1' key={content}>{content}</p>
+            ))}
+          </div>
+        ))}
+      </div>
+    )
+  }
+
+  const TextContentMinimized = (info: { title: string, desc: string }[]) => {
+    return (
+      info.map((field: Field) => (
+        <div key={field.title}>
+          <Paragraph className='mb-1' weight='bold'>{field.title}</Paragraph>
+          <Paragraph className='mb-2'>{field.desc}</Paragraph>
+        </div>
+      ))
+    )
+  }
+
   return (
     <>
       <Navbar />
       <div className="max-w-[1500px] m-auto p-10 grow flex flex-col mt-[50px] px-[88px] gap-10">
         <div className="flex justify-around items-center px-12 py-6 bg-[#F0F0F0] rounded-xl">
-          <h2>Jobs similar to {capitalize(profession)} in {capitalize(province)}</h2>
+          <h2>Jobs similar to {capitalizeWords(profession)} in {capitalizeWords(province)}</h2>
           <div>
             <Button onClick={handleSearchAgain}>Search again</Button>
           </div>
         </div>
-        <Card type="education" isLoading={educationLoader}>
-          <div className="flex flex-col gap-3">
-            {education.content.map((field: Field) => (
-              <div key={field.title}>
-                <Paragraph weight='bold'>{field.title}</Paragraph>
-                <Paragraph>{field.desc}</Paragraph>
-              </div>
-            ))
-            }
-          </div>
-        </Card>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-evenly gap-8">
+          <Card type="overview" isLoading={overviewLoader}>
+            <Paragraph>
+              {overview}
+            </Paragraph>
+          </Card>
+          <Card type="info" color="white" isLoading={infoLoader} minimizedContent={InfoMinimized(info)}>
+            <div className="grid grid-cols-2 gap-6">
+              {info.map((field: InfoProps) => (
+                <div className='bg-light-gray rounded-xl p-6 min-h-[200px]' key={field.title}>
+                  <Paragraph className='mb-2' weight='bold'>{field.title}</Paragraph>
+                  {field.content.map((content: string) => (
+                    <Paragraph key={content}>{content}</Paragraph>
+                  ))}
+                </div>
+              ))
+              }
+            </div>
+          </Card>
+          <Card type="skills" color="brown" isLoading={skillsLoader}>
+            <div className="grid grid-cols-2 gap-6">
+              {skills.map((field: InfoProps) => (
+                <div key={field.title}>
+                  <Paragraph className='mb-2' weight='bold'>{field.title}</Paragraph>
+                  {field.content.map((content: string) => (
+                    <Paragraph className='mb-1 line-clamp-1' key={content}>• {content}</Paragraph>
+                  ))}
+                </div>
+              ))
+              }
+            </div>
+          </Card>
+          <Card type="education" color='brown' isLoading={educationLoader} minimizedContent={TextContentMinimized(education.content)}>
+            <div className="flex flex-col justify-around">
+              {education.content.map((field: Field) => (
+                <div key={field.title}>
+                  <Paragraph className='mb-1' weight='bold'>{field.title}</Paragraph>
+                  <Paragraph className='mb-2'>{field.desc}</Paragraph>
+                </div>
+              ))
+              }
+            </div>
+          </Card>
+          <Card type="certification" isLoading={qualificationLoader} minimizedContent={TextContentMinimized(qualification.content)}>
+            <div className="flex flex-col justify-around">
+              {qualification.content.map((field: Field) => (
+                <div key={field.title}>
+                  <Paragraph className='mb-1' weight='bold'>{field.title}</Paragraph>
+                  <Paragraph className='mb-2'>{field.desc}</Paragraph>
+                </div>
+              ))
+              }
+            </div>
+          </Card>
+          <Card type="networking" color='white' isLoading={networkingLoader} minimizedContent={TextContentMinimized(networking.content)}>
+            <div className="flex flex-col justify-around">
+              {networking.content.map((field: Field) => (
+                <div key={field.title}>
+                  <Paragraph className='mb-1' weight='bold'>{field.title}</Paragraph>
+                  <Paragraph className='mb-2'>{field.desc}</Paragraph>
+                </div>
+              ))
+              }
+            </div>
+          </Card>
+        </div>
       </div>
       <Footer />
     </>
