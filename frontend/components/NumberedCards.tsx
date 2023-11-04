@@ -1,4 +1,3 @@
-import { NumberBadge } from "./Elements";
 import { VariantProps, cva } from "class-variance-authority";
 import Paragraph from "@/ui/Paragraph";
 
@@ -12,6 +11,16 @@ interface CardProps extends VariantProps<typeof cardStyles> {
     description: string;
   },
   className?: string;
+}
+
+const NumberBadge = ({ number }: { number: string }) => {
+  const style = 'flex justify-center w-[3.5rem] h-[3.5rem] font-bold p-1 bg-black rounded-full text-light-color items-center text-center text-2xl';
+
+  return (
+    <div className={style}>
+      {number}
+    </div>
+  );
 }
 
 const cards = [

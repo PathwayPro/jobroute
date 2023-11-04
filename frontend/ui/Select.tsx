@@ -1,59 +1,63 @@
-import styled from "@emotion/styled";
-import { MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
-import { useState } from "react";
+import { twMerge } from "tailwind-merge";
 
-interface SelectorProps {
+export type SelectProps = {
+  className?: string;
+  styleCaption?: string;
+  styleSelect?: string;
+  label?: string;
   options: string[];
-  label: string;
-  value: string;
-  handleChange: (event: SelectChangeEvent) => void;
-}
+  disabled?: 'none' | number[];
+  defaultValue?: '' | number;
+  onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+};
 
-const CssTextField = styled(TextField)({
-  '& label.Mui-focused': {
-    color: '#A0AAB4',
-  },
-  '& .MuiInput-underline:after': {
-    borderBottomColor: '#B2BAC2',
-  },
-  '& .MuiOutlinedInput-root': {
-    '& fieldset': {
-      borderColor: '#E0E3E7',
-    },
-    '&:hover fieldset': {
-      borderColor: '#B2BAC2',
-    },
-    '&.Mui-focused fieldset': {
-      borderColor: '#6F7E8C',
-    },
-  },
-});
-
-const Selector = ({ options, handleChange, label, value }: SelectorProps) => {
-  const [open, setOpen] = useState(false);
-
-  const handleClose = () => {
-    setOpen(false);
+const Select: React.FC<SelectProps> = ({ className, styleCaption, styleSelect, label, options, disabled = 'none', defaultValue = '', onChange }) => {
+  const style = {
+    text: 'tracking-wide leading-7',
+    label: 'flex flex-col gap-y-4 max-w-[374px]',
+    select: 'text-sm ps-8 bg-light-color hover:border-black active:bg-light-color select select-bordered',
+    caption: 'text-base text-center',
+    option: 'text-sm',
   };
 
-  const handleOpen = () => {
-    setOpen(true);
+  const checkForDisabled = (disabled: SelectProps['disabled'], i: number) => {
+
+    type Action = {
+      condition: () => boolean;
+      action: () => boolean;
+    };
+
+    const actions: Action[] = [
+      {
+        condition: () => disabled === 'none',
+        action: () => false,
+      },
+      {
+        condition: () => Array.isArray(disabled),
+        action: () => (Array.isArray(disabled) ? disabled.includes(i) : false),
+      },
+    ];
+
+    return actions.some((a) => a.condition()) ? actions.find((a) => a.condition())?.action() ?? false : false;
   };
 
   return (
-    <Select
-      input={<CssTextField style={{ height: '48px' }} inputProps={{ height: '48px' }} />}
-      open={open}
-      onChange={handleChange}
-      onClose={handleClose}
-      onOpen={handleOpen}
-      value={value}
-    >
-      {options.map((option) => (
-        <MenuItem key={option} value={option}>option</MenuItem>))
-      }
-    </Select>
-  )
-}
+    <label className={twMerge(style.text, style.label, className)}>
+      {label && <span className={twMerge(style.caption, styleCaption)}>{label}</span>}
 
-export default Selector;
+      <select
+        defaultValue={defaultValue === '' ? '' : options[defaultValue]}
+        className={twMerge(style.select, styleSelect)}
+        onChange={onChange}
+      >
+        {options.map((string: string, i: number) => (
+          <option disabled={checkForDisabled(disabled, i)} className={style.option} key={i}>
+            {string}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+};
+
+export default Select;

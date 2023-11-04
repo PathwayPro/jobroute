@@ -24,7 +24,7 @@ const Button = React.forwardRef<Ref, ButtonProps>(({ variant = 'primary-medium',
 
     const style = {
       'primary-medium': 'h-[56px] min-w-[215px] justify-center gap-6 py-4 px-8 bg-primary text-light-color hover:bg-dark active:bg-active-color hover:flex-row-reverse transition hover:duration-150',
-      'primary-small': 'h-[48px] py-4 px-8 bg-primary text-light-color hover:bg-dark active:bg-active-color hover:flex-row-reverse transition hover:duration-150',
+      'primary-small': 'h-[48px] justify-center py-4 px-8 bg-primary text-light-color hover:bg-dark active:bg-active-color hover:flex-row-reverse transition hover:duration-150',
       outlined: 'h-[48px] bg-white py-4 px-8 text-primary border-primary border-2 hover:text-dark hover:border-dark active:border-active-color active:text-active-color transition-all',
       secondary: 'group flex gap-2 w-max text-dark hover:text-primary hover:flex-row-reverse transition hover:duration-150',
     };
