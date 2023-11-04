@@ -1,14 +1,14 @@
 import { Root, List, Trigger, Content } from '@radix-ui/react-tabs';
 import { ChangeEvent, useEffect, useState } from 'react';
-import ReCAPTCHA from 'react-google-recaptcha';
 import { useRouter } from 'next/router';
-import { useDebounce } from '@/hooks/useDebounce';
 import { trim } from '@/utils/utils';
-import Paragraph from '@/ui/Paragraph';
+import { useDebounce } from '@/hooks/useDebounce';
 import { useAutocomplete } from '@/hooks/useAutocomplete';
+import { useCaptcha } from '@/hooks/useCaptcha';
+import ReCAPTCHA from 'react-google-recaptcha';
+import Paragraph from '@/ui/Paragraph';
 import Select from '@/ui/Select';
 import InputField from '@/ui/InputField';
-import { useCaptcha } from '@/hooks/useCaptcha';
 
 interface FormProps {
   provinces: string[];
@@ -35,11 +35,7 @@ const Form = ({ provinces }: FormProps) => {
     }
   }, [debouncedValue]);
 
-  const handleSubmit = (
-  ) => {
-    if (!captcha || !profession || !selectedLocation) {
-      return;
-    }
+  const handleSubmit = () => {
     router.push(`/roadmap?province=${trim(selectedLocation)}&profession=${trim(profession)}`);
   };
 
@@ -96,13 +92,21 @@ const Form = ({ provinces }: FormProps) => {
                 {isLoading && <li className="flex w-full justify-center items-center">
                   <span className="loading loading-dots loading-xs"></span>
                 </li>}
-                {professionOptions?.length > 0 && professionOptions?.map((option: string, i: number) => {
-                  return <li key={i}>
-                    <button className='p-3 text-sm hover:bg-hover-option active:bg-light-color'
-                      onClick={handleDropdown}>
-                      {option}
-                    </button></li>
-                })}
+                {!isLoading && professionOptions?.length === 0 && (
+                  <div className='flex items-center justify-center'>
+                    <Paragraph>No results found</Paragraph>
+                  </div>
+                )}
+                {!isLoading && professionOptions?.length > 0 && (
+                  professionOptions?.map((option: string, i: number) => {
+                    return (<li key={i}>
+                      <button className='p-3 text-sm hover:bg-hover-option active:bg-light-color'
+                        onClick={handleDropdown}>
+                        {option}
+                      </button></li>
+                    )
+                  }
+                  ))}
               </ul>
             </div>
           }
@@ -133,7 +137,12 @@ const Form = ({ provinces }: FormProps) => {
                 {isLoading && <li className="flex w-full justify-center items-center">
                   <span className="loading loading-dots loading-xs"></span>
                 </li>}
-                {professionOptions?.length > 0 && professionOptions?.map((option: string, i: number) => {
+                {!isLoading && professionOptions?.length === 0 && (
+                  <div className='flex items-center justify-center'>
+                    <Paragraph>No results found</Paragraph>
+                  </div>
+                )}
+                {!isLoading && professionOptions?.length > 0 && professionOptions?.map((option: string, i: number) => {
                   return <li key={i}>
                     <button className='p-3 text-sm hover:bg-hover-option active:bg-light-color'
                       onClick={handleDropdown}>
