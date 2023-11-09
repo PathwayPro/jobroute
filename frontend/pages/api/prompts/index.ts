@@ -13,7 +13,6 @@ const handler: NextApiHandler = async (req, res) => {
 
     const response = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo-16k',
-      // model: "gpt-4",
       messages: (prompts as any)[endpoint as any]({ province, profession, industry }) as any,
       temperature: 0,
       max_tokens: 712,
@@ -21,8 +20,6 @@ const handler: NextApiHandler = async (req, res) => {
       frequency_penalty: 0,
       presence_penalty: 0,
     });
-
-    // console.log(response.choices[0].message.content);
 
     res.status(200).json(response.choices[0].message.content);
   } else {

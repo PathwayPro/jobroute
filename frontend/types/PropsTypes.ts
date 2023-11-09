@@ -1,10 +1,5 @@
 import { ButtonHTMLAttributes, ReactNode } from 'react';
 
-export interface HeaderProps {
-  children: ReactNode;
-  className?: string;
-}
-
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?:
   | 'primary-medium'

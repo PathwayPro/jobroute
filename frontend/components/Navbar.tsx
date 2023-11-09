@@ -1,5 +1,5 @@
+import Logo from '@/ui/Logo';
 import Link from 'next/link';
-import { Logo } from './Elements';
 
 const Navbar = () => {
   return (

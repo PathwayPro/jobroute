@@ -435,10 +435,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-google-recaptcha@^2.1.5":
-  version "2.1.5"
-  resolved "https://registry.npmjs.org/@types/react-google-recaptcha/-/react-google-recaptcha-2.1.5.tgz"
-  integrity sha512-iWTjmVttlNgp0teyh7eBXqNOQzVq2RWNiFROWjraOptRnb1OcHJehQnji0sjqIRAk9K0z8stjyhU+OLpPb0N6w==
+"@types/react-google-recaptcha@^2.1.7":
+  version "2.1.7"
+  resolved "https://registry.yarnpkg.com/@types/react-google-recaptcha/-/react-google-recaptcha-2.1.7.tgz#7ab94138cb8219af80ee64f56f4310f5ff5310db"
+  integrity sha512-qAif3VMKgIrT6l3YcCN29F0W0LZR9Q5jxLvH2MANgc2Hm3Pk27goHBwj3Ri4vtFc0jZyFt6npdERdzUtZtJsLQ==
   dependencies:
     "@types/react" "*"
 

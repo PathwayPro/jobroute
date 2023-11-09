@@ -1,5 +1,4 @@
-import Link from 'next/link';
-import { Logo } from './Elements';
+import Logo from '@/ui/Logo';
 import Paragraph from '@/ui/Paragraph';
 
 const Footer = () => {

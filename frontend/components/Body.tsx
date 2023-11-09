@@ -36,7 +36,7 @@ const Body: React.FC<MainProps> = ({ provinces }) => {
         <Button variant="outlined" className="mt-10" onClick={() => router.push('/explore?location=Alberta&profession=Accountant')}>Click to go to Explore Jobs</Button>
       </div>
       <div className='flex flex-col mt-[100px]'>
-        <Image className="object-contain md:object-scale-down" alt="Hero" src="/img/Illustration.svg" width={758} height={671} />
+        <Image priority className="object-contain md:object-scale-down" alt="Hero" src="/img/Illustration.svg" width={758} height={671} />
         <div className="flex flex-col ml-[100px] mt-[130px] max-w-[600px] items-start">
           <div className="flex mr-auto">
             <h2>Your personal AI assistant</h2>
