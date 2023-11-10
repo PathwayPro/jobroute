@@ -2,9 +2,9 @@ import Paragraph from "@/ui/Paragraph"
 import { VariantProps, cva } from "class-variance-authority";
 
 interface PercentageCardProps extends VariantProps<typeof percentageCardStyles> {
-  percentage: number;
+  percentage: string;
   title: string;
-  salary: string;
+  salary?: string;
   noc: string;
   active?: boolean;
   onClick: () => void;
@@ -22,15 +22,15 @@ const percentageCardStyles = cva("cursor-pointer flex flex-col h-[201px] min-w-[
   },
 });
 
-const PercentageCard = ({ percentage, title, salary, noc, active = false, onClick }: PercentageCardProps) => {
+const PercentageCard = ({ percentage, title, salary = '', noc, active = false, onClick }: PercentageCardProps) => {
   return (
     <div onClick={onClick}
       className={percentageCardStyles({ active })}
     >
-      <Paragraph className={active ? 'text-white' : 'text-[#242529]'} size="large" weight="bold">{percentage}%</Paragraph>
+      <Paragraph className={active ? 'text-white' : 'text-[#242529]'} size="large" weight="bold">{percentage}</Paragraph>
       <Paragraph className={active ? 'text-white' : 'text-[#242529]'} weight="bold">{title}</Paragraph>
       <Paragraph className={active ? 'text-[#F0F0F0]' : ''}>$ {salary}</Paragraph>
-      <Paragraph className={active ? 'text-[#F0F0F0]' : ''}>NOC {noc}</Paragraph>
+      <Paragraph className={active ? 'text-[#F0F0F0]' : ''}>{noc}</Paragraph>
     </div>
   )
 }
