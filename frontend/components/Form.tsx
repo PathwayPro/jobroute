@@ -23,6 +23,7 @@ const Form = ({ provinces }: FormProps) => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const router = useRouter();
   const debouncedValue = useDebounce(searchTerm, 500);
+  const [activeTab, setActiveTab] = useState('professionOverview');
 
   const { professionOptions, isLoading } = useAutocomplete(debouncedValue, selectedLocation);
   const { captcha, handleCaptcha } = useCaptcha();
@@ -36,7 +37,11 @@ const Form = ({ provinces }: FormProps) => {
   }, [debouncedValue]);
 
   const handleSubmit = () => {
-    router.push(`/roadmap?province=${trim(selectedLocation)}&profession=${trim(profession)}`);
+    if (activeTab === 'professionOverview') {
+      router.push(`/roadmap?province=${trim(selectedLocation)}&profession=${trim(profession)}`);
+      return;
+    }
+    router.push(`/explore?province=${trim(selectedLocation)}&profession=${trim(profession)}`);
   };
 
   function handleProfessionChange(e: ChangeEvent<HTMLInputElement>) {
@@ -59,7 +64,8 @@ const Form = ({ provinces }: FormProps) => {
     setDropdownToggle(false);
   }
 
-  const resetForm = () => {
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
     setProfession('');
     setSelectedLocation('');
     setDropdownToggle(false);
@@ -68,16 +74,16 @@ const Form = ({ provinces }: FormProps) => {
   const triggerStyle = "bg-white flex-1 px-0 py-[10px] w-[50%] items-center text-secondary-text text-base leading-[25.28px] text-center hover:color-primary data-[state=active]:text-black data-[state=active]:shadow-inner data-[state=active]:shadow-inner data-[state=active]:font-bold"
 
   return (
-    <Root className='flex flex-col w-[100%]' onValueChange={resetForm} defaultValue="tab1">
+    <Root className='flex flex-col w-[100%]' onValueChange={handleTabChange} defaultValue="professionOverview">
       <List className='flex flex-shrink-0 border-b-[1px] border-[#D0D0D0] justify-around'>
-        <Trigger className={triggerStyle} value="tab1">
+        <Trigger className={triggerStyle} value="professionOverview">
           I know what job<br /> I want
         </Trigger>
-        <Trigger className={triggerStyle} value="tab2">
+        <Trigger className={triggerStyle} value="exploreJobs">
           I want to start a new career
         </Trigger>
       </List>
-      <Content value="tab1">
+      <Content value="professionOverview">
         <div className='flex flex-col py-[36px] gap-[16px]'>
           <Select
             options={provinces}
@@ -111,7 +117,7 @@ const Form = ({ provinces }: FormProps) => {
             </div>
           }
           <div className='flex flex-1 flex-col items-center justify-center w-full gap-10'>
-            <ReCAPTCHA sitekey='6LeTy1soAAAAAAHKzYpT4lqFgH_nGWfcaNg8Nukc' onChange={handleCaptcha} />
+            <ReCAPTCHA sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!} onChange={handleCaptcha} />
             <button
               disabled={!captcha || !profession || !selectedLocation}
               className={formButtonStyles}
@@ -122,7 +128,7 @@ const Form = ({ provinces }: FormProps) => {
           </div>
         </div>
       </Content>
-      <Content value="tab2">
+      <Content value="exploreJobs">
         <div className='flex flex-col py-[36px] gap-[16px]'>
           <Select
             options={provinces}
@@ -153,7 +159,7 @@ const Form = ({ provinces }: FormProps) => {
             </div>
           }
           <div className='flex flex-1 flex-col items-center justify-center w-full gap-10'>
-            <ReCAPTCHA sitekey='6LeTy1soAAAAAAHKzYpT4lqFgH_nGWfcaNg8Nukc' onChange={handleCaptcha} />
+            <ReCAPTCHA sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!} onChange={handleCaptcha} />
             <button
               disabled={!captcha || !profession || !selectedLocation}
               className={formButtonStyles}
