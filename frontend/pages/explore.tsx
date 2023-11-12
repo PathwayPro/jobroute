@@ -36,7 +36,7 @@ const ExplorePage = () => {
             salary: match.salary,
             NOC: match.NOC,
             isActive: true,
-          }
+          };
         }
         return {
           title: match.title,
@@ -44,11 +44,11 @@ const ExplorePage = () => {
           salary: match.salary,
           NOC: match.NOC,
           isActive: false,
-        }
+        };
       });
       setProfessions(professionList);
     }
-  }, [isLoading, matches])
+  }, [isLoading, matches]);
 
   const handleActive = (professionTitle: string) => {
     setProfessions((prevProfessions) =>
@@ -63,38 +63,47 @@ const ExplorePage = () => {
   const handleSearchAgain = () => {
     // TODO: reset localStorage
     router.push("/");
-  }
+  };
 
   return (
     <>
       <Navbar />
-      <div className="max-w-[1500px] m-auto p-10 grow flex flex-col mt-[50px] px-[88px] gap-10">
-        <div className="flex justify-around items-center px-12 py-6 bg-[#F0F0F0] rounded-xl">
-          <div className="flex flex-col w-[70%] gap-6">
-            <h2>Jobs similar to {capitalizeWords(profession)} in {capitalizeWords(province)}</h2>
-            <Paragraph>Your current occupation matches with several professions in {capitalizeWords(province)}. Select any of them to explore how you can leverage your skills to transition into a new career.</Paragraph>
+      <div className="m-auto mt-[50px] flex max-w-[1500px] grow flex-col gap-10 p-10 px-[88px]">
+        <div className="flex items-center justify-around rounded-xl bg-[#F0F0F0] px-12 py-6">
+          <div className="flex w-[70%] flex-col gap-6">
+            <h2>
+              Jobs similar to {capitalizeWords(profession)} in{" "}
+              {capitalizeWords(province)}
+            </h2>
+            <Paragraph>
+              Your current occupation matches with several professions in{" "}
+              {capitalizeWords(province)}. Select any of them to explore how you
+              can leverage your skills to transition into a new career.
+            </Paragraph>
           </div>
           <div>
             <Button onClick={handleSearchAgain}>Search again</Button>
           </div>
         </div>
         {isLoading && (
-          <div className="flex justify-center items-center">
-            <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+          <div className="flex items-center justify-center">
+            <div className="h-32 w-32 animate-spin rounded-full border-b-2 border-t-2 border-gray-900"></div>
           </div>
         )}
         <div className="flex flex-wrap gap-4">
-          {!isLoading && matches && professions?.map((profession) => (
-            <PercentageCard
-              key={profession.title}
-              percentage={profession.percentage}
-              title={profession.title}
-              salary={profession.salary}
-              noc={profession.NOC}
-              active={profession.isActive}
-              onClick={() => handleActive(profession.title)}
-            />
-          ))}
+          {!isLoading &&
+            matches &&
+            professions?.map((profession) => (
+              <PercentageCard
+                key={profession.title}
+                percentage={profession.percentage}
+                title={profession.title}
+                salary={profession.salary}
+                noc={profession.NOC}
+                active={profession.isActive}
+                onClick={() => handleActive(profession.title)}
+              />
+            ))}
         </div>
       </div>
       <Footer />

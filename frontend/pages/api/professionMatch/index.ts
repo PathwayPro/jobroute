@@ -1,25 +1,24 @@
 import OpenAI from "openai";
-import { NextApiHandler } from 'next';
+import { NextApiHandler } from "next";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-
 const handler: NextApiHandler = async (req, res) => {
-  if (req.method === 'GET') {
+  if (req.method === "GET") {
     const { province, profession }: any = req.query;
 
     const response = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo-16k',
+      model: "gpt-3.5-turbo-16k",
       messages: [
         {
-          role: 'system',
+          role: "system",
           content: `You are an expert in career path define that provides 
             Canadian education paths for ${profession} job in the Canadian ${province}`,
         },
         {
-          role: 'user',
+          role: "user",
           content: `Provide necessary information regarding related job roles with transferrable skills similar to the role of ${profession} for the region ${province}. Provide the information with job title, percentage similarity in 2 significant numbers and NOC. Provide a maximum of 5 other related jobs.Sort the result by percentage similarity. Please provide a response in JSON format in the following template:
         Example Template:
         {
@@ -33,9 +32,8 @@ const handler: NextApiHandler = async (req, res) => {
               }
               // ... and so on for the rest of the steps
             ]
-        }`
-          ,
-        }
+        }`,
+        },
       ],
       temperature: 0,
       max_tokens: 712,
@@ -46,9 +44,8 @@ const handler: NextApiHandler = async (req, res) => {
 
     res.status(200).json(response.choices[0].message.content);
   } else {
-    res.status(405).json({ error: 'Method not allowed' });
+    res.status(405).json({ error: "Method not allowed" });
   }
-}
+};
 
 export default handler;
-

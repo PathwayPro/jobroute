@@ -43,11 +43,13 @@ const Badge = ({ type }: BadgeProps) => {
   }
 
   return (
-    <div className="flex w-max gap-2 items-center bg-black p-2 rounded-full max-w-[250px] shadow-md">
-      <div className="bg-white w-max rounded-full p-1">
+    <div className="flex w-max max-w-[250px] items-center gap-2 rounded-full bg-black p-2 shadow-md">
+      <div className="w-max rounded-full bg-white p-1">
         <Iconly name={icon[type]} set="bold" primaryColor="black" size={20} />
       </div>
-      <span className="text-sm pr-4 font-bold uppercase text-white">{getTitle()}</span>
+      <span className="pr-4 text-sm font-bold uppercase text-white">
+        {getTitle()}
+      </span>
     </div>
   );
 };

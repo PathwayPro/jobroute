@@ -1,5 +1,5 @@
-import { fetchMatches } from '@/fetch/fetchProfessionMatch';
-import { useEffect, useState } from 'react';
+import { fetchMatches } from "@/fetch/fetchProfessionMatch";
+import { useEffect, useState } from "react";
 
 interface Response {
   title: string;
@@ -13,16 +13,19 @@ interface Matches {
   NOC: string;
 }
 
-async function getProfessionMatches(profession: string, province: string): Promise<Response> {
+async function getProfessionMatches(
+  profession: string,
+  province: string,
+): Promise<Response> {
   const response = await fetchMatches(profession, province);
 
   try {
     const results = await JSON.parse(response);
     return results;
   } catch (error) {
-    throw new Error('Error fetching matches');
+    throw new Error("Error fetching matches");
   }
-};
+}
 
 export const useMatches = (profession: string, province: string) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -34,7 +37,8 @@ export const useMatches = (profession: string, province: string) => {
       setMatches(matches.content);
       setIsLoading(false);
     });
-  }), [profession, province];
+  }),
+    [profession, province];
 
   return { isLoading, matches };
 };

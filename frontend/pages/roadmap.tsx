@@ -1,11 +1,11 @@
-import Footer from '@/components/Footer';
-import fetchServerData from '@/fetch/fetchRoadmap';
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import Navbar from '@/components/Navbar';
-import Button from '@/ui/Button';
-import { capitalizeWords } from '@/utils/utils';
-import RoadmapCards from '@/components/roadmap/RoadmapCards';
+import Footer from "@/components/Footer";
+import fetchServerData from "@/fetch/fetchRoadmap";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import Navbar from "@/components/Navbar";
+import Button from "@/ui/Button";
+import { capitalizeWords } from "@/utils/utils";
+import RoadmapCards from "@/components/roadmap/RoadmapCards";
 
 type TitleContent = {
   title: string;
@@ -113,8 +113,8 @@ const Roadmap: React.FC<RoadmapProps> = () => {
 
   const handleSearchAgain = () => {
     // TODO: reset localStorage
-    router.push('/')
-  }
+    router.push("/");
+  };
 
   return (
     <>

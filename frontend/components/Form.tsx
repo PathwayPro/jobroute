@@ -24,7 +24,7 @@ const Form = ({ provinces }: FormProps) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const router = useRouter();
   const debouncedValue = useDebounce(searchTerm, 500);
-  const [activeTab, setActiveTab] = useState('professionOverview');
+  const [activeTab, setActiveTab] = useState("professionOverview");
 
   const { professionOptions, isLoading } = useAutocomplete(
     debouncedValue,
@@ -41,11 +41,19 @@ const Form = ({ provinces }: FormProps) => {
   }, [debouncedValue]);
 
   const handleSubmit = () => {
-    if (activeTab === 'professionOverview') {
-      router.push(`/roadmap?province=${trim(selectedLocation)}&profession=${trim(profession)}`);
+    if (activeTab === "professionOverview") {
+      router.push(
+        `/roadmap?province=${trim(selectedLocation)}&profession=${trim(
+          profession,
+        )}`,
+      );
       return;
     }
-    router.push(`/explore?province=${trim(selectedLocation)}&profession=${trim(profession)}`);
+    router.push(
+      `/explore?province=${trim(selectedLocation)}&profession=${trim(
+        profession,
+      )}`,
+    );
   };
 
   function handleProfessionChange(e: ChangeEvent<HTMLInputElement>) {
@@ -70,8 +78,8 @@ const Form = ({ provinces }: FormProps) => {
 
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
-    setProfession('');
-    setSelectedLocation('');
+    setProfession("");
+    setSelectedLocation("");
     setDropdownToggle(false);
   };
 
@@ -79,17 +87,22 @@ const Form = ({ provinces }: FormProps) => {
     "bg-white flex-1 px-0 py-[10px] w-[50%] items-center text-secondary-text text-base leading-[25.28px] text-center hover:color-primary data-[state=active]:text-black data-[state=active]:shadow-inner data-[state=active]:shadow-inner data-[state=active]:font-bold";
 
   return (
-    <Root className='flex flex-col w-[100%]' onValueChange={handleTabChange} defaultValue="professionOverview">
-      <List className='flex flex-shrink-0 border-b-[1px] border-[#D0D0D0] justify-around'>
+    <Root
+      className="flex w-[100%] flex-col"
+      onValueChange={handleTabChange}
+      defaultValue="professionOverview"
+    >
+      <List className="flex flex-shrink-0 justify-around border-b-[1px] border-[#D0D0D0]">
         <Trigger className={triggerStyle} value="professionOverview">
-          I know what job<br /> I want
+          I know what job
+          <br /> I want
         </Trigger>
         <Trigger className={triggerStyle} value="exploreJobs">
           I want to start a new career
         </Trigger>
       </List>
       <Content value="professionOverview">
-        <div className='flex flex-col py-[36px] gap-[16px]'>
+        <div className="flex flex-col gap-[16px] py-[36px]">
           <Select
             options={provinces}
             defaultValue={0}
@@ -102,7 +115,7 @@ const Form = ({ provinces }: FormProps) => {
             value={profession}
             placeholder="Job title"
           />
-          {dropdownToggle &&
+          {dropdownToggle && (
             <div className="relative">
               <ul className="menu dropdown-content rounded-box absolute z-[99] w-[370px] bg-light-color p-2 shadow-outline">
                 {isLoading && (
@@ -131,9 +144,12 @@ const Form = ({ provinces }: FormProps) => {
                   })}
               </ul>
             </div>
-          }
-          <div className='flex flex-1 flex-col items-center justify-center w-full gap-10'>
-            <ReCAPTCHA sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!} onChange={handleCaptcha} />
+          )}
+          <div className="flex w-full flex-1 flex-col items-center justify-center gap-10">
+            <ReCAPTCHA
+              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+              onChange={handleCaptcha}
+            />
             <button
               disabled={!captcha || !profession || !selectedLocation}
               className={formButtonStyles}
@@ -145,7 +161,7 @@ const Form = ({ provinces }: FormProps) => {
         </div>
       </Content>
       <Content value="exploreJobs">
-        <div className='flex flex-col py-[36px] gap-[16px]'>
+        <div className="flex flex-col gap-[16px] py-[36px]">
           <Select
             options={provinces}
             defaultValue={0}
@@ -158,7 +174,7 @@ const Form = ({ provinces }: FormProps) => {
             value={profession}
             placeholder="Your current job"
           />
-          {dropdownToggle &&
+          {dropdownToggle && (
             <div className="relative">
               <ul className="menu dropdown-content rounded-box absolute z-[99] w-[370px] bg-light-color p-2 shadow-outline">
                 {isLoading && (
@@ -187,9 +203,12 @@ const Form = ({ provinces }: FormProps) => {
                   })}
               </ul>
             </div>
-          }
-          <div className='flex flex-1 flex-col items-center justify-center w-full gap-10'>
-            <ReCAPTCHA sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!} onChange={handleCaptcha} />
+          )}
+          <div className="flex w-full flex-1 flex-col items-center justify-center gap-10">
+            <ReCAPTCHA
+              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+              onChange={handleCaptcha}
+            />
             <button
               disabled={!captcha || !profession || !selectedLocation}
               className={formButtonStyles}
