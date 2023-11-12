@@ -33,7 +33,6 @@ const Body: React.FC<MainProps> = ({ provinces }) => {
           </Paragraph>
           <NumberedCards />
         </div>
-        <Button variant="outlined" className="mt-10" onClick={() => router.push('/explore?location=Alberta&profession=Accountant')}>Click to go to Explore Jobs</Button>
       </div>
       <div className='flex flex-col mt-[100px]'>
         <Image priority className="object-contain md:object-scale-down" alt="Hero" src="/img/Illustration.svg" width={758} height={671} />
