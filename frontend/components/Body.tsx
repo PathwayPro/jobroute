@@ -4,12 +4,9 @@ import Dialog from "./Dialog";
 import Form from "./Form";
 import Paragraph from "@/ui/Paragraph";
 import NumberedCards from "./NumberedCards";
-import { useRouter } from "next/router";
 import Button from "@/ui/Button";
 
 const Body: React.FC<MainProps> = ({ provinces }) => {
-  const router = useRouter();
-
   return (
     <div className='flex flex-row max-w-[1500px] m-auto p-10 grow justify-between'>
       <div className="flex flex-col mt-[120px] w-2/5">

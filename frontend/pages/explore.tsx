@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useMatches } from "@/hooks/useMatches";
 import { capitalizeWords } from "@/utils/utils";
+import Footer from "@/components/Footer";
 
 interface Profession {
   title: string;
@@ -65,6 +66,8 @@ const ExplorePage = () => {
     router.push("/");
   }
 
+  // TODO: replace loading by progress bar dialog
+
   return (
     <>
       <Navbar />
@@ -78,7 +81,12 @@ const ExplorePage = () => {
             <Button onClick={handleSearchAgain}>Search again</Button>
           </div>
         </div>
-        <div className="flex justify-evenly">
+        {isLoading && (
+          <div className="flex justify-center items-center">
+            <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+          </div>
+        )}
+        <div className="flex flex-wrap gap-4">
           {!isLoading && matches && professions?.map((profession) => (
             <PercentageCard
               key={profession.title}
@@ -92,6 +100,7 @@ const ExplorePage = () => {
           ))}
         </div>
       </div>
+      <Footer />
     </>
   );
 };
