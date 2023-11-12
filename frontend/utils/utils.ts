@@ -1,13 +1,13 @@
 export function capitalize(text: string) {
-  return text.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase())
+  return text.replace(/(^\w{1})|(\s+\w{1})/g, (letter) => letter.toUpperCase());
 }
 
 export const capitalizeWords = (string: string) => {
   if (string) {
     return string
-      .split(' ')
+      .split(" ")
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
+      .join(" ");
   }
 };
 

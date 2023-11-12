@@ -1,5 +1,4 @@
 import Navbar from "@/components/Navbar";
-import { fetchMatches } from '@/fetch/fetchProfessionMatch';
 import PercentageCard from "@/components/PercentageCard";
 import Button from "@/ui/Button";
 import Paragraph from "@/ui/Paragraph";
@@ -56,8 +55,8 @@ const ExplorePage = () => {
       prevProfessions.map((profession) =>
         profession.title === professionTitle
           ? { ...profession, isActive: true }
-          : { ...profession, isActive: false }
-      )
+          : { ...profession, isActive: false },
+      ),
     );
   };
 
@@ -65,8 +64,6 @@ const ExplorePage = () => {
     // TODO: reset localStorage
     router.push("/");
   }
-
-  // TODO: replace loading by progress bar dialog
 
   return (
     <>

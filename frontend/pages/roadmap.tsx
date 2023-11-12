@@ -45,7 +45,7 @@ const Roadmap: React.FC<RoadmapProps> = () => {
     province: string;
   };
 
-  const initCard = { title: '', content: [] };
+  const initCard = { title: "", content: [] };
   const [education, setEducation] = useState<RoadmapItem>(initCard);
   const [educationLoader, setEducationLoader] = useState(true);
 
@@ -55,7 +55,7 @@ const Roadmap: React.FC<RoadmapProps> = () => {
   const [networking, setNetworking] = useState<RoadmapItem>(initCard);
   const [networkingLoader, setNetworkingLoader] = useState(true);
 
-  const [overview, setOverview] = useState<string>('');
+  const [overview, setOverview] = useState<string>("");
   const [overviewLoader, setOverviewLoader] = useState<boolean>(true);
 
   const [info, setInfo] = useState<InfoProps[]>([]);
@@ -71,7 +71,11 @@ const Roadmap: React.FC<RoadmapProps> = () => {
   useEffect(() => {
     const fetchProps = async () => {
       if (!fetched && profession && province) {
-        const getPrompts = async (setter: any, endpoint: string, loader: any) => {
+        const getPrompts = async (
+          setter: any,
+          endpoint: string,
+          loader: any,
+        ) => {
           try {
             const response = await fetchServerData(
               endpoint,
@@ -85,19 +89,18 @@ const Roadmap: React.FC<RoadmapProps> = () => {
             if (counter < 8) {
               getPrompts(setter, endpoint, loader);
               setCounter(counter + 1);
-              console.warn(`Another attempt to call the ${endpoint} prompt`)
+              console.warn(`Another attempt to call the ${endpoint} prompt`);
             }
           }
-
         };
 
         try {
-          getPrompts(setOverview, 'overview', setOverviewLoader);
-          getPrompts(setInfo, 'info', setInfoLoader);
-          getPrompts(setEducation, 'education', setEducationLoader);
-          getPrompts(setQualification, 'qualification', setQualificationLoader);
-          getPrompts(setNetworking, 'networking', setNetworkingLoader);
-          getPrompts(setSkills, 'skills', setSkillsLoader);
+          getPrompts(setOverview, "overview", setOverviewLoader);
+          getPrompts(setInfo, "info", setInfoLoader);
+          getPrompts(setEducation, "education", setEducationLoader);
+          getPrompts(setQualification, "qualification", setQualificationLoader);
+          getPrompts(setNetworking, "networking", setNetworkingLoader);
+          getPrompts(setSkills, "skills", setSkillsLoader);
           setFetched(true);
         } catch (error) {
           throw error;
@@ -116,9 +119,12 @@ const Roadmap: React.FC<RoadmapProps> = () => {
   return (
     <>
       <Navbar />
-      <div className="max-w-[1500px] m-auto p-10 grow flex flex-col mt-[50px] px-[88px] gap-10">
-        <div className="flex justify-around items-center px-12 py-6 bg-[#F0F0F0] rounded-xl">
-          <h2>Jobs similar to {capitalizeWords(profession)} in {capitalizeWords(province)}</h2>
+      <div className="m-auto mt-[50px] flex max-w-[1500px] grow flex-col gap-10 p-10 px-[88px]">
+        <div className="flex items-center justify-around rounded-xl bg-[#F0F0F0] px-12 py-6">
+          <h2>
+            Jobs similar to {capitalizeWords(profession)} in{" "}
+            {capitalizeWords(province)}
+          </h2>
           <div>
             <Button onClick={handleSearchAgain}>Search again</Button>
           </div>

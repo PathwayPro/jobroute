@@ -6,22 +6,31 @@ export type SelectProps = {
   styleSelect?: string;
   label?: string;
   options: string[];
-  disabled?: 'none' | number[];
-  defaultValue?: '' | number;
+  disabled?: "none" | number[];
+  defaultValue?: "" | number;
   onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
-const Select: React.FC<SelectProps> = ({ className, styleCaption, styleSelect, label, options, disabled = 'none', defaultValue = '', onChange }) => {
+const Select: React.FC<SelectProps> = ({
+  className,
+  styleCaption,
+  styleSelect,
+  label,
+  options,
+  disabled = "none",
+  defaultValue = "",
+  onChange,
+}) => {
   const style = {
-    text: 'tracking-wide leading-7',
-    label: 'flex flex-col gap-y-4 max-w-[374px]',
-    select: 'text-sm ps-8 bg-light-color hover:border-black active:bg-light-color select select-bordered',
-    caption: 'text-base text-center',
-    option: 'text-sm',
+    text: "tracking-wide leading-7",
+    label: "flex flex-col gap-y-4 max-w-[374px]",
+    select:
+      "text-sm ps-8 bg-light-color hover:border-black active:bg-light-color select select-bordered",
+    caption: "text-base text-center",
+    option: "text-sm",
   };
 
-  const checkForDisabled = (disabled: SelectProps['disabled'], i: number) => {
-
+  const checkForDisabled = (disabled: SelectProps["disabled"], i: number) => {
     type Action = {
       condition: () => boolean;
       action: () => boolean;
@@ -29,7 +38,7 @@ const Select: React.FC<SelectProps> = ({ className, styleCaption, styleSelect, l
 
     const actions: Action[] = [
       {
-        condition: () => disabled === 'none',
+        condition: () => disabled === "none",
         action: () => false,
       },
       {
@@ -38,20 +47,28 @@ const Select: React.FC<SelectProps> = ({ className, styleCaption, styleSelect, l
       },
     ];
 
-    return actions.some((a) => a.condition()) ? actions.find((a) => a.condition())?.action() ?? false : false;
+    return actions.some((a) => a.condition())
+      ? actions.find((a) => a.condition())?.action() ?? false
+      : false;
   };
 
   return (
     <label className={twMerge(style.text, style.label, className)}>
-      {label && <span className={twMerge(style.caption, styleCaption)}>{label}</span>}
+      {label && (
+        <span className={twMerge(style.caption, styleCaption)}>{label}</span>
+      )}
 
       <select
-        defaultValue={defaultValue === '' ? '' : options[defaultValue]}
+        defaultValue={defaultValue === "" ? "" : options[defaultValue]}
         className={twMerge(style.select, styleSelect)}
         onChange={onChange}
       >
         {options.map((string: string, i: number) => (
-          <option disabled={checkForDisabled(disabled, i)} className={style.option} key={i}>
+          <option
+            disabled={checkForDisabled(disabled, i)}
+            className={style.option}
+            key={i}
+          >
             {string}
           </option>
         ))}

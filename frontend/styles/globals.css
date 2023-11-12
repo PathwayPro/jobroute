@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css?family=Galvji&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Galvji&display=swap");
 
 @layer utilities {
   .scrollbar::-webkit-scrollbar {
@@ -16,7 +16,7 @@
   }
 
   .scrollbar::-webkit-scrollbar-thumb {
-    background: #D0D0D0;
+    background: #d0d0d0;
     border-radius: 100vh;
     border: 8px white solid;
   }
@@ -42,7 +42,7 @@
 
 body {
   background: white;
-  font-family: 'Galvji', sans-serif;
+  font-family: "Galvji", sans-serif;
 }
 
 h1,
@@ -70,7 +70,7 @@ h3 {
 
 p,
 span {
-  color: #42444D;
+  color: #42444d;
 }
 
 a {
@@ -79,6 +79,6 @@ a {
 }
 
 a:hover {
-  color: #DF044D;
+  color: #df044d;
   text-decoration: underline;
 }

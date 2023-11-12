@@ -1,22 +1,22 @@
 import { Iconly } from "react-iconly";
 
 const icon = {
-  'overview': 'Chat',
-  'info': 'InfoSquare',
-  'skills': 'TickSquare',
-  'education': 'Work',
-  'certification': 'Star',
-  'networking': 'TwoUsers',
-}
+  overview: "Chat",
+  info: "InfoSquare",
+  skills: "TickSquare",
+  education: "Work",
+  certification: "Star",
+  networking: "TwoUsers",
+};
 
 const title = {
-  'overview': 'Overview',
-  'info': 'Info',
-  'skills': 'Hard / Soft Skills',
-  'education': 'Education / Training',
-  'certification': 'Licensing / Certification',
-  'networking': 'Job Search / Networking',
-}
+  overview: "Overview",
+  info: "Info",
+  skills: "Hard / Soft Skills",
+  education: "Education / Training",
+  certification: "Licensing / Certification",
+  networking: "Job Search / Networking",
+};
 
 export enum BadgeType {
   Overview = "overview",
@@ -28,13 +28,19 @@ export enum BadgeType {
 }
 
 interface BadgeProps {
-  type: 'overview' | 'info' | 'skills' | 'education' | 'certification' | 'networking';
+  type:
+    | "overview"
+    | "info"
+    | "skills"
+    | "education"
+    | "certification"
+    | "networking";
 }
 
 const Badge = ({ type }: BadgeProps) => {
   function getTitle() {
     return title[type];
-  };
+  }
 
   return (
     <div className="flex w-max gap-2 items-center bg-black p-2 rounded-full max-w-[250px] shadow-md">
@@ -43,7 +49,7 @@ const Badge = ({ type }: BadgeProps) => {
       </div>
       <span className="text-sm pr-4 font-bold uppercase text-white">{getTitle()}</span>
     </div>
-  )
-}
+  );
+};
 
 export default Badge;

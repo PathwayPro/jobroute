@@ -2,8 +2,8 @@ import { VariantProps, cva } from "class-variance-authority";
 
 interface ParagraphProps extends VariantProps<typeof paragraphStyles> {
   children: React.ReactNode;
-  size?: 'small' | 'medium' | 'large';
-  weight?: 'regular' | 'bold';
+  size?: "small" | "medium" | "large";
+  weight?: "regular" | "bold";
   className?: string;
 }
 
@@ -25,10 +25,20 @@ const paragraphStyles = cva("", {
   },
 });
 
-const Paragraph = ({ children, size = 'medium', weight = 'regular', defaultVariants, className }: ParagraphProps) => {
+const Paragraph = ({
+  children,
+  size = "medium",
+  weight = "regular",
+  defaultVariants,
+  className,
+}: ParagraphProps) => {
   return (
-    <p className={paragraphStyles({ defaultVariants, size, weight, className })}>{children}</p>
-  )
-}
+    <p
+      className={paragraphStyles({ defaultVariants, size, weight, className })}
+    >
+      {children}
+    </p>
+  );
+};
 
 export default Paragraph;

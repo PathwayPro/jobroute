@@ -1,11 +1,7 @@
-import { ButtonHTMLAttributes, ReactNode } from 'react';
+import { ButtonHTMLAttributes, ReactNode } from "react";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?:
-  | 'primary-medium'
-  | 'primary-small'
-  | 'secondary'
-  | 'outlined';
+  variant?: "primary-medium" | "primary-small" | "secondary" | "outlined";
   children: ReactNode;
   loading?: boolean;
 }
@@ -22,8 +18,8 @@ export type SelectProps = {
   styleSelect?: string;
   label?: string;
   options: string[];
-  disabled?: 'none' | number[];
-  defaultValue?: '' | number;
+  disabled?: "none" | number[];
+  defaultValue?: "" | number;
   onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
@@ -78,7 +74,7 @@ export interface RoadmapProps {
 }
 
 export interface DetailsProps
-  extends Omit<RoadmapProps, 'profession' | 'industry' | 'province'> { }
+  extends Omit<RoadmapProps, "profession" | "industry" | "province"> {}
 
 export interface Field {
   title: string;
