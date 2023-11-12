@@ -29,7 +29,7 @@ const PercentageCard = ({ percentage, title, salary = '', noc, active = false, o
     >
       <Paragraph className={active ? 'text-white' : 'text-[#242529]'} size="large" weight="bold">{percentage}</Paragraph>
       <Paragraph className={active ? 'text-white' : 'text-[#242529]'} weight="bold">{title}</Paragraph>
-      <Paragraph className={active ? 'text-[#F0F0F0]' : ''}>$ {salary}</Paragraph>
+      <Paragraph className={active ? 'text-[#F0F0F0]' : ''}>{salary}</Paragraph>
       <Paragraph className={active ? 'text-[#F0F0F0]' : ''}>{noc}</Paragraph>
     </div>
   )
