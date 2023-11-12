@@ -49,9 +49,7 @@ const PercentageCard = ({
       >
         {title}
       </Paragraph>
-      <Paragraph className={active ? "text-[#F0F0F0]" : ""}>
-        {salary}
-      </Paragraph>
+      <Paragraph className={active ? "text-[#F0F0F0]" : ""}>{salary}</Paragraph>
       <Paragraph className={active ? "text-[#F0F0F0]" : ""}>
         NOC {noc}
       </Paragraph>
