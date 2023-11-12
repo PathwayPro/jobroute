@@ -25,24 +25,30 @@ const ExplorePage = () => {
       prevProfessions.map((profession) =>
         profession.title === professionTitle
           ? { ...profession, isActive: true }
-          : { ...profession, isActive: false }
-      )
+          : { ...profession, isActive: false },
+      ),
     );
   };
 
   const handleSearchAgain = () => {
     // TODO: reset localStorage
     router.push("/");
-  }
+  };
 
   return (
     <>
       <Navbar />
-      <div className="max-w-[1500px] m-auto p-10 grow flex flex-col mt-[50px] px-[88px] gap-10">
-        <div className="flex justify-around items-center px-12 py-6 bg-[#F0F0F0] rounded-xl">
-          <div className="flex flex-col w-[70%] gap-6">
-            <h2>Jobs similar to {profession} in {location}</h2>
-            <Paragraph>Your current occupation matches with several professions in {location}. Select any of them to explore how you can leverage your skills to transition into a new career.</Paragraph>
+      <div className="m-auto mt-[50px] flex max-w-[1500px] grow flex-col gap-10 p-10 px-[88px]">
+        <div className="flex items-center justify-around rounded-xl bg-[#F0F0F0] px-12 py-6">
+          <div className="flex w-[70%] flex-col gap-6">
+            <h2>
+              Jobs similar to {profession} in {location}
+            </h2>
+            <Paragraph>
+              Your current occupation matches with several professions in{" "}
+              {location}. Select any of them to explore how you can leverage
+              your skills to transition into a new career.
+            </Paragraph>
           </div>
           <div>
             <Button onClick={handleSearchAgain}>Search again</Button>
