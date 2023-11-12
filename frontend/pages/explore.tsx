@@ -90,7 +90,7 @@ const ExplorePage = () => {
             <div className="h-32 w-32 animate-spin rounded-full border-b-2 border-t-2 border-gray-900"></div>
           </div>
         )}
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-wrap justify-center gap-4">
           {!isLoading &&
             matches &&
             professions?.map((profession) => (
