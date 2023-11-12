@@ -24,6 +24,7 @@ const Form = ({ provinces }: FormProps) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const router = useRouter();
   const debouncedValue = useDebounce(searchTerm, 500);
+  const [activeTab, setActiveTab] = useState("professionOverview");
 
   const { professionOptions, isLoading } = useAutocomplete(
     debouncedValue,
@@ -40,8 +41,16 @@ const Form = ({ provinces }: FormProps) => {
   }, [debouncedValue]);
 
   const handleSubmit = () => {
+    if (activeTab === "professionOverview") {
+      router.push(
+        `/roadmap?province=${trim(selectedLocation)}&profession=${trim(
+          profession,
+        )}`,
+      );
+      return;
+    }
     router.push(
-      `/roadmap?province=${trim(selectedLocation)}&profession=${trim(
+      `/explore?province=${trim(selectedLocation)}&profession=${trim(
         profession,
       )}`,
     );
@@ -67,7 +76,8 @@ const Form = ({ provinces }: FormProps) => {
     setDropdownToggle(false);
   };
 
-  const resetForm = () => {
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
     setProfession("");
     setSelectedLocation("");
     setDropdownToggle(false);
@@ -79,19 +89,19 @@ const Form = ({ provinces }: FormProps) => {
   return (
     <Root
       className="flex w-[100%] flex-col"
-      onValueChange={resetForm}
-      defaultValue="tab1"
+      onValueChange={handleTabChange}
+      defaultValue="professionOverview"
     >
       <List className="flex flex-shrink-0 justify-around border-b-[1px] border-[#D0D0D0]">
-        <Trigger className={triggerStyle} value="tab1">
+        <Trigger className={triggerStyle} value="professionOverview">
           I know what job
           <br /> I want
         </Trigger>
-        <Trigger className={triggerStyle} value="tab2">
+        <Trigger className={triggerStyle} value="exploreJobs">
           I want to start a new career
         </Trigger>
       </List>
-      <Content value="tab1">
+      <Content value="professionOverview">
         <div className="flex flex-col gap-[16px] py-[36px]">
           <Select
             options={provinces}
@@ -137,7 +147,7 @@ const Form = ({ provinces }: FormProps) => {
           )}
           <div className="flex w-full flex-1 flex-col items-center justify-center gap-10">
             <ReCAPTCHA
-              sitekey="6LeTy1soAAAAAAHKzYpT4lqFgH_nGWfcaNg8Nukc"
+              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
               onChange={handleCaptcha}
             />
             <button
@@ -150,7 +160,7 @@ const Form = ({ provinces }: FormProps) => {
           </div>
         </div>
       </Content>
-      <Content value="tab2">
+      <Content value="exploreJobs">
         <div className="flex flex-col gap-[16px] py-[36px]">
           <Select
             options={provinces}
@@ -196,7 +206,7 @@ const Form = ({ provinces }: FormProps) => {
           )}
           <div className="flex w-full flex-1 flex-col items-center justify-center gap-10">
             <ReCAPTCHA
-              sitekey="6LeTy1soAAAAAAHKzYpT4lqFgH_nGWfcaNg8Nukc"
+              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
               onChange={handleCaptcha}
             />
             <button

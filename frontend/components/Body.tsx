@@ -4,12 +4,9 @@ import Dialog from "./Dialog";
 import Form from "./Form";
 import Paragraph from "@/ui/Paragraph";
 import NumberedCards from "./NumberedCards";
-import { useRouter } from "next/router";
 import Button from "@/ui/Button";
 
 const Body: React.FC<MainProps> = ({ provinces }) => {
-  const router = useRouter();
-
   return (
     <div className="m-auto flex max-w-[1500px] grow flex-row justify-between p-10">
       <div className="mt-[120px] flex w-2/5 flex-col">
@@ -28,15 +25,6 @@ const Body: React.FC<MainProps> = ({ provinces }) => {
           </Paragraph>
           <NumberedCards />
         </div>
-        <Button
-          variant="outlined"
-          className="mt-10"
-          onClick={() =>
-            router.push("/explore?location=Alberta&profession=Accountant")
-          }
-        >
-          Click to go to Explore Jobs
-        </Button>
       </div>
       <div className="mt-[100px] flex flex-col">
         <Image
