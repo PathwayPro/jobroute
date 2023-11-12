@@ -72,7 +72,7 @@ const ExplorePage = () => {
         <div className="flex justify-around items-center px-12 py-6 bg-[#F0F0F0] rounded-xl">
           <div className="flex flex-col w-[70%] gap-6">
             <h2>Jobs similar to {capitalizeWords(profession)} in {capitalizeWords(province)}</h2>
-            <Paragraph>Your current occupation matches with several professions in {province}. Select any of them to explore how you can leverage your skills to transition into a new career.</Paragraph>
+            <Paragraph>Your current occupation matches with several professions in {capitalizeWords(province)}. Select any of them to explore how you can leverage your skills to transition into a new career.</Paragraph>
           </div>
           <div>
             <Button onClick={handleSearchAgain}>Search again</Button>
