@@ -12,7 +12,7 @@ interface PercentageCardProps
 }
 
 const percentageCardStyles = cva(
-  "cursor-pointer flex flex-col h-[201px] min-w-[234px] items-start gap-[10px] p-6 justify-center rounded-xl",
+  "cursor-pointer flex flex-col h-[201px] w-[250px] min-w-[234px] items-start gap-[10px] p-6 justify-center rounded-xl",
   {
     variants: {
       active: {

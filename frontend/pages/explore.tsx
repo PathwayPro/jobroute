@@ -1,12 +1,13 @@
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useRouter } from "next/router";
+import { capitalizeWords } from "@/utils/utils";
+import { useMatches } from "@/hooks/useMatches";
 import Navbar from "@/components/Navbar";
 import PercentageCard from "@/components/PercentageCard";
 import Button from "@/ui/Button";
 import Paragraph from "@/ui/Paragraph";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { useMatches } from "@/hooks/useMatches";
-import { capitalizeWords } from "@/utils/utils";
 import Footer from "@/components/Footer";
+import RoadmapCards from "@/components/roadmap/RoadmapCards";
 
 interface Profession {
   title: string;
@@ -17,17 +18,20 @@ interface Profession {
 }
 
 const ExplorePage = () => {
+  const effectRan = useRef(false);
   const router = useRouter();
   const [professions, setProfessions] = useState<Profession[]>([]);
   const { profession, province } = router.query as {
     profession: string;
     province: string;
   };
-
   const { isLoading, matches } = useMatches(profession, province);
+  const activeProfession = professions.find(
+    (profession) => profession.isActive,
+  );
 
   useEffect(() => {
-    if (!isLoading && matches && matches?.length > 0) {
+    if (matches && matches?.length > 0 && !effectRan.current) {
       const professionList = matches.map((match) => {
         if (match.title === matches[0].title) {
           return {
@@ -47,8 +51,25 @@ const ExplorePage = () => {
         };
       });
       setProfessions(professionList);
+
+      return () => {
+        effectRan.current = true;
+      };
     }
-  }, [isLoading, matches]);
+  }, [matches]);
+
+  const renderRoadmap = useMemo(() => {
+    if (activeProfession) {
+      return (
+        <RoadmapCards
+          key={activeProfession.title}
+          profession={activeProfession.title}
+          province={province}
+        />
+      );
+    }
+    return null;
+  }, [activeProfession]);
 
   const handleActive = (professionTitle: string) => {
     setProfessions((prevProfessions) =>
@@ -105,6 +126,7 @@ const ExplorePage = () => {
               />
             ))}
         </div>
+        <div>{renderRoadmap}</div>
       </div>
       <Footer />
     </>

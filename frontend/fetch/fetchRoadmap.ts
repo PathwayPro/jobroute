@@ -1,12 +1,11 @@
 import { server } from "@/tools/routes";
 
-const fetchServerData = async (
+const fetchRoadmap = async (
   endpoint: string,
   profession: string,
-  industry: string,
   province: string,
 ) => {
-  const url = `${server}/prompts?endpoint=${endpoint}&profession=${profession}&industry=${industry}&province=${province}`;
+  const url = `${server}/prompts?endpoint=${endpoint}&profession=${profession}&province=${province}`;
 
   try {
     const response = await fetch(url);
@@ -17,9 +16,9 @@ const fetchServerData = async (
 
     return await response.json();
   } catch (error) {
-    console.error("Error in fetchServerData:", error);
+    console.error("Error in fetchRoadmap:", error);
     throw error;
   }
 };
 
-export default fetchServerData;
+export default fetchRoadmap;

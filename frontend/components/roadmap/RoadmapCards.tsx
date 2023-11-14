@@ -1,24 +1,16 @@
 import Paragraph from "@/ui/Paragraph";
 import Card from "./Card";
+import { useEffect, useState } from "react";
+import fetchRoadmap from "@/fetch/fetchRoadmap";
 
 export interface Field {
   title: string;
   desc: string;
 }
 
-interface RoadmapProps {
-  overview: string;
-  overviewLoader: boolean;
-  info: InfoProps[];
-  infoLoader: boolean;
-  skills: InfoProps[];
-  skillsLoader: boolean;
-  education: RoadmapItem;
-  educationLoader: boolean;
-  qualification: RoadmapItem;
-  qualificationLoader: boolean;
-  networking: RoadmapItem;
-  networkingLoader: boolean;
+interface RoadmapCardProps {
+  profession: string;
+  province: string;
 }
 
 interface RoadmapItem {
@@ -64,20 +56,73 @@ const TextContentMinimized = (info: { title: string; desc: string }[]) => {
     </div>
   ));
 };
-const RoadmapCards = ({
-  overview,
-  overviewLoader,
-  skills,
-  skillsLoader,
-  info,
-  infoLoader,
-  education,
-  educationLoader,
-  qualification,
-  qualificationLoader,
-  networking,
-  networkingLoader,
-}: RoadmapProps) => {
+
+const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
+  const initCard = { title: "", content: [] };
+  const [education, setEducation] = useState<RoadmapItem>(initCard);
+  const [educationLoader, setEducationLoader] = useState(true);
+
+  const [qualification, setQualification] = useState<RoadmapItem>(initCard);
+  const [qualificationLoader, setQualificationLoader] = useState(true);
+
+  const [networking, setNetworking] = useState<RoadmapItem>(initCard);
+  const [networkingLoader, setNetworkingLoader] = useState(true);
+
+  const [overview, setOverview] = useState<string>("");
+  const [overviewLoader, setOverviewLoader] = useState<boolean>(true);
+
+  const [info, setInfo] = useState<InfoProps[]>([]);
+  const [infoLoader, setInfoLoader] = useState(true);
+
+  const [skills, setSkills] = useState<InfoProps[]>([]);
+  const [skillsLoader, setSkillsLoader] = useState(true);
+
+  const [counter, setCounter] = useState(0);
+
+  const [fetched, setFetched] = useState(false);
+
+  useEffect(() => {
+    const getData = async () => {
+      if (!fetched && profession && province) {
+        const getPrompts = async (
+          setter: any,
+          endpoint: string,
+          loader: any,
+        ) => {
+          try {
+            const response = await fetchRoadmap(
+              endpoint,
+              profession,
+              province,
+            );
+            setter(JSON.parse(response));
+            loader(false);
+          } catch (error: any) {
+            if (counter < 8) {
+              getPrompts(setter, endpoint, loader);
+              setCounter(counter + 1);
+              console.warn(`Another attempt to call the ${endpoint} prompt`);
+            }
+          }
+        };
+
+        try {
+          getPrompts(setOverview, "overview", setOverviewLoader);
+          getPrompts(setInfo, "info", setInfoLoader);
+          getPrompts(setEducation, "education", setEducationLoader);
+          getPrompts(setQualification, "qualification", setQualificationLoader);
+          getPrompts(setNetworking, "networking", setNetworkingLoader);
+          getPrompts(setSkills, "skills", setSkillsLoader);
+          setFetched(true);
+        } catch (error) {
+          throw error;
+        }
+      }
+    };
+    getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profession, province, fetched]);
+
   return (
     <div className="grid grid-cols-1 justify-evenly gap-8 md:grid-cols-2 lg:grid-cols-3">
       <Card type="overview" isLoading={overviewLoader}>
