@@ -1,6 +1,6 @@
 import Badge, { BadgeType } from "@/ui/Badge";
 import Button from "@/ui/Button";
-import Paragraph from "@/ui/Paragraph";
+import { ProgressBarLoading } from "@/ui/ProgressBar";
 import { VariantProps, cva } from "class-variance-authority";
 import Dialog from "../Dialog";
 
@@ -9,12 +9,12 @@ interface CardProps extends VariantProps<typeof cardStyles> {
   color?: "gray" | "white" | "brown";
   className?: string;
   type:
-    | "overview"
-    | "info"
-    | "skills"
-    | "education"
-    | "certification"
-    | "networking";
+  | "overview"
+  | "info"
+  | "skills"
+  | "education"
+  | "certification"
+  | "networking";
   isLoading?: boolean;
   minimizedContent?: React.ReactNode;
 }
@@ -24,12 +24,12 @@ interface CardContentProps {
   color: "gray" | "white" | "brown";
   className?: string;
   type:
-    | "overview"
-    | "info"
-    | "skills"
-    | "education"
-    | "certification"
-    | "networking";
+  | "overview"
+  | "info"
+  | "skills"
+  | "education"
+  | "certification"
+  | "networking";
   isLoading?: boolean;
   minimizedContent?: React.ReactNode;
 }
@@ -57,26 +57,27 @@ const CardContent = ({
   isLoading,
   children,
 }: CardContentProps) => {
-  const loader = isLoading && <span>Loading...</span>;
-
+  const loader = isLoading && (
+    <ProgressBarLoading key={type} isLoading={isLoading} />
+  )
   const content = minimizedContent ? minimizedContent : children;
 
   return (
-    <div className={cardStyles({ color, className })}>
+    <div key={type} className={cardStyles({ color, className })}>
       <div>
         <Badge type={type} />
       </div>
       <div className="line-clamp-6">{loader || content}</div>
-      <Button variant="secondary" className="ml-auto mt-auto">
+      {!isLoading && <Button variant="secondary" className="ml-auto mt-auto">
         Read more
-      </Button>
+      </Button>}
     </div>
   );
 };
 
 const Card = ({
   children,
-  color = "gray",
+  color = "white",
   isLoading = false,
   className,
   type,

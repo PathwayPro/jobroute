@@ -8,7 +8,7 @@ interface ProgressBarLoadingProps {
   intervalInSec?: number;
 }
 
-export const ProgressBarLoading = ({ isLoading, intervalInSec = 3000 }: ProgressBarLoadingProps) => {
+export const ProgressBarLoading = ({ isLoading, intervalInSec = 4000 }: ProgressBarLoadingProps) => {
   const initialNumber = 15;
   const [completed, setCompleted] = useState(initialNumber);
 
@@ -17,7 +17,7 @@ export const ProgressBarLoading = ({ isLoading, intervalInSec = 3000 }: Progress
 
     const intervalId = setInterval(() => {
       if (isLoading) {
-        const increment = Math.min(Math.floor(Math.random() * (99 - number)) + 5, 15);
+        const increment = Math.min(Math.floor(Math.random() * (99 - number)) + 4, 18);
         number = Math.min(number + increment, 99);
         setCompleted(number);
       } else {

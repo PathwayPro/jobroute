@@ -125,12 +125,12 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
 
   return (
     <div className="grid grid-cols-1 justify-evenly gap-8 md:grid-cols-2 lg:grid-cols-3">
-      <Card type="overview" isLoading={overviewLoader}>
+      <Card key="overview" type="overview" isLoading={overviewLoader}>
         <Paragraph>{overview}</Paragraph>
       </Card>
       <Card
+        key="info"
         type="info"
-        color="white"
         isLoading={infoLoader}
         minimizedContent={InfoMinimized(info)}
       >
@@ -150,7 +150,7 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
           ))}
         </div>
       </Card>
-      <Card type="skills" color="brown" isLoading={skillsLoader}>
+      <Card key="skills" type="skills" isLoading={skillsLoader}>
         <div className="grid grid-cols-2 gap-6">
           {skills.map((field: InfoProps) => (
             <div key={field.title}>
@@ -167,8 +167,8 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
         </div>
       </Card>
       <Card
+        key="education"
         type="education"
-        color="brown"
         isLoading={educationLoader}
         minimizedContent={TextContentMinimized(education.content)}
       >
@@ -184,6 +184,7 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
         </div>
       </Card>
       <Card
+        key="certification"
         type="certification"
         isLoading={qualificationLoader}
         minimizedContent={TextContentMinimized(qualification.content)}
@@ -200,8 +201,8 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
         </div>
       </Card>
       <Card
+        key="networking"
         type="networking"
-        color="white"
         isLoading={networkingLoader}
         minimizedContent={TextContentMinimized(networking.content)}
       >
