@@ -38,10 +38,9 @@ const Roadmap: React.FC<RoadmapProps> = () => {
     <>
       <Navbar />
       <div className="m-auto mt-[50px] flex max-w-[1500px] grow flex-col gap-10 p-10 px-[88px]">
-        <div className="flex items-center justify-around rounded-xl bg-[#F0F0F0] px-12 py-6">
+        <div className="flex items-center justify-between rounded-xl bg-[#F0F0F0] px-12 py-6">
           <h2>
-            Jobs similar to {capitalizeWords(profession)} in{" "}
-            {capitalizeWords(province)}
+            {capitalizeWords(profession)} in {capitalizeWords(province)}
           </h2>
           <div>
             <Button onClick={handleSearchAgain}>Search again</Button>
