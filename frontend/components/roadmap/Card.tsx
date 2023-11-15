@@ -9,12 +9,12 @@ interface CardProps extends VariantProps<typeof cardStyles> {
   color?: "gray" | "white" | "brown";
   className?: string;
   type:
-  | "overview"
-  | "info"
-  | "skills"
-  | "education"
-  | "certification"
-  | "networking";
+    | "overview"
+    | "info"
+    | "skills"
+    | "education"
+    | "certification"
+    | "networking";
   isLoading?: boolean;
   minimizedContent?: React.ReactNode;
 }
@@ -24,12 +24,12 @@ interface CardContentProps {
   color: "gray" | "white" | "brown";
   className?: string;
   type:
-  | "overview"
-  | "info"
-  | "skills"
-  | "education"
-  | "certification"
-  | "networking";
+    | "overview"
+    | "info"
+    | "skills"
+    | "education"
+    | "certification"
+    | "networking";
   isLoading?: boolean;
   minimizedContent?: React.ReactNode;
 }
@@ -59,7 +59,7 @@ const CardContent = ({
 }: CardContentProps) => {
   const loader = isLoading && (
     <ProgressBarLoading key={type} isLoading={isLoading} />
-  )
+  );
   const content = minimizedContent ? minimizedContent : children;
 
   return (
@@ -68,9 +68,11 @@ const CardContent = ({
         <Badge type={type} />
       </div>
       <div className="line-clamp-6">{loader || content}</div>
-      {!isLoading && <Button variant="secondary" className="ml-auto mt-auto">
-        Read more
-      </Button>}
+      {!isLoading && (
+        <Button variant="secondary" className="ml-auto mt-auto">
+          Read more
+        </Button>
+      )}
     </div>
   );
 };

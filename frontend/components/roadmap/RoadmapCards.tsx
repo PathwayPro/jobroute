@@ -90,11 +90,7 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
           loader: any,
         ) => {
           try {
-            const response = await fetchRoadmap(
-              endpoint,
-              profession,
-              province,
-            );
+            const response = await fetchRoadmap(endpoint, profession, province);
             setter(JSON.parse(response));
             loader(false);
           } catch (error: any) {
