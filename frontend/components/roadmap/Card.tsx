@@ -47,8 +47,6 @@ const cardStyles = cva(
   },
 );
 
-// TODO: Replace with proper loader when design is ready
-
 const CardContent = ({
   color,
   className,
