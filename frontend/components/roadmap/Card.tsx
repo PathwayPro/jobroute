@@ -3,6 +3,8 @@ import Button from "@/ui/Button";
 import { ProgressBarLoading } from "@/ui/ProgressBar";
 import { VariantProps, cva } from "class-variance-authority";
 import Dialog from "../Dialog";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 interface CardProps extends VariantProps<typeof cardStyles> {
   children: React.ReactNode;
@@ -75,6 +77,16 @@ const CardContent = ({
   );
 };
 
+const SkeletonLoader = (
+  <SkeletonTheme baseColor="#D7D7D7" highlightColor="#eee">
+    <div className="relative flex-shrink-0 flex-grow">
+      <Skeleton width={"87%"} height={16} count={2.7} className="ms-7" />
+      <Skeleton width={"87%"} height={16} count={2.7} className="ms-7" />
+      <Skeleton width={"87%"} height={16} count={2.7} className="ms-7" />
+    </div>
+  </SkeletonTheme>
+);
+
 const Card = ({
   children,
   color = "white",
@@ -96,7 +108,7 @@ const Card = ({
     >
       <div className="flex flex-col gap-4">
         <Badge type={type} />
-        {isLoading ? <span>Loading...</span> : children}
+        {isLoading ? SkeletonLoader : children}
       </div>
     </Dialog>
   );
