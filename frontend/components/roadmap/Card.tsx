@@ -1,8 +1,10 @@
 import Badge, { BadgeType } from "@/ui/Badge";
 import Button from "@/ui/Button";
-import Paragraph from "@/ui/Paragraph";
+import { ProgressBarLoading } from "@/ui/ProgressBar";
 import { VariantProps, cva } from "class-variance-authority";
 import Dialog from "../Dialog";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 interface CardProps extends VariantProps<typeof cardStyles> {
   children: React.ReactNode;
@@ -47,8 +49,6 @@ const cardStyles = cva(
   },
 );
 
-// TODO: Replace with proper loader when design is ready
-
 const CardContent = ({
   color,
   className,
@@ -57,26 +57,39 @@ const CardContent = ({
   isLoading,
   children,
 }: CardContentProps) => {
-  const loader = isLoading && <span>Loading...</span>;
-
+  const loader = isLoading && (
+    <ProgressBarLoading key={type} isLoading={isLoading} />
+  );
   const content = minimizedContent ? minimizedContent : children;
 
   return (
-    <div className={cardStyles({ color, className })}>
+    <div key={type} className={cardStyles({ color, className })}>
       <div>
         <Badge type={type} />
       </div>
       <div className="line-clamp-6">{loader || content}</div>
-      <Button variant="secondary" className="ml-auto mt-auto">
-        Read more
-      </Button>
+      {!isLoading && (
+        <Button variant="secondary" className="ml-auto mt-auto">
+          Read more
+        </Button>
+      )}
     </div>
   );
 };
 
+const SkeletonLoader = (
+  <SkeletonTheme baseColor="#D7D7D7" highlightColor="#eee">
+    <div className="relative flex-shrink-0 flex-grow">
+      <Skeleton width={"87%"} height={16} count={2.7} className="ms-7" />
+      <Skeleton width={"87%"} height={16} count={2.7} className="ms-7" />
+      <Skeleton width={"87%"} height={16} count={2.7} className="ms-7" />
+    </div>
+  </SkeletonTheme>
+);
+
 const Card = ({
   children,
-  color = "gray",
+  color = "white",
   isLoading = false,
   className,
   type,
@@ -95,7 +108,7 @@ const Card = ({
     >
       <div className="flex flex-col gap-4">
         <Badge type={type} />
-        {isLoading ? <span>Loading...</span> : children}
+        {isLoading ? SkeletonLoader : children}
       </div>
     </Dialog>
   );

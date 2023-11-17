@@ -8,6 +8,7 @@ import Button from "@/ui/Button";
 import Paragraph from "@/ui/Paragraph";
 import Footer from "@/components/Footer";
 import RoadmapCards from "@/components/roadmap/RoadmapCards";
+import { DialogLoading } from "@/ui/ProgressBar";
 
 interface Profession {
   title: string;
@@ -106,11 +107,7 @@ const ExplorePage = () => {
             <Button onClick={handleSearchAgain}>Search again</Button>
           </div>
         </div>
-        {isLoading && (
-          <div className="flex items-center justify-center">
-            <div className="h-32 w-32 animate-spin rounded-full border-b-2 border-t-2 border-gray-900"></div>
-          </div>
-        )}
+        <DialogLoading isLoading={isLoading} />
         <div className="flex flex-wrap justify-center gap-4">
           {!isLoading &&
             matches &&
