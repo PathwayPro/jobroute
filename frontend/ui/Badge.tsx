@@ -29,25 +29,25 @@ export enum BadgeType {
 
 interface BadgeProps {
   type:
-    | "overview"
-    | "info"
-    | "skills"
-    | "education"
-    | "certification"
-    | "networking";
+  | "overview"
+  | "info"
+  | "skills"
+  | "education"
+  | "certification"
+  | "networking";
 }
 
 const Badge = ({ type }: BadgeProps) => {
   function getTitle() {
-    return title[type];
+    return title[type].toUpperCase();
   }
 
   return (
-    <div className="flex w-max max-w-[250px] items-center gap-2 rounded-full bg-black p-2 shadow-md">
+    <div className="flex w-max items-center gap-2 rounded-full bg-black p-2 shadow-md">
       <div className="w-max rounded-full bg-white p-1">
         <Iconly name={icon[type]} set="bold" primaryColor="black" size={20} />
       </div>
-      <span className="pr-4 text-sm font-bold uppercase text-white">
+      <span className="mr-4 text-sm font-bold text-white">
         {getTitle()}
       </span>
     </div>
