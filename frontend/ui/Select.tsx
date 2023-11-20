@@ -30,28 +30,6 @@ const Select: React.FC<SelectProps> = ({
     option: "text-sm",
   };
 
-  const checkForDisabled = (disabled: SelectProps["disabled"], i: number) => {
-    type Action = {
-      condition: () => boolean;
-      action: () => boolean;
-    };
-
-    const actions: Action[] = [
-      {
-        condition: () => disabled === "none",
-        action: () => false,
-      },
-      {
-        condition: () => Array.isArray(disabled),
-        action: () => (Array.isArray(disabled) ? disabled.includes(i) : false),
-      },
-    ];
-
-    return actions.some((a) => a.condition())
-      ? actions.find((a) => a.condition())?.action() ?? false
-      : false;
-  };
-
   return (
     <label className={twMerge(style.text, style.label, className)}>
       {label && (
@@ -65,7 +43,7 @@ const Select: React.FC<SelectProps> = ({
       >
         {options.map((string: string, i: number) => (
           <option
-            disabled={checkForDisabled(disabled, i)}
+            disabled={i === 0}
             className={style.option}
             key={i}
           >
