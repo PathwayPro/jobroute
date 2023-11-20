@@ -58,7 +58,7 @@ const Form = ({ provinces }: FormProps) => {
   };
 
   function handleProfessionChange(e: ChangeEvent<HTMLInputElement>) {
-    setDropdownToggle(false)
+    setDropdownToggle(false);
     const regex = /^[a-zA-Z\s]*$/;
     if (e.target.value === "") {
       setProfession("");
@@ -87,8 +87,8 @@ const Form = ({ provinces }: FormProps) => {
   };
 
   const isDisabled = useMemo(() => {
-    return !selectedProfession || !selectedLocation || !captcha
-  }, [selectedProfession, selectedLocation, captcha])
+    return !selectedProfession || !selectedLocation || !captcha;
+  }, [selectedProfession, selectedLocation, captcha]);
 
   const triggerStyle =
     "bg-white flex-1 px-0 py-[10px] w-[50%] items-center text-secondary-text text-base leading-[25.28px] text-center hover:color-primary data-[state=active]:text-black data-[state=active]:shadow-inner data-[state=active]:shadow-inner data-[state=active]:font-bold";

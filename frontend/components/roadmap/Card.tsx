@@ -106,7 +106,7 @@ const Card = ({
         children,
       })}
     >
-      <div className="flex flex-col w-[600px] gap-4">
+      <div className="flex w-[600px] flex-col gap-4">
         <Badge type={type} />
         {isLoading ? SkeletonLoader : children}
       </div>

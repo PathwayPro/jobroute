@@ -42,11 +42,7 @@ const Select: React.FC<SelectProps> = ({
         onChange={onChange}
       >
         {options.map((string: string, i: number) => (
-          <option
-            disabled={i === 0}
-            className={style.option}
-            key={i}
-          >
+          <option disabled={i === 0} className={style.option} key={i}>
             {string}
           </option>
         ))}
