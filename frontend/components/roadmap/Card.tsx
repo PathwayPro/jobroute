@@ -11,12 +11,12 @@ interface CardProps extends VariantProps<typeof cardStyles> {
   color?: "gray" | "white" | "brown";
   className?: string;
   type:
-    | "overview"
-    | "info"
-    | "skills"
-    | "education"
-    | "certification"
-    | "networking";
+  | "overview"
+  | "info"
+  | "skills"
+  | "education"
+  | "certification"
+  | "networking";
   isLoading?: boolean;
   minimizedContent?: React.ReactNode;
 }
@@ -26,12 +26,12 @@ interface CardContentProps {
   color: "gray" | "white" | "brown";
   className?: string;
   type:
-    | "overview"
-    | "info"
-    | "skills"
-    | "education"
-    | "certification"
-    | "networking";
+  | "overview"
+  | "info"
+  | "skills"
+  | "education"
+  | "certification"
+  | "networking";
   isLoading?: boolean;
   minimizedContent?: React.ReactNode;
 }
@@ -79,7 +79,7 @@ const CardContent = ({
 
 const SkeletonLoader = (
   <SkeletonTheme baseColor="#D7D7D7" highlightColor="#eee">
-    <div className="relative flex-shrink-0 flex-grow">
+    <div className="relative min-w-[250px] flex-shrink-0 flex-grow">
       <Skeleton width={"87%"} height={16} count={2.7} className="ms-7" />
       <Skeleton width={"87%"} height={16} count={2.7} className="ms-7" />
       <Skeleton width={"87%"} height={16} count={2.7} className="ms-7" />
@@ -108,7 +108,11 @@ const Card = ({
     >
       <div className="flex w-[600px] flex-col gap-4">
         <Badge type={type} />
-        {isLoading ? SkeletonLoader : children}
+        {isLoading ? (
+          <div className="min-w-[500px]">
+            {SkeletonLoader}
+          </div>
+        ) : children}
       </div>
     </Dialog>
   );
