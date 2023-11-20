@@ -1,5 +1,5 @@
 import { Root, List, Trigger, Content } from "@radix-ui/react-tabs";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import { trim } from "@/utils/utils";
 import { useDebounce } from "@/hooks/useDebounce";
@@ -20,6 +20,7 @@ const formButtonStyles =
 const Form = ({ provinces }: FormProps) => {
   const [selectedLocation, setSelectedLocation] = useState<string>("");
   const [profession, setProfession] = useState<string>("");
+  const [selectedProfession, setSelectedProfession] = useState<string>("");
   const [dropdownToggle, setDropdownToggle] = useState(false);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const router = useRouter();
@@ -44,19 +45,20 @@ const Form = ({ provinces }: FormProps) => {
     if (activeTab === "professionOverview") {
       router.push(
         `/roadmap?province=${trim(selectedLocation)}&profession=${trim(
-          profession,
+          selectedProfession,
         )}`,
       );
       return;
     }
     router.push(
       `/explore?province=${trim(selectedLocation)}&profession=${trim(
-        profession,
+        selectedProfession,
       )}`,
     );
   };
 
   function handleProfessionChange(e: ChangeEvent<HTMLInputElement>) {
+    setDropdownToggle(false);
     const regex = /^[a-zA-Z\s]*$/;
     if (e.target.value === "") {
       setProfession("");
@@ -73,6 +75,7 @@ const Form = ({ provinces }: FormProps) => {
 
   const handleDropdown = (event: any) => {
     setProfession(event.target.textContent);
+    setSelectedProfession(event.target.textContent);
     setDropdownToggle(false);
   };
 
@@ -82,6 +85,10 @@ const Form = ({ provinces }: FormProps) => {
     setSelectedLocation("");
     setDropdownToggle(false);
   };
+
+  const isDisabled = useMemo(() => {
+    return !selectedProfession || !selectedLocation || !captcha;
+  }, [selectedProfession, selectedLocation, captcha]);
 
   const triggerStyle =
     "bg-white flex-1 px-0 py-[10px] w-[50%] items-center text-secondary-text text-base leading-[25.28px] text-center hover:color-primary data-[state=active]:text-black data-[state=active]:shadow-inner data-[state=active]:shadow-inner data-[state=active]:font-bold";
@@ -107,6 +114,10 @@ const Form = ({ provinces }: FormProps) => {
             options={provinces}
             defaultValue={0}
             onChange={(event) => {
+              if (event.target.value === provinces[0]) {
+                setSelectedLocation("");
+                return;
+              }
               setSelectedLocation(event.target.value);
             }}
           />
@@ -151,7 +162,7 @@ const Form = ({ provinces }: FormProps) => {
               onChange={handleCaptcha}
             />
             <button
-              disabled={!captcha || !profession || !selectedLocation}
+              disabled={isDisabled}
               className={formButtonStyles}
               onClick={handleSubmit}
             >
@@ -210,7 +221,7 @@ const Form = ({ provinces }: FormProps) => {
               onChange={handleCaptcha}
             />
             <button
-              disabled={!captcha || !profession || !selectedLocation}
+              disabled={isDisabled}
               className={formButtonStyles}
               onClick={handleSubmit}
             >

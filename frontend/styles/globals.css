@@ -82,3 +82,7 @@ a:hover {
   color: #df044d;
   text-decoration: underline;
 }
+
+body[style*="pointer-events: none"] > *:not(#app) {
+  pointer-events: all;
+}

@@ -26,6 +26,7 @@ export function useAutocomplete(query: string, location: string) {
 
   useEffect(() => {
     if (!query) return;
+    setIsLoading(true);
     fetchAutocompleteResults(query, location).then((results) => {
       setProfessionOptions(results);
       setIsLoading(false);

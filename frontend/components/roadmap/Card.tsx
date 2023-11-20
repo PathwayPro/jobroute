@@ -106,7 +106,7 @@ const Card = ({
         children,
       })}
     >
-      <div className="flex flex-col gap-4 w-[500px]">
+      <div className="flex w-[600px] flex-col gap-4">
         <Badge type={type} />
         {isLoading ? (
           <div className="min-w-[500px]">
