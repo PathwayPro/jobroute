@@ -13,7 +13,7 @@ urlpatterns = [
     path('combinedSkills1/', views.get_combined_skills, name='combined_skills'),
 
     #Educationnal reqiurements
-    path('education1/', views.get_education, name='education'),
+    path('education/', views.get_education, name='education'),
 
     #Regulated professoin check
     path('regulated1/', views.get_regulation, name='regulated'),
@@ -31,9 +31,9 @@ urlpatterns = [
     path('overview/', summary.role_summary, name='summary'),
     path('info/', info.get_info, name='info'),
     path('combinedSkills/', combinedSkills.hardAndSoftSkills, name='combined_skills'),
-    path('education/', cards.get_Education, name='education'),
-    path('regulated/', cards.regulation_check, name='regulated'),
-    path('networking/', cards.get_networking, name='networking'),
+    # path('education/', cards.get_Education, name='education'),
+    # path('regulated/', cards.regulation_check, name='regulated'),
+    # path('networking/', cards.get_networking, name='networking'),
 
 
     path('salary/', info.get_salary, name='salary'),
