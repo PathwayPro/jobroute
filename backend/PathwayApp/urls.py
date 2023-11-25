@@ -4,7 +4,7 @@ from . import views, summary,info,combinedSkills,cards
 urlpatterns = [
 
     #Overview
-    path('overview1/', views.get_summary, name='summary'),
+    path('overview/', views.get_summary, name='summary'),
 
     #Info card with salary, degreem work type and language
     path('info/', views.get_info1, name='info'),
@@ -16,19 +16,19 @@ urlpatterns = [
     path('education/', views.get_education, name='education'),
 
     #Regulated professoin check
-    path('regulated1/', views.get_regulation, name='regulated'),
+    path('regulated/', views.get_regulation, name='regulated'),
 
     #Networking opportunities
     path('networking/', views.get_networking, name='networking'),
 
     #Get 5 related roles
-    path('relatedRoles1/', views.get_related_jobs, name='get_roles'),
+    path('relatedRoles/', views.get_related_jobs, name='get_roles'),
 
     #Get 5 roles for keyword
     path('topRoles/', views.get_top_roles, name='top_roles'),
 
     #old unused APIs
-    path('overview/', summary.role_summary, name='summary'),
+    # path('overview/', summary.role_summary, name='summary'),
     # path('info/', info.get_info, name='info'),
     # path('combinedSkills/', combinedSkills.hardAndSoftSkills, name='combined_skills'),
     # path('education/', cards.get_Education, name='education'),
