@@ -1,7 +1,8 @@
 import json
 from django.http import  JsonResponse
-from .chatgpt import generate_response
-from .views import get_input, collect_result
+from .chatgpt import generate_response, choose_model, collect_result
+# from .views import get_input, collect_result
+from .models import Jobroute
 
 
 def regulation_check(request):
@@ -117,3 +118,52 @@ def get_cards(request):
     combined_data = [education_data, regulation_data, networking_data]
 
     return JsonResponse(combined_data, safe=False)
+
+def get_Education1(role, region):
+    # role, region, _ = get_input(request)
+    result = ""
+    occupation_data = Jobroute.objects.filter(title=role,province=region).first()
+
+    if occupation_data and occupation_data.educational_requirement is not None:
+        # if occupation_data.networking is not None:
+        print("GOTTEN FROM DATABASE")
+        response = occupation_data.educational_requirement
+        result = JsonResponse(json.loads(response))
+
+    else:
+        print("GOTTEN FROM OPENAI")
+        prompt = f'as an AI assistant that provides Canadian education paths for {role} in the region{region}, provide me if any what are the Canadian education requirements, I want you to provide a list of any degrees, diplomas, certificates, or designations required by the job, strictly follow this template and return reply as a JSON array of objects,' +   \
+            "\nExample Template:\n{\ntitle: 'Education / Training',\
+            \ncontent: [\n        { title: 'Step 1', desc: '20 words maximum description' },\n        \
+            { title: 'Step 2', desc: '20 words maximum description' },\n        \
+            { title: 'Step 3', desc: '20 words maximum description' },\n      ]\n}"
+
+        result = collect_result(prompt, 4)
+        #check if data exists at all
+        if occupation_data:
+            occupation_data.educational_requirement=result.content.decode('utf-8')
+            occupation_data.province = region
+            occupation_data.title=role
+            occupation_data.save()
+        else:
+            job_route = Jobroute(educational_requirement = result.content.decode('utf-8'),
+                                 province=region,
+                                 title=role)
+            job_route.save()
+
+
+    return result
+
+def collect_result(prompt, model_no):
+    try:
+        # result = generate_response(prompt)
+        result = choose_model(prompt, model_no)
+        result_json = json.loads(result)
+        response = JsonResponse(result_json)
+    except json.JSONDecodeError as e:
+        error_message = f"Error decoding JSON: {e}"
+        response = JsonResponse({"error": error_message}, status=500)
+    except Exception:
+        trimmed_json = result_json[0]
+        response = JsonResponse(trimmed_json)
+    return response
