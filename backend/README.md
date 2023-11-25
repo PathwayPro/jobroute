@@ -5,9 +5,11 @@ Follow the steps to work with backend
 1. Create a virtual environment in your system using command:  # venv is the name of the virtual environment
     `python -m venv venv` or `python3 -m venv venv`
 2. Activate created virtual environment:
+
     `source new_venv/bin/activate`
 
 3. Install dependecies using the requirements.txt file:
+
     `pip install -r requirements.txt`
 
 4. Create .env file as follows:
@@ -19,8 +21,10 @@ Follow the steps to work with backend
     Generate a Django key from:
     https://www.miniwebtool.com/django-secret-key-generator/
 
-5. Install MySQL driver: this library is not included in requirments.txt due prerequisite steps needed for MacOS (FOr troubleshooting: https://pypi.org/project/mysqlclient/)
+5. Install MySQL driver: this library is not included in requirments.txt due prerequisite steps needed for MacOS (For troubleshooting: https://pypi.org/project/mysqlclient/)
+
     Windows:
+
     `pip install mysqlclient`
 
     MacOC:
@@ -52,10 +56,12 @@ Change DATABASES settings (Line 91), delete sqlite3 and change aa follows:
 
     ```
 
-8. Migrate data to db
+8. Migrate data to db:
+
     `python manage.py makemigrations`
 
     `python manage.py migrate`
 
-9. Run application from backend directory
+9. Run application from backend directory:
+
     `python manage.py runserver`
