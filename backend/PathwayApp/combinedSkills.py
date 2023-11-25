@@ -64,16 +64,16 @@ def get_soft_skills(role, region):
     return response
 
 
-def hardAndSoftSkills(request):
-    soft_response = get_soft_skills(request)
-    hard_response = get_hard_skills(request)
+# def hardAndSoftSkills(request):
+#     soft_response = get_soft_skills(request)
+#     hard_response = get_hard_skills(request)
 
-    soft_data = json.loads(soft_response.content.decode("utf-8"))
-    hard_data = json.loads(hard_response.content.decode("utf-8"))
+#     soft_data = json.loads(soft_response.content.decode("utf-8"))
+#     hard_data = json.loads(hard_response.content.decode("utf-8"))
 
-    combined_data = [hard_data, soft_data]
+#     combined_data = [hard_data, soft_data]
 
-    return JsonResponse(combined_data, safe=False)
+#     return JsonResponse(combined_data, safe=False)
 
 
 def hardAndSoftSkills1(role, region):
