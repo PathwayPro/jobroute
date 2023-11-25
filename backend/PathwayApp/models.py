@@ -1,9 +1,21 @@
 from django.db import models
 
 # Create your models here.
-class ExampleModel(models.Model):
-    field1 = models.CharField(max_length=100)
-    field2 = models.TextField()
+class Jobroute(models.Model):
+    '''
+    Model for fields that would be stored in the database
+    All fields must be nullable to ensure random filling of fields
+    '''
+    title = models.CharField(null=True,max_length=255)
+    province = models.CharField(null=True,max_length=255)
+    NOC = models.CharField(null=True,max_length=10)
+    overview = models.TextField(null=True)
+    educational_requirement = models.TextField(null=True)
+    skills = models.TextField(null=True)
+    networking = models.TextField(null=True)
+    info = models.TextField(null=True)
+    qualification = models.TextField(null=True)
+    #upskilling = models.TextField()
 
-    def __str__(self):
-        return self.field1
+    # def __str__(self):
+    #     return self.field1
