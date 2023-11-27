@@ -3,10 +3,10 @@
 Follow the steps to work with backend
 
 1. Create a virtual environment in your system using command:  # venv is the name of the virtual environment
-    `python -m venv venv` or `python3 -m venv venv`
+    `python -m venv jobroute_venv` or `python3 -m venv jobroute_venv`
 2. Activate created virtual environment:
 
-    `source new_venv/bin/activate`
+    `source jobroute_venv/bin/activate`
 
 3. Install dependecies using the requirements.txt file:
 
@@ -27,7 +27,7 @@ Follow the steps to work with backend
 
     `pip install mysqlclient`
 
-    MacOC:
+    MacOS:
     ```
     brew install mysql-client pkg-config
     export PKG_CONFIG_PATH="/opt/homebrew/opt/mysql-client/lib/pkgconfig"

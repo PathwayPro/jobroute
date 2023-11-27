@@ -3,6 +3,8 @@
 
 # Ignore virtual environment folder
 venv/
+my_venv/
+new_venv/
 
 # Database files
 *.sqlite3
