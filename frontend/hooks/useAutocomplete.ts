@@ -1,11 +1,11 @@
-import { server } from "@/tools/routes";
+import { nextServer } from "@/tools/routes";
 import { useEffect, useState } from "react";
 
-async function fetchAutocompleteResults(query: string, location: string) {
-  const url = `${server}/autocomplete?term=${query}&province=${location}`;
+async function fetchAutocompleteResults(query: string, location: string): Promise<string[] | []> {
+  const url = `${nextServer}/autocomplete?query=${query}&location=${location}`;
   const res = await fetch(url);
   const results = await res.json();
-  let parsedResponse;
+  let parsedResponse: { professions: string[] };
 
   try {
     parsedResponse = JSON.parse(results);
@@ -13,8 +13,8 @@ async function fetchAutocompleteResults(query: string, location: string) {
     parsedResponse = results;
   }
 
-  if (Array.isArray(parsedResponse)) {
-    return parsedResponse;
+  if (Array.isArray(parsedResponse.professions)) {
+    return parsedResponse.professions;
   } else {
     return [];
   }
