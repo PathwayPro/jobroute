@@ -1,7 +1,7 @@
-import { server } from "@/tools/routes";
+import { nextServer } from "@/tools/routes";
 
 export const fetchMatches = async (profession: string, province: string) => {
-  const url = `${server}/professionMatch?profession=${profession}&province=${province}`;
+  const url = `${nextServer}/professionMatch?profession=${profession}&province=${province}`;
 
   try {
     const response = await fetch(url);
