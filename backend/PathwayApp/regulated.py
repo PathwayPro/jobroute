@@ -39,14 +39,23 @@ def get_Experience(role, region):
         '''Provide the information in a step-by-step manner. Provide a maximum of 6 steps. Please provide a response in JSON format in the following template:\
         Example Template:
         {
-            "title": "Experience / Projects",
+            "regulated": false,
+            "title": "Project / Experience",
             "content": [
                 {
-                  "title": "short name (maximum 7 tokens)",
-                  "desc":  "description (maximum 25 tokens)"
+                    "title": "short name 7 tokens maximum",
+                    "desc": "description 25 tokens maximum"
+                },
+                {
+                    "title": "...",
+                    "desc": "..."
+                },
+                {
+                    "title": "...",
+                    "desc": "..."
                 }
                 // ... and so on for the rest of the steps
-        ]
+            ]
         }
         '''
 
@@ -83,7 +92,8 @@ def get_License(role, region):
         '''
         {
             "regulated": true,
-            "certifications": [
+            "title": "Certifications",
+            "content": [
                 {
                     "title": "short name 7 tokens maximum",
                     "desc": "description 25 tokens maximum"
