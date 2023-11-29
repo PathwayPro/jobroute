@@ -4,7 +4,7 @@ from .models import Jobroute
 from .chatgpt import collect_result, generate_response
 
 
-def regulation_check(role, region):
+def qualification_check(role, region):
     '''
     Card to check if role is regulated or not
     '''

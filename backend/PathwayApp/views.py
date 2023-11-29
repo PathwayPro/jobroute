@@ -8,7 +8,7 @@ from .combinedSkills import hardAndSoftSkills1
 from .cards import get_Education1
 from .networking import get_networking1
 from .relatedRoles import get_related_roles
-from .regulated import regulation_check
+from .qualification import qualification_check
 from .roles import get_top5_roles
 
 from rest_framework.decorators import api_view
@@ -91,12 +91,12 @@ def get_related_jobs(request):
 
 
 @api_view(['GET'])
-def get_regulation(request):
+def get_qualification(request):
     # role, region, _ = get_input(request)
     role = request.GET.get('profession', '')
     region = request.GET.get('province', '')
     industry = request.GET.get('industry', '')
-    return regulation_check(role, region)
+    return qualification_check(role, region)
 
 
 @api_view(['GET'])

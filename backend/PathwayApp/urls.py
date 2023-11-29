@@ -16,7 +16,7 @@ urlpatterns = [
     path('education/', views.get_education, name='education'),
 
     #Regulated professoin check
-    path('regulated/', views.get_regulation, name='regulated'),
+    path('qualification/', views.get_qualification, name='regulated'),
 
     #Networking opportunities
     path('networking/', views.get_networking, name='networking'),
