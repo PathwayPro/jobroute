@@ -1,6 +1,6 @@
 import { nextServer } from "@/tools/routes";
 
-const fetchRoadmap = async (
+export const fetchRoadmap = async (
   endpoint: string,
   profession: string,
   province: string,
@@ -16,9 +16,7 @@ const fetchRoadmap = async (
 
     return await response.json();
   } catch (error) {
-    console.error("Error in fetchRoadmap:", error);
+    console.error(`Error in ${endpoint}:`, error);
     throw error;
   }
 };
-
-export default fetchRoadmap;
