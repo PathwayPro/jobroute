@@ -34,7 +34,7 @@ RECAPTCHA_SECRET_KEY=
 NEXT_PUBLIC_RECAPTCHA_SITE_KEY=
 ```
 
-3. Run the development server:
+4. Run the development server:
 
 ```bash
 npm run dev
@@ -44,4 +44,4 @@ yarn dev
 pnpm dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
