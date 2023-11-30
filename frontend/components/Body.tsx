@@ -1,4 +1,3 @@
-import { MainProps } from "@/types/PropsTypes";
 import Image from "next/image";
 import Dialog from "./Dialog";
 import Form from "./Form";
@@ -6,7 +5,7 @@ import Paragraph from "@/ui/Paragraph";
 import NumberedCards from "./NumberedCards";
 import Button from "@/ui/Button";
 
-const Body: React.FC<MainProps> = ({ provinces }) => {
+const Body = () => {
   return (
     <div className="m-auto flex max-w-[1500px] grow flex-row justify-between p-10">
       <div className="mt-[120px] flex w-2/5 flex-col">
@@ -17,7 +16,7 @@ const Body: React.FC<MainProps> = ({ provinces }) => {
           </h1>
         </div>
         <Dialog trigger={<Button className="mt-10">Get Started</Button>}>
-          <Form provinces={provinces} />
+          <Form />
         </Dialog>
         <div className="mt-16">
           <Paragraph className="max-w-[190px]">

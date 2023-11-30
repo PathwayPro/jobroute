@@ -3,18 +3,18 @@ import { Iconly } from "react-iconly";
 const icon = {
   overview: "Chat",
   info: "InfoSquare",
-  skills: "TickSquare",
+  combinedSkills: "TickSquare",
   education: "Work",
-  certification: "Star",
+  qualification: "Star",
   networking: "TwoUsers",
 };
 
 const title = {
   overview: "Overview",
   info: "Info",
-  skills: "Hard / Soft Skills",
+  combinedSkills: "Hard / Soft Skills",
   education: "Education / Training",
-  certification: "Licensing / Certification",
+  qualification: "Licensing / Certification",
   networking: "Job Search / Networking",
 };
 
@@ -23,7 +23,7 @@ export enum BadgeType {
   Info = "info",
   Skills = "skills",
   Education = "education",
-  Certification = "certification",
+  Qualification = "qualification",
   Networking = "networking",
 }
 
@@ -31,9 +31,9 @@ interface BadgeProps {
   type:
   | "overview"
   | "info"
-  | "skills"
+  | "combinedSkills"
   | "education"
-  | "certification"
+  | "qualification"
   | "networking";
 }
 

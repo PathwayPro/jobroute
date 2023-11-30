@@ -1,56 +1,29 @@
-import Badge, { BadgeType } from "@/ui/Badge";
-import Button from "@/ui/Button";
-import { ProgressBarLoading } from "@/ui/ProgressBar";
-import { VariantProps, cva } from "class-variance-authority";
+import Badge from "@/ui/Badge";
 import Dialog from "../Dialog";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import SkeletonLoader from "./SkeletonLoader";
+import { CardContentProps, ContentType } from "./types";
+import { ProgressBarLoading } from "@/ui/ProgressBar";
+import { cva } from "class-variance-authority";
+import Button from "@/ui/Button";
 
-interface CardProps extends VariantProps<typeof cardStyles> {
-  children: React.ReactNode;
-  color?: "gray" | "white" | "brown";
-  className?: string;
-  type:
-  | "overview"
-  | "info"
-  | "skills"
-  | "education"
-  | "certification"
-  | "networking";
-  isLoading?: boolean;
-  minimizedContent?: React.ReactNode;
+export interface Field {
+  title: string;
+  desc: string;
 }
-
-interface CardContentProps {
-  children: React.ReactNode;
-  color: "gray" | "white" | "brown";
+interface CardProps {
   className?: string;
-  type:
-  | "overview"
-  | "info"
-  | "skills"
-  | "education"
-  | "certification"
-  | "networking";
-  isLoading?: boolean;
+  type: ContentType;
+  isLoading: boolean;
   minimizedContent?: React.ReactNode;
+  children: React.ReactNode;
 }
 
 const cardStyles = cva(
   "flex flex-col cursor-pointer max-w-[405px] p-6 h-[356px] gap-8 rounded-3xl border-2 border-stone-300 hover:border-black",
-  {
-    variants: {
-      color: {
-        gray: "bg-light-gray",
-        white: "bg-white",
-        brown: "bg-light-brown",
-      },
-    },
-  },
 );
 
 const CardContent = ({
-  color,
   className,
   type,
   minimizedContent,
@@ -63,7 +36,7 @@ const CardContent = ({
   const content = minimizedContent ? minimizedContent : children;
 
   return (
-    <div key={type} className={cardStyles({ color, className })}>
+    <div key={type} className={cardStyles({ className })}>
       <div>
         <Badge type={type} />
       </div>
@@ -77,28 +50,16 @@ const CardContent = ({
   );
 };
 
-const SkeletonLoader = (
-  <SkeletonTheme baseColor="#D7D7D7" highlightColor="#eee">
-    <div className="relative min-w-[250px] flex-shrink-0 flex-grow">
-      <Skeleton width={"87%"} height={16} count={2.7} className="ms-7" />
-      <Skeleton width={"87%"} height={16} count={2.7} className="ms-7" />
-      <Skeleton width={"87%"} height={16} count={2.7} className="ms-7" />
-    </div>
-  </SkeletonTheme>
-);
-
 const Card = ({
-  children,
-  color = "white",
-  isLoading = false,
   className,
   type,
   minimizedContent,
+  isLoading,
+  children,
 }: CardProps) => {
   return (
     <Dialog
       trigger={CardContent({
-        color,
         className,
         type,
         minimizedContent,
@@ -109,8 +70,8 @@ const Card = ({
       <div className="flex w-[600px] flex-col gap-4">
         <Badge type={type} />
         {isLoading ? (
-          <div className="min-w-[500px]">
-            {SkeletonLoader}
+          <div className="min-w-[1000px]">
+            <SkeletonLoader />
           </div>
         ) : children}
       </div>
