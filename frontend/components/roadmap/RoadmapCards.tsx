@@ -24,36 +24,78 @@ const InfoMinimized = ({
 }: InfoProps) => {
   return (
     <div className="grid h-[180px] grid-cols-2 gap-2">
-      <div className="line-clamp-1 flex h-[80px] flex-col rounded-xl bg-light-gray p-2">
+      <div className="line-clamp-1 flex h-[60px] flex-col rounded-xl bg-light-gray p-2">
         <p className="text-sm font-bold">Salary</p>
         <p className="line-clamp-1 text-xs">{salary}</p>
       </div>
-      <div className="line-clamp-1 flex h-[80px] flex-col rounded-xl bg-light-gray p-2">
+      <div className="line-clamp-1 flex h-[60px] flex-col rounded-xl bg-light-gray p-2">
         <p className="text-sm font-bold">Degree</p>
         <p className="line-clamp-1 text-xs">{degree}</p>
       </div>
-      <div className="line-clamp-1 flex h-[80px] flex-col rounded-xl bg-light-gray p-2">
+      <div className="line-clamp-1 flex h-[60px] flex-col rounded-xl bg-light-gray p-2">
         <p className="text-sm font-bold">Work</p>
         <p className="line-clamp-1 text-xs">{work}</p>
       </div>
-      <div className="line-clamp-1 flex h-[80px] flex-col rounded-xl bg-light-gray p-2">
-        <p className="text-sm font-bold">Validate Credential</p>
+      <div className="line-clamp-1 flex h-[60px] flex-col rounded-xl bg-light-gray p-2">
+        <p className="text-sm font-bold">Credential</p>
         <p className="line-clamp-1 text-xs">{credentialValidation}</p>
       </div>
     </div>
   );
 };
 
-// TODO: include minimized content for all cards
-const TextContentMinimized = (content: { title: string; desc: string }[]) => {
-  return content.map((field) => (
+const QualificationMinimized = ({ content }: QualificationProps) => {
+  return (
     <>
-      <Paragraph className="mb-1" weight="bold">
-        {field.title}
-      </Paragraph>
-      <Paragraph className="mb-2">{field.desc}</Paragraph>
+      <div className="grid h-[180px] grid-cols-2 gap-2">
+        {content?.map(
+          (field: { title: string; desc: string }, index) =>
+            index <= 3 && (
+              <div className="line-clamp-1 flex h-[70px] flex-col rounded-xl bg-light-gray p-2">
+                <p className="text-sm font-bold">{field.title}</p>
+                <p className="line-clamp-1 text-xs">{field.desc}</p>
+              </div>
+            ),
+        )}
+      </div>
     </>
-  ));
+  );
+};
+
+const EducationMinimized = ({ content }: EducationProps) => {
+  return (
+    <>
+      <div className="grid h-[180px] grid-cols-2 gap-2">
+        {content?.map(
+          (field: { title: string; desc: string }, index) =>
+            index <= 3 && (
+              <div className="line-clamp-1 flex h-[70px] flex-col rounded-xl bg-light-gray p-2">
+                <p className="text-sm font-bold">{field.title}</p>
+                <p className="line-clamp-1 text-xs">{field.desc}</p>
+              </div>
+            ),
+        )}
+      </div>
+    </>
+  );
+};
+
+const NetworkingMinimized = ({ content }: NetworkingProps) => {
+  return (
+    <>
+      <div className="grid h-[180px] grid-cols-2 gap-2">
+        {content?.map(
+          (field: { name: string; services: string[] }, index) =>
+            index <= 3 && (
+              <div className="line-clamp-1 flex h-[70px] flex-col rounded-xl bg-light-gray p-2">
+                <p className="text-sm font-bold">{field.name}</p>
+                <p className="line-clamp-1 text-xs">{field.services[0]}...</p>
+              </div>
+            ),
+        )}
+      </div>
+    </>
+  );
 };
 
 const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
@@ -129,14 +171,14 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
         isLoading={infoLoader}
         minimizedContent={<InfoMinimized {...info} />}
       >
-        <div className="grid grid-cols-2 gap-6">
-          <div className="min-h-[150px] rounded-xl bg-light-gray p-6">
+        <div className="grid grid-cols-2 gap-6 self-center">
+          <div className="min-h-[100px] rounded-xl bg-light-gray p-6">
             <Paragraph className="mb-2" weight="bold">
               Salary
             </Paragraph>
             {info.salary.map((content: string, index: number) => (
               <Paragraph key={content}>
-                {index === 1 && "*"} {content}
+                {index === info.salary.length - 1 && "*"} {content}
               </Paragraph>
             ))}
           </div>
@@ -154,7 +196,7 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
             </Paragraph>
             {info.Work.map((content: string, index: number) => (
               <Paragraph key={content}>
-                {content} {index < info.Work.length && "|"}
+                {content} {index < info.Work.length - 1 && "|"}
               </Paragraph>
             ))}
           </div>
@@ -194,11 +236,16 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
           ))}
         </div>
       </Card>
-      <Card key="education" type="education" isLoading={educationLoader}>
+      <Card
+        key="education"
+        type="education"
+        isLoading={educationLoader}
+        minimizedContent={<EducationMinimized {...education} />}
+      >
         <div className="grid grid-cols-2 gap-6">
           {education.content?.map((field: { title: string; desc: string }) => (
             <div
-              className="min-h-[150px] rounded-xl bg-light-gray p-6"
+              className="min-h-[100px] rounded-xl bg-light-gray p-6"
               key={field.title}
             >
               <Paragraph className="mb-1" weight="bold">
@@ -213,6 +260,7 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
         key="qualification"
         type="qualification"
         isLoading={qualificationLoader}
+        minimizedContent={<QualificationMinimized {...qualification} />}
       >
         <Paragraph weight="bold" size="large">
           {qualification.regulated
@@ -238,7 +286,12 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
           )}
         </div>
       </Card>
-      <Card key="networking" type="networking" isLoading={networkingLoader}>
+      <Card
+        key="networking"
+        type="networking"
+        isLoading={networkingLoader}
+        minimizedContent={<NetworkingMinimized {...networking} />}
+      >
         <div className="grid grid-cols-2 gap-6">
           {networking.content?.map(
             (field: { name: string; services: string[]; website: string }) => (
@@ -250,10 +303,10 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
                   {field.name}
                 </Paragraph>
                 {field.services.map((content: string) => (
-                  <Paragraph key={content}>{content}</Paragraph>
+                  <Paragraph key={content}>• {content}</Paragraph>
                 ))}
-                <Paragraph>
-                  <a href={field.website}>{field.website}</a>
+                <Paragraph className="mt-2">
+                  <a href={field.website}>Visit the website</a>
                 </Paragraph>
               </div>
             ),
