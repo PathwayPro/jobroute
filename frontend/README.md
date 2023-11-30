@@ -1,6 +1,6 @@
 # JobRoute
 
-This is a [Next.js](https://nextjs.org/) project that retrieves data from the API developed with Python. 
+This is a [Next.js](https://nextjs.org/) project that retrieves data from the API developed with Python.
 
 :warning: Before running the frontend make sure the server is already running. The steps can be found in backend's [README](https://github.com/PathwayPro/jobroute/tree/dev-backend/backend#readme).
 
@@ -24,9 +24,9 @@ yarn install
 pnpm install
 ```
 
-2. This project uses [reCAPTCHA v2](https://www.google.com/recaptcha/admin/create) validation, so generate the keys that will be stored in .env. 
+2. This project uses [reCAPTCHA v2](https://www.google.com/recaptcha/admin/create) validation, so generate the keys that will be stored in .env.
 
-2. Create a .env file that will store the environment variables. Example:
+3. Create a .env file that will store the environment variables. Example:
 
 ```
 OPENAI_API_KEY=

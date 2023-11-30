@@ -3,7 +3,13 @@ import Card from "./Card";
 import { useEffect, useState } from "react";
 import { fetchRoadmap } from "@/fetch/fetchRoadmap";
 import { capitalizeWords } from "@/utils/utils";
-import { EducationProps, NetworkingProps, QualificationProps, SkillProps, InfoProps } from "./types";
+import {
+  EducationProps,
+  NetworkingProps,
+  QualificationProps,
+  SkillProps,
+  InfoProps,
+} from "./types";
 
 interface RoadmapCardProps {
   profession: string;
@@ -18,69 +24,61 @@ const InfoMinimized = ({
 }: InfoProps) => {
   return (
     <div className="grid h-[180px] grid-cols-2 gap-2">
-      <div
-        className="line-clamp-1 flex h-[80px] flex-col rounded-xl bg-light-gray p-2"
-      >
+      <div className="line-clamp-1 flex h-[80px] flex-col rounded-xl bg-light-gray p-2">
         <p className="text-sm font-bold">Salary</p>
-        <p className="line-clamp-1 text-xs">
-          {salary}
-        </p>
+        <p className="line-clamp-1 text-xs">{salary}</p>
       </div>
-      <div
-        className="line-clamp-1 flex h-[80px] flex-col rounded-xl bg-light-gray p-2"
-      >
+      <div className="line-clamp-1 flex h-[80px] flex-col rounded-xl bg-light-gray p-2">
         <p className="text-sm font-bold">Degree</p>
-        <p className="line-clamp-1 text-xs">
-          {degree}
-        </p>
+        <p className="line-clamp-1 text-xs">{degree}</p>
       </div>
-      <div
-        className="line-clamp-1 flex h-[80px] flex-col rounded-xl bg-light-gray p-2"
-      >
+      <div className="line-clamp-1 flex h-[80px] flex-col rounded-xl bg-light-gray p-2">
         <p className="text-sm font-bold">Work</p>
-        <p className="line-clamp-1 text-xs">
-          {work}
-        </p>
+        <p className="line-clamp-1 text-xs">{work}</p>
       </div>
-      <div
-        className="line-clamp-1 flex h-[80px] flex-col rounded-xl bg-light-gray p-2"
-      >
+      <div className="line-clamp-1 flex h-[80px] flex-col rounded-xl bg-light-gray p-2">
         <p className="text-sm font-bold">Validate Credential</p>
-        <p className="line-clamp-1 text-xs">
-          {credentialValidation}
-        </p>
+        <p className="line-clamp-1 text-xs">{credentialValidation}</p>
       </div>
     </div>
   );
 };
 
 // TODO: include minimized content for all cards
-const TextContentMinimized = (content: { title: string, desc: string }[]) => {
-  return (
-    content.map(field => (
-      <>
-        <Paragraph className="mb-1" weight="bold">
-          {field.title}
-        </Paragraph>
-        <Paragraph className="mb-2">{field.desc}</Paragraph>
-      </>
-    )))
+const TextContentMinimized = (content: { title: string; desc: string }[]) => {
+  return content.map((field) => (
+    <>
+      <Paragraph className="mb-1" weight="bold">
+        {field.title}
+      </Paragraph>
+      <Paragraph className="mb-2">{field.desc}</Paragraph>
+    </>
+  ));
 };
 
 const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
   const initCard = { title: "", content: [] };
-  const initInfo = { salary: [], "Credential Validation": "", Degree: "", Work: [], "Language Proficiency": "" }
+  const initInfo = {
+    salary: [],
+    "Credential Validation": "",
+    Degree: "",
+    Work: [],
+    "Language Proficiency": "",
+  };
   const initQualification = { regulated: false, title: "", content: [] };
   const [education, setEducation] = useState<EducationProps>(initCard);
   const [educationLoader, setEducationLoader] = useState(true);
 
-  const [qualification, setQualification] = useState<QualificationProps>(initQualification);
+  const [qualification, setQualification] =
+    useState<QualificationProps>(initQualification);
   const [qualificationLoader, setQualificationLoader] = useState(true);
 
   const [networking, setNetworking] = useState<NetworkingProps>(initCard);
   const [networkingLoader, setNetworkingLoader] = useState(true);
 
-  const [overview, setOverview] = useState<{ content: string }>({ content: "" });
+  const [overview, setOverview] = useState<{ content: string }>({
+    content: "",
+  });
   const [overviewLoader, setOverviewLoader] = useState<boolean>(true);
 
   const [info, setInfo] = useState<InfoProps>(initInfo);
@@ -89,20 +87,16 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
   const [combinedSkills, setCombinedSkills] = useState<SkillProps[]>([]);
   const [combinedSkillsLoader, setCombinedSkillsLoader] = useState(true);
 
-  const getPrompts = async (
-    setter: any,
-    endpoint: string,
-    loader: any,
-  ) => {
+  const getPrompts = async (setter: any, endpoint: string, loader: any) => {
     try {
       const response = await fetchRoadmap(endpoint, profession, province);
       setter(response);
       loader(false);
     } catch (error: any) {
-      console.log('error', error)
+      console.log("error", error);
       console.warn(`Another attempt to call the ${endpoint} prompt`);
     }
-  }
+  };
 
   useEffect(() => {
     if (profession && province) {
@@ -112,7 +106,11 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
         getPrompts(setEducation, "education", setEducationLoader);
         getPrompts(setQualification, "qualification", setQualificationLoader);
         getPrompts(setNetworking, "networking", setNetworkingLoader);
-        getPrompts(setCombinedSkills, "combinedSkills", setCombinedSkillsLoader);
+        getPrompts(
+          setCombinedSkills,
+          "combinedSkills",
+          setCombinedSkillsLoader,
+        );
       } catch (error) {
         throw error;
       }
@@ -137,7 +135,9 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
               Salary
             </Paragraph>
             {info.salary.map((content: string, index: number) => (
-              <Paragraph key={content}>{index === 1 && '*'} {content}</Paragraph>
+              <Paragraph key={content}>
+                {index === 1 && "*"} {content}
+              </Paragraph>
             ))}
           </div>
 
@@ -145,7 +145,7 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
             <Paragraph className="mb-2" weight="bold">
               Degree
             </Paragraph>
-            <Paragraph >{info.Degree}</Paragraph>
+            <Paragraph>{info.Degree}</Paragraph>
           </div>
 
           <div className="min-h-[150px] rounded-xl bg-light-gray p-6">
@@ -153,7 +153,9 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
               Work
             </Paragraph>
             {info.Work.map((content: string, index: number) => (
-              <Paragraph key={content}>{content} {index < info.Work.length && '|'}</Paragraph>
+              <Paragraph key={content}>
+                {content} {index < info.Work.length && "|"}
+              </Paragraph>
             ))}
           </div>
 
@@ -161,20 +163,24 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
             <Paragraph className="mb-2" weight="bold">
               Credential Validation
             </Paragraph>
-            <Paragraph >{info["Credential Validation"]}</Paragraph>
+            <Paragraph>{info["Credential Validation"]}</Paragraph>
           </div>
 
           <div className="min-h-[150px] rounded-xl bg-light-gray p-6">
             <Paragraph className="mb-2" weight="bold">
               Language Proficiency
             </Paragraph>
-            <Paragraph >{info["Language Proficiency"]}</Paragraph>
+            <Paragraph>{info["Language Proficiency"]}</Paragraph>
           </div>
         </div>
       </Card>
-      <Card key="combinedSkills" type="combinedSkills" isLoading={combinedSkillsLoader}>
+      <Card
+        key="combinedSkills"
+        type="combinedSkills"
+        isLoading={combinedSkillsLoader}
+      >
         <div className="grid grid-cols-2 gap-6">
-          {combinedSkills.map((field: { title: string, content: string[] }) => (
+          {combinedSkills.map((field: { title: string; content: string[] }) => (
             <div key={field.title}>
               <Paragraph className="mb-2" weight="bold">
                 {field.title}
@@ -188,13 +194,9 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
           ))}
         </div>
       </Card>
-      <Card
-        key="education"
-        type="education"
-        isLoading={educationLoader}
-      >
+      <Card key="education" type="education" isLoading={educationLoader}>
         <div className="grid grid-cols-2 gap-6">
-          {education.content?.map((field: { title: string, desc: string }) => (
+          {education.content?.map((field: { title: string; desc: string }) => (
             <div
               className="min-h-[150px] rounded-xl bg-light-gray p-6"
               key={field.title}
@@ -210,44 +212,52 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
       <Card
         key="qualification"
         type="qualification"
-        isLoading={qualificationLoader}>
-        <Paragraph weight="bold" size="large">{qualification.regulated ? 'Regulated profession' : 'Non-regulated profession'}</Paragraph>
-        <Paragraph className="mb-2">{capitalizeWords(profession)} - {qualification.title}:</Paragraph>
+        isLoading={qualificationLoader}
+      >
+        <Paragraph weight="bold" size="large">
+          {qualification.regulated
+            ? "Regulated profession"
+            : "Non-regulated profession"}
+        </Paragraph>
+        <Paragraph className="mb-2">
+          {capitalizeWords(profession)} - {qualification.title}:
+        </Paragraph>
         <div className="grid grid-cols-2 gap-6">
-          {qualification.content?.map((field: { title: string, desc: string }) => (
-            <div
-              className="min-h-[150px] rounded-xl bg-light-gray p-6"
-              key={field.title}
-            >
-              <Paragraph className="mb-2" weight="bold">
-                {field.title}
-              </Paragraph>
-              <Paragraph className="mb-2">{field.desc}</Paragraph>
-            </div>
-          ))}
+          {qualification.content?.map(
+            (field: { title: string; desc: string }) => (
+              <div
+                className="min-h-[150px] rounded-xl bg-light-gray p-6"
+                key={field.title}
+              >
+                <Paragraph className="mb-2" weight="bold">
+                  {field.title}
+                </Paragraph>
+                <Paragraph className="mb-2">{field.desc}</Paragraph>
+              </div>
+            ),
+          )}
         </div>
       </Card>
-      <Card
-        key="networking"
-        type="networking"
-        isLoading={networkingLoader}>
+      <Card key="networking" type="networking" isLoading={networkingLoader}>
         <div className="grid grid-cols-2 gap-6">
-          {networking.content?.map((field: { name: string, services: string[], website: string }) => (
-            <div
-              className="min-h-[200px] rounded-xl bg-light-gray p-6"
-              key={field.name}
-            >
-              <Paragraph className="mb-2" weight="bold">
-                {field.name}
-              </Paragraph>
-              {field.services.map((content: string) => (
-                <Paragraph key={content}>{content}</Paragraph>
-              ))}
-              <Paragraph>
-                <a href={field.website}>{field.website}</a>
-              </Paragraph>
-            </div>
-          ))}
+          {networking.content?.map(
+            (field: { name: string; services: string[]; website: string }) => (
+              <div
+                className="min-h-[200px] rounded-xl bg-light-gray p-6"
+                key={field.name}
+              >
+                <Paragraph className="mb-2" weight="bold">
+                  {field.name}
+                </Paragraph>
+                {field.services.map((content: string) => (
+                  <Paragraph key={content}>{content}</Paragraph>
+                ))}
+                <Paragraph>
+                  <a href={field.website}>{field.website}</a>
+                </Paragraph>
+              </div>
+            ),
+          )}
         </div>
       </Card>
     </div>

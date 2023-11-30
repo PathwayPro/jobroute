@@ -29,12 +29,12 @@ export enum BadgeType {
 
 interface BadgeProps {
   type:
-  | "overview"
-  | "info"
-  | "combinedSkills"
-  | "education"
-  | "qualification"
-  | "networking";
+    | "overview"
+    | "info"
+    | "combinedSkills"
+    | "education"
+    | "qualification"
+    | "networking";
 }
 
 const Badge = ({ type }: BadgeProps) => {
@@ -47,9 +47,7 @@ const Badge = ({ type }: BadgeProps) => {
       <div className="w-max rounded-full bg-white p-1">
         <Iconly name={icon[type]} set="bold" primaryColor="black" size={20} />
       </div>
-      <span className="mr-4 text-sm font-bold text-white">
-        {getTitle()}
-      </span>
+      <span className="mr-4 text-sm font-bold text-white">{getTitle()}</span>
     </div>
   );
 };

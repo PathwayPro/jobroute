@@ -9,7 +9,7 @@ const SkeletonLoader = () => {
         <Skeleton width={"87%"} height={16} count={2.7} className="ms-7" />
       </div>
     </SkeletonTheme>
-  )
+  );
 };
 
 export default SkeletonLoader;

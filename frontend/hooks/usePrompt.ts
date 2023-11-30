@@ -14,7 +14,11 @@ async function getPromptResult(
   }
 }
 
-export const usePrompt = (endpoint: string, profession: string, province: string) => {
+export const usePrompt = (
+  endpoint: string,
+  profession: string,
+  province: string,
+) => {
   const [isLoading, setIsLoading] = useState(true);
   const [result, setResult] = useState();
 

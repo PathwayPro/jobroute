@@ -1,7 +1,10 @@
 import { nextServer } from "@/tools/routes";
 import { useEffect, useState } from "react";
 
-async function fetchAutocompleteResults(query: string, location: string): Promise<string[] | []> {
+async function fetchAutocompleteResults(
+  query: string,
+  location: string,
+): Promise<string[] | []> {
   const url = `${nextServer}/autocomplete?query=${query}&location=${location}`;
   const res = await fetch(url);
   const results = await res.json();

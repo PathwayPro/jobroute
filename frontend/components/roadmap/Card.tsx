@@ -73,7 +73,9 @@ const Card = ({
           <div className="min-w-[1000px]">
             <SkeletonLoader />
           </div>
-        ) : children}
+        ) : (
+          children
+        )}
       </div>
     </Dialog>
   );

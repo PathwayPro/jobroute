@@ -40,4 +40,3 @@ export interface QualificationProps {
     desc: string;
   }[];
 }
-
