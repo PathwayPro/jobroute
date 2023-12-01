@@ -3,11 +3,17 @@ export function capitalize(text: string) {
 }
 
 export const capitalizeWords = (string: string) => {
+
   if (string) {
-    return string
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
+    const words = string.split(' ');
+
+    const capitalizedWords = words.map(word => {
+      return (word.toLowerCase() !== 'and') ? word.charAt(0).toUpperCase() + word.slice(1) : word;
+    });
+
+    const resultString = capitalizedWords.join(' ');
+
+    return resultString;
   }
 };
 

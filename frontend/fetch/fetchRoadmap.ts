@@ -1,3 +1,4 @@
+import { provincesLowercase } from "@/provinces";
 import { nextServer } from "@/tools/routes";
 
 export const fetchRoadmap = async (
@@ -5,6 +6,11 @@ export const fetchRoadmap = async (
   profession: string,
   province: string,
 ) => {
+  const allowedProvince = provincesLowercase.includes(province.toLowerCase());
+  if (!endpoint || !profession || !province || !allowedProvince) {
+    return
+  }
+
   const url = `${nextServer}/prompts?endpoint=${endpoint}&profession=${profession}&province=${province}`;
 
   try {

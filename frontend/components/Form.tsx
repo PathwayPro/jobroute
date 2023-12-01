@@ -9,24 +9,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import Paragraph from "@/ui/Paragraph";
 import Select from "@/ui/Select";
 import InputField from "@/ui/InputField";
-
-const provinces = [
-  "Province / Territory",
-  "Canada",
-  "Alberta",
-  "British Columbia",
-  "Manitoba",
-  "New Brunswick",
-  "Newfoundland and Labrador",
-  "Northwest Territories",
-  "Nova Scotia",
-  "Nunavut",
-  "Ontario",
-  "Prince Edward Island",
-  "Quebec",
-  "Saskatchewan",
-  "Yukon",
-];
+import { provinces } from "@/provinces";
 
 const formButtonStyles =
   "flex w-full h-[48px] rounded-full font-bold normal-case text-base items-center justify-center py-4 px-8 bg-primary text-light-color hover:bg-dark active:bg-active-color hover:flex-row-reverse transition hover:duration-150 disabled:bg-disabled";

@@ -9,11 +9,12 @@ import Paragraph from "@/ui/Paragraph";
 import Footer from "@/components/Footer";
 import RoadmapCards from "@/components/roadmap/RoadmapCards";
 import { DialogLoading } from "@/ui/ProgressBar";
+import { provincesLowercase } from "@/provinces";
 
 interface Profession {
   title: string;
   percentage: string;
-  salary: string;
+  salary?: string;
   NOC: string;
   isActive: boolean;
 }
@@ -26,10 +27,23 @@ const ExplorePage = () => {
     profession: string;
     province: string;
   };
+
+  const allowedProvince = provincesLowercase.includes(province?.toLowerCase())
+
+  useEffect(() => {
+    if (!profession || !province || !allowedProvince) {
+      router.push("/");
+      return;
+    }
+  }, [profession, province])
+
   const { isLoading, matches } = useMatches(profession, province);
-  const activeProfession = professions.find(
-    (profession) => profession.isActive,
-  );
+
+  const activeProfession = useMemo(() => {
+    return professions.find(
+      (profession) => profession.isActive,
+    )
+  }, [professions])
 
   useEffect(() => {
     if (matches && matches?.length > 0 && !effectRan.current) {
@@ -37,16 +51,14 @@ const ExplorePage = () => {
         if (match.title === matches[0].title) {
           return {
             title: match.title,
-            percentage: match.percentage,
-            salary: match.salary,
+            percentage: match.Percentage,
             NOC: match.NOC,
             isActive: true,
           };
         }
         return {
           title: match.title,
-          percentage: match.percentage,
-          salary: match.salary,
+          percentage: match.Percentage,
           NOC: match.NOC,
           isActive: false,
         };
@@ -64,7 +76,7 @@ const ExplorePage = () => {
       return (
         <RoadmapCards
           key={activeProfession.title}
-          profession={activeProfession.title}
+          profession={activeProfession.title.toLocaleLowerCase()}
           province={province}
         />
       );
@@ -83,7 +95,6 @@ const ExplorePage = () => {
   };
 
   const handleSearchAgain = () => {
-    // TODO: reset localStorage
     router.push("/");
   };
 
