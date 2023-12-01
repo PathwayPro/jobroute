@@ -4,6 +4,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Button from "@/ui/Button";
 import RoadmapCards from "@/components/roadmap/RoadmapCards";
+import { useEffect } from "react";
+import { provincesLowercase } from "@/provinces";
 
 type TitleContent = {
   title: string;
@@ -29,8 +31,16 @@ const Roadmap: React.FC<RoadmapProps> = () => {
     province: string;
   };
 
+  const allowedProvince = provincesLowercase.includes(province?.toLowerCase())
+
+  useEffect(() => {
+    if (!profession || !province || !allowedProvince) {
+      router.push("/");
+      return;
+    }
+  }, [profession, province])
+
   const handleSearchAgain = () => {
-    // TODO: reset localStorage
     router.push("/");
   };
 

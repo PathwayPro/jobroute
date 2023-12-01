@@ -10,6 +10,7 @@ import {
   SkillProps,
   InfoProps,
 } from "./types";
+import { provincesLowercase } from "@/provinces";
 
 interface RoadmapCardProps {
   profession: string;
@@ -26,7 +27,7 @@ const InfoMinimized = ({
     <div className="grid h-[180px] grid-cols-2 gap-2">
       <div className="line-clamp-1 flex h-[60px] flex-col rounded-xl bg-light-gray p-2">
         <p className="text-sm font-bold">Salary</p>
-        <p className="line-clamp-1 text-xs">{salary}</p>
+        <p className="line-clamp-1 text-xs">{salary[0]}</p>
       </div>
       <div className="line-clamp-1 flex h-[60px] flex-col rounded-xl bg-light-gray p-2">
         <p className="text-sm font-bold">Degree</p>
@@ -34,7 +35,7 @@ const InfoMinimized = ({
       </div>
       <div className="line-clamp-1 flex h-[60px] flex-col rounded-xl bg-light-gray p-2">
         <p className="text-sm font-bold">Work</p>
-        <p className="line-clamp-1 text-xs">{work}</p>
+        <p className="line-clamp-1 text-xs">{work[0]}</p>
       </div>
       <div className="line-clamp-1 flex h-[60px] flex-col rounded-xl bg-light-gray p-2">
         <p className="text-sm font-bold">Credential</p>
@@ -51,7 +52,7 @@ const QualificationMinimized = ({ content }: QualificationProps) => {
         {content?.map(
           (field: { title: string; desc: string }, index) =>
             index <= 3 && (
-              <div className="line-clamp-1 flex h-[70px] flex-col rounded-xl bg-light-gray p-2">
+              <div key={field.title} className="line-clamp-1 flex h-[70px] flex-col rounded-xl bg-light-gray p-2">
                 <p className="text-sm font-bold">{field.title}</p>
                 <p className="line-clamp-1 text-xs">{field.desc}</p>
               </div>
@@ -69,7 +70,7 @@ const EducationMinimized = ({ content }: EducationProps) => {
         {content?.map(
           (field: { title: string; desc: string }, index) =>
             index <= 3 && (
-              <div className="line-clamp-1 flex h-[70px] flex-col rounded-xl bg-light-gray p-2">
+              <div key={field.title} className="line-clamp-1 flex h-[70px] flex-col rounded-xl bg-light-gray p-2">
                 <p className="text-sm font-bold">{field.title}</p>
                 <p className="line-clamp-1 text-xs">{field.desc}</p>
               </div>
@@ -87,7 +88,7 @@ const NetworkingMinimized = ({ content }: NetworkingProps) => {
         {content?.map(
           (field: { name: string; services: string[] }, index) =>
             index <= 3 && (
-              <div className="line-clamp-1 flex h-[70px] flex-col rounded-xl bg-light-gray p-2">
+              <div key={field.name} className="line-clamp-1 flex h-[70px] flex-col rounded-xl bg-light-gray p-2">
                 <p className="text-sm font-bold">{field.name}</p>
                 <p className="line-clamp-1 text-xs">{field.services[0]}...</p>
               </div>
@@ -99,6 +100,9 @@ const NetworkingMinimized = ({ content }: NetworkingProps) => {
 };
 
 const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
+  const allowedProvince = provincesLowercase.includes(province?.toLowerCase())
+  if (!profession || !province || !allowedProvince) return null;
+
   const initCard = { title: "", content: [] };
   const initInfo = {
     salary: [],
@@ -135,8 +139,7 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
       setter(response);
       loader(false);
     } catch (error: any) {
-      console.log("error", error);
-      console.warn(`Another attempt to call the ${endpoint} prompt`);
+      console.warn(`Failed attempt to call the ${endpoint} prompt`, error);
     }
   };
 
@@ -194,9 +197,9 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
             <Paragraph className="mb-2" weight="bold">
               Work
             </Paragraph>
-            {info.Work.map((content: string, index: number) => (
-              <Paragraph key={content}>
-                {content} {index < info.Work.length - 1 && "|"}
+            {info.Work.map((content: string) => (
+              <Paragraph key={content} className="mb-1">
+                {content}
               </Paragraph>
             ))}
           </div>
