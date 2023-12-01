@@ -8,8 +8,7 @@ interface Response {
 
 interface Matches {
   title: string;
-  percentage: string;
-  salary: string;
+  Percentage: string;
   NOC: string;
 }
 
@@ -17,11 +16,10 @@ async function getProfessionMatches(
   profession: string,
   province: string,
 ): Promise<Response> {
-  const response = await fetchMatches(profession, province);
 
   try {
-    const results = await JSON.parse(response);
-    return results;
+    const response = await fetchMatches(profession, province);
+    return response;
   } catch (error) {
     throw new Error("Error fetching matches");
   }
