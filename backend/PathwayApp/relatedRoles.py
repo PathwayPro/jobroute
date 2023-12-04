@@ -1,3 +1,4 @@
+from .errorhandling import is_json_invalid
 from .chatgpt import collect_result
 
 def get_related_roles(role, region):
@@ -19,6 +20,9 @@ def get_related_roles(role, region):
         }
         '''
     result = collect_result(prompt, 4)
+    if is_json_invalid(result):
+            print("error found in result")
+            return result
     print("*******")
     print(result)
     return result

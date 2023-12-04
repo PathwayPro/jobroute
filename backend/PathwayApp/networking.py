@@ -15,7 +15,7 @@ def get_networking1(role, region):
     if occupation_data and occupation_data.networking is not None:
         print("GOTTEN FROM DATABASE")
         response = occupation_data.networking
-        result = JsonResponse(json.loads(response))
+        result = JsonResponse(json.loads(response), safe=False)
 
     #otherwise use OpenAI
     else:

@@ -4,6 +4,9 @@ from .chatgpt import generate_response
 # from .views import get_input, collect_result
 from .models import Jobroute
 from .chatgpt import collect_result
+from .errorhandling import is_json_invalid
+from .noc import get_noc
+
 
 # def role_summary(request):
 
@@ -28,6 +31,7 @@ def role_summary1(role, region):
     Provides the overview for the job role
     '''
     # role, region, _ = get_input(request)
+
     result = ""
     occupation_data = Jobroute.objects.filter(title=role,province=region).first()
 
@@ -47,17 +51,24 @@ def role_summary1(role, region):
         '''
 
         result = collect_result(prompt, 4)
-        print(result)
-        #check if data exists at all
-        if occupation_data:
-            occupation_data.overview=result.content.decode('utf-8')
-            occupation_data.province = region
-            occupation_data.title=role
-            occupation_data.save()
+        if is_json_invalid(result):
+            print("error found in result")
+            return result
         else:
-            job_route = Jobroute(overview = result.content.decode('utf-8'),
-                                 province=region,
-                                 title=role)
-            job_route.save()
+            print(result)
+            noc = get_noc(role)
+            #check if data exists at all
+            if occupation_data:
+                occupation_data.overview=result.content.decode('utf-8')
+                occupation_data.NOC=noc
+                # occupation_data.province = region
+                # occupation_data.title=role
+                occupation_data.save()
+            else:
+                job_route = Jobroute(overview = result.content.decode('utf-8'),
+                                    province=region,
+                                    title=role,
+                                    NOC=noc)
+                job_route.save()
 
     return result

@@ -1,8 +1,11 @@
 import json
 from django.http import  JsonResponse
+
+from .errorhandling import is_json_invalid
 from .models import Jobroute
 # from .views import get_input, collect_result
 from .chatgpt import collect_result
+
 
 
 
@@ -100,27 +103,30 @@ def hardAndSoftSkills1(role, region):
         # '''
         soft_response = get_soft_skills(role, region)
         hard_response = get_hard_skills(role, region)
-
-        soft_data = json.loads(soft_response.content.decode("utf-8"))
-        hard_data = json.loads(hard_response.content.decode("utf-8"))
-        # soft_data = soft_response.content.decode("utf-8")
-        # hard_data = hard_response.content.decode("utf-8")
-        result = [hard_data, soft_data]
-
-        # result = collect_result(prompt, 4)
-        print("***pritnig combined data***")
-        print(result)
-        #check if data exists at all
-        if occupation_data:
-            occupation_data.skills=result
-            # occupation_data.overview=result.content.decode('utf-8')
-            occupation_data.province = region
-            occupation_data.title=role
-            occupation_data.save()
+        if is_json_invalid(soft_response) or is_json_invalid(soft_response):
+            print("error found in result")
+            return result
         else:
-            job_route = Jobroute(skills = result,
-                                 province=region,
-                                 title=role)
-            job_route.save()
+            soft_data = json.loads(soft_response.content.decode("utf-8"))
+            hard_data = json.loads(hard_response.content.decode("utf-8"))
+            # soft_data = soft_response.content.decode("utf-8")
+            # hard_data = hard_response.content.decode("utf-8")
+            result = [hard_data, soft_data]
+
+            # result = collect_result(prompt, 4)
+            print("***pritnig combined data***")
+            print(result)
+            #check if data exists at all
+            if occupation_data:
+                occupation_data.skills=result
+                # occupation_data.overview=result.content.decode('utf-8')
+                # occupation_data.province = region
+                # occupation_data.title=role
+                occupation_data.save()
+            else:
+                job_route = Jobroute(skills = result,
+                                    province=region,
+                                    title=role)
+                job_route.save()
 
     return JsonResponse(result, safe=False)

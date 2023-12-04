@@ -1,5 +1,7 @@
 import json
 from django.http import  JsonResponse
+
+from .errorhandling import is_json_invalid
 from .chatgpt import generate_response, choose_model, collect_result
 # from .views import get_input, collect_result
 from .models import Jobroute
@@ -128,7 +130,7 @@ def get_Education1(role, region):
         # if occupation_data.networking is not None:
         print("GOTTEN FROM DATABASE")
         response = occupation_data.educational_requirement
-        result = JsonResponse(json.loads(response))
+        result = JsonResponse(json.loads(response), safe=False)
 
     else:
         print("GOTTEN FROM OPENAI")
@@ -139,17 +141,21 @@ def get_Education1(role, region):
             { title: 'Step 3', desc: '20 words maximum description' },\n      ]\n}"
 
         result = collect_result(prompt, 4)
-        #check if data exists at all
-        if occupation_data:
-            occupation_data.educational_requirement=result.content.decode('utf-8')
-            occupation_data.province = region
-            occupation_data.title=role
-            occupation_data.save()
+        if is_json_invalid(result):
+            print("error found in result")
+            return result
         else:
-            job_route = Jobroute(educational_requirement = result.content.decode('utf-8'),
-                                 province=region,
-                                 title=role)
-            job_route.save()
+            #check if data exists at all
+            if occupation_data:
+                occupation_data.educational_requirement=result.content.decode('utf-8')
+                occupation_data.province = region
+                occupation_data.title=role
+                occupation_data.save()
+            else:
+                job_route = Jobroute(educational_requirement = result.content.decode('utf-8'),
+                                    province=region,
+                                    title=role)
+                job_route.save()
 
 
     return result

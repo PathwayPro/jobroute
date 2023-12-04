@@ -3,7 +3,7 @@ import json
 # from .views import get_input, collect_result
 from .models import Jobroute
 from .chatgpt import collect_result
-
+from .errorhandling import is_json_invalid
 # def get_info(request):
 
 #     salary = get_salary(request)
@@ -117,7 +117,7 @@ def get_all_info1(role, region):
         # if occupation_data.networking is not None:
         print("GOTTEN FROM DATABASE")
         response = occupation_data.info
-        result = JsonResponse(json.loads(response))
+        result = JsonResponse(json.loads(response), safe=False)
     else:
         print("GOTTEN FROM OPENAI")
         prompt = f'as an AI assistant that provides Canadian education paths for the role "{role}" in the region "{region}" regarding salary, degree, work, credential and language proficiency required to be successful strictly following this template return reply as JSON array of objects: ' + \
@@ -137,22 +137,26 @@ def get_all_info1(role, region):
                     }
                 '''
         result = collect_result(prompt, 4)
-        if occupation_data:
-            occupation_data.info=result.content.decode('utf-8')
-            print(result.content.decode('utf-8'))
-            occupation_data.province = region
-            occupation_data.title=role
-            # json.loads(json_raw.content.decode('utf-8'))
-            # print("printing content")
-            # print(result.content.decode('utf-8'))
-            occupation_data.save()
+        if is_json_invalid(result):
+            print("error found in result")
+            return result
         else:
-            # print("printing content")
-            # print(result.content.decode('utf-8'))
-            job_route = Jobroute(info = result.content.decode('utf-8'),
-                                 province=region,
-                                 title=role)
-            job_route.save()
+            if occupation_data:
+                occupation_data.info=result.content.decode('utf-8')
+                print(result.content.decode('utf-8'))
+                occupation_data.province = region
+                occupation_data.title=role
+                # json.loads(json_raw.content.decode('utf-8'))
+                # print("printing content")
+                # print(result.content.decode('utf-8'))
+                occupation_data.save()
+            else:
+                # print("printing content")
+                # print(result.content.decode('utf-8'))
+                job_route = Jobroute(info = result.content.decode('utf-8'),
+                                    province=region,
+                                    title=role)
+                job_route.save()
 
     print("does this print")
     print(result)

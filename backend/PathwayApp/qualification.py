@@ -2,7 +2,7 @@ import json
 from django.http import JsonResponse
 from .models import Jobroute
 from .chatgpt import collect_result, generate_response
-
+from .errorhandling import is_json_invalid
 
 def qualification_check(role, region):
     '''
@@ -36,7 +36,7 @@ def get_Experience(role, region):
     else:
         print("GOTTEN FROM OPENAI")
         prompt = f"Provide necessary information regarding Experience/Projects required to be successful in the role of {role} for the region{region}." + \
-        '''Provide the information in a step-by-step manner. Provide a maximum of 6 steps. Please provide a response in JSON format in the following template:\
+        '''Provide the information in a step-by-step manner. Provide a maximum of 6 steps. Please provide a response strictly in JSON format in the following template with no other details:\
         Example Template:
         {
             "regulated": false,
@@ -60,17 +60,21 @@ def get_Experience(role, region):
         '''
 
         result = collect_result(prompt, 4)
-        #check if data exists at all
-        if occupation_data:
-            occupation_data.qualification=result.content.decode('utf-8')
-            occupation_data.province = region
-            occupation_data.title=role
-            occupation_data.save()
+        if is_json_invalid(result):
+            print("error found in result")
+            return result
         else:
-            job_route = Jobroute(qualification = result.content.decode('utf-8'),
-                                 province=region,
-                                 title=role)
-            job_route.save()
+        #check if data exists at all
+            if occupation_data:
+                occupation_data.qualification=result.content.decode('utf-8')
+                occupation_data.province = region
+                occupation_data.title=role
+                occupation_data.save()
+            else:
+                job_route = Jobroute(qualification = result.content.decode('utf-8'),
+                                    province=region,
+                                    title=role)
+                job_route.save()
 
     return result
 
@@ -84,7 +88,7 @@ def get_License(role, region):
         # if occupation_data.networking is not None:
         print("GOTTEN FROM DATABASE")
         response = occupation_data.qualification
-        result = JsonResponse(json.loads(response))
+        result = JsonResponse(json.loads(response), safe=False)
 
     else:
         print("GOTTEN FROM OPENAI")
@@ -112,16 +116,20 @@ def get_License(role, region):
     '''
 
         result = collect_result(prompt, 4)
-        #check if data exists at all
-        if occupation_data:
-            occupation_data.qualification=result.content.decode('utf-8')
-            occupation_data.province = region
-            occupation_data.title=role
-            occupation_data.save()
+        if is_json_invalid(result):
+            print("error found in result")
+            return result
         else:
-            job_route = Jobroute(qualification = result.content.decode('utf-8'),
-                                 province=region,
-                                 title=role)
-            job_route.save()
+        #check if data exists at all
+            if occupation_data:
+                occupation_data.qualification=result.content.decode('utf-8')
+                occupation_data.province = region
+                occupation_data.title=role
+                occupation_data.save()
+            else:
+                job_route = Jobroute(qualification = result.content.decode('utf-8'),
+                                    province=region,
+                                    title=role)
+                job_route.save()
 
     return result
