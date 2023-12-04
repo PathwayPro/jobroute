@@ -18,6 +18,7 @@ def is_request_invalid(role, region):
         print("Contains non-alphanumeric character")
         return True
 
+    #if input is only digits
     if role.isdigit() or region.isdigit():
         return True
     return False
