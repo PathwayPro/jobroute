@@ -1,15 +1,15 @@
-import Body from "@/components/Body";
+import Home from "@/components/Home";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 
-const Home = () => {
+const Homepage = () => {
   return (
     <div className="flex min-h-screen flex-col justify-around">
       <Navbar />
-      <Body />
+      <Home />
       <Footer />
     </div>
   );
 };
 
-export default Home;
+export default Homepage;

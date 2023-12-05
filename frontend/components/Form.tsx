@@ -11,10 +11,14 @@ import Select from "@/ui/Select";
 import InputField from "@/ui/InputField";
 import { provinces } from "@/provinces";
 
+interface FormProps {
+  setOpen?: (open: boolean) => void;
+}
+
 const formButtonStyles =
   "flex w-full h-[48px] rounded-full font-bold normal-case text-base items-center justify-center py-4 px-8 bg-primary text-light-color hover:bg-dark active:bg-active-color hover:flex-row-reverse transition hover:duration-150 disabled:bg-disabled";
 
-const Form = () => {
+const Form = ({ setOpen }: FormProps) => {
   const [selectedLocation, setSelectedLocation] = useState<string>("");
   const [profession, setProfession] = useState<string>("");
   const [selectedProfession, setSelectedProfession] = useState<string>("");
@@ -46,6 +50,7 @@ const Form = () => {
           selectedProfession,
         )}`,
       );
+      setOpen && setOpen(false);
       return;
     }
     router.push(
@@ -53,6 +58,7 @@ const Form = () => {
         selectedProfession,
       )}`,
     );
+    setOpen && setOpen(false);
   };
 
   function handleProfessionChange(e: ChangeEvent<HTMLInputElement>) {

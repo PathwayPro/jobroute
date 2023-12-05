@@ -8,7 +8,7 @@ export const fetchRoadmap = async (
 ) => {
   const allowedProvince = provincesLowercase.includes(province.toLowerCase());
   if (!endpoint || !profession || !province || !allowedProvince) {
-    return
+    return;
   }
 
   const url = `${nextServer}/prompts?endpoint=${endpoint}&profession=${profession}&province=${province}`;

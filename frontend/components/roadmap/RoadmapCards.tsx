@@ -52,7 +52,10 @@ const QualificationMinimized = ({ content }: QualificationProps) => {
         {content?.map(
           (field: { title: string; desc: string }, index) =>
             index <= 3 && (
-              <div key={field.title} className="line-clamp-1 flex h-[70px] flex-col rounded-xl bg-light-gray p-2">
+              <div
+                key={field.title}
+                className="line-clamp-1 flex h-[70px] flex-col rounded-xl bg-light-gray p-2"
+              >
                 <p className="text-sm font-bold">{field.title}</p>
                 <p className="line-clamp-1 text-xs">{field.desc}</p>
               </div>
@@ -70,7 +73,10 @@ const EducationMinimized = ({ content }: EducationProps) => {
         {content?.map(
           (field: { title: string; desc: string }, index) =>
             index <= 3 && (
-              <div key={field.title} className="line-clamp-1 flex h-[70px] flex-col rounded-xl bg-light-gray p-2">
+              <div
+                key={field.title}
+                className="line-clamp-1 flex h-[70px] flex-col rounded-xl bg-light-gray p-2"
+              >
                 <p className="text-sm font-bold">{field.title}</p>
                 <p className="line-clamp-1 text-xs">{field.desc}</p>
               </div>
@@ -88,7 +94,10 @@ const NetworkingMinimized = ({ content }: NetworkingProps) => {
         {content?.map(
           (field: { name: string; services: string[] }, index) =>
             index <= 3 && (
-              <div key={field.name} className="line-clamp-1 flex h-[70px] flex-col rounded-xl bg-light-gray p-2">
+              <div
+                key={field.name}
+                className="line-clamp-1 flex h-[70px] flex-col rounded-xl bg-light-gray p-2"
+              >
                 <p className="text-sm font-bold">{field.name}</p>
                 <p className="line-clamp-1 text-xs">{field.services[0]}...</p>
               </div>
@@ -100,7 +109,7 @@ const NetworkingMinimized = ({ content }: NetworkingProps) => {
 };
 
 const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
-  const allowedProvince = provincesLowercase.includes(province?.toLowerCase())
+  const allowedProvince = provincesLowercase.includes(province?.toLowerCase());
   if (!profession || !province || !allowedProvince) return null;
 
   const initCard = { title: "", content: [] };

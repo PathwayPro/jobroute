@@ -4,8 +4,10 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Button from "@/ui/Button";
 import RoadmapCards from "@/components/roadmap/RoadmapCards";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { provincesLowercase } from "@/provinces";
+import Dialog from "@/components/Dialog";
+import Form from "@/components/Form";
 
 type TitleContent = {
   title: string;
@@ -25,24 +27,21 @@ interface RoadmapProps {
 }
 
 const Roadmap: React.FC<RoadmapProps> = () => {
+  const [dialogOpen, setDialogOpen] = useState(false);
   const router = useRouter();
   const { profession, province } = router.query as {
     profession: string;
     province: string;
   };
 
-  const allowedProvince = provincesLowercase.includes(province?.toLowerCase())
+  const allowedProvince = provincesLowercase.includes(province?.toLowerCase());
 
   useEffect(() => {
     if (!profession || !province || !allowedProvince) {
       router.push("/");
       return;
     }
-  }, [profession, province])
-
-  const handleSearchAgain = () => {
-    router.push("/");
-  };
+  }, [profession, province]);
 
   return (
     <>
@@ -53,10 +52,24 @@ const Roadmap: React.FC<RoadmapProps> = () => {
             {capitalizeWords(profession)} in {capitalizeWords(province)}
           </h2>
           <div>
-            <Button onClick={handleSearchAgain}>Search again</Button>
+            <Dialog
+              onOpenChange={setDialogOpen}
+              open={dialogOpen}
+              trigger={
+                <Button onClick={() => setDialogOpen(true)} className="mt-10">
+                  Search again
+                </Button>
+              }
+            >
+              <Form setOpen={setDialogOpen} />
+            </Dialog>
           </div>
         </div>
-        <RoadmapCards profession={profession} province={province} />
+        <RoadmapCards
+          key={`${profession}-${province}`}
+          profession={profession}
+          province={province}
+        />
       </div>
       <Footer />
     </>

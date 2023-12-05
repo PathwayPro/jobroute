@@ -16,12 +16,12 @@ async function getProfessionMatches(
   profession: string,
   province: string,
 ): Promise<Response> {
-
   try {
     const response = await fetchMatches(profession, province);
     return response;
   } catch (error) {
-    throw new Error("Error fetching matches");
+    console.log("Error fetching matches");
+    return { title: "", content: [] };
   }
 }
 

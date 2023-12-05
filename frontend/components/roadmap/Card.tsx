@@ -2,10 +2,25 @@ import Badge from "@/ui/Badge";
 import Dialog from "../Dialog";
 import "react-loading-skeleton/dist/skeleton.css";
 import SkeletonLoader from "./SkeletonLoader";
-import { CardContentProps, ContentType } from "./types";
 import { ProgressBarLoading } from "@/ui/ProgressBar";
 import { cva } from "class-variance-authority";
 import Button from "@/ui/Button";
+
+type ContentType =
+  | "overview"
+  | "info"
+  | "combinedSkills"
+  | "education"
+  | "qualification"
+  | "networking";
+
+interface CardContentProps {
+  className?: string;
+  type: ContentType;
+  minimizedContent?: React.ReactNode;
+  isLoading: boolean;
+  children: React.ReactNode;
+}
 
 export interface Field {
   title: string;
@@ -70,7 +85,7 @@ const Card = ({
       <div className="flex w-[600px] flex-col gap-4">
         <Badge type={type} />
         {isLoading ? (
-          <div className="min-w-[1000px]">
+          <div className="min-w-[500px]">
             <SkeletonLoader />
           </div>
         ) : (

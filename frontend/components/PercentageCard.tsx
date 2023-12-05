@@ -44,7 +44,9 @@ const PercentageCard = ({
         {percentage}
       </Paragraph>
       <Paragraph
-        className={active ? "text-white" : "text-[#242529]"}
+        className={
+          active ? "line-clamp-2 text-white" : "line-clamp-2 text-[#242529]"
+        }
         weight="bold"
       >
         {title}

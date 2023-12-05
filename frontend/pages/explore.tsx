@@ -10,6 +10,8 @@ import Footer from "@/components/Footer";
 import RoadmapCards from "@/components/roadmap/RoadmapCards";
 import { DialogLoading } from "@/ui/ProgressBar";
 import { provincesLowercase } from "@/provinces";
+import Dialog from "@/components/Dialog";
+import Form from "@/components/Form";
 
 interface Profession {
   title: string;
@@ -20,6 +22,7 @@ interface Profession {
 }
 
 const ExplorePage = () => {
+  const [dialogOpen, setDialogOpen] = useState(false);
   const effectRan = useRef(false);
   const router = useRouter();
   const [professions, setProfessions] = useState<Profession[]>([]);
@@ -28,22 +31,20 @@ const ExplorePage = () => {
     province: string;
   };
 
-  const allowedProvince = provincesLowercase.includes(province?.toLowerCase())
+  const allowedProvince = provincesLowercase.includes(province?.toLowerCase());
 
   useEffect(() => {
     if (!profession || !province || !allowedProvince) {
       router.push("/");
       return;
     }
-  }, [profession, province])
+  }, [profession, province]);
 
   const { isLoading, matches } = useMatches(profession, province);
 
   const activeProfession = useMemo(() => {
-    return professions.find(
-      (profession) => profession.isActive,
-    )
-  }, [professions])
+    return professions.find((profession) => profession.isActive);
+  }, [professions]);
 
   useEffect(() => {
     if (matches && matches?.length > 0 && !effectRan.current) {
@@ -75,7 +76,7 @@ const ExplorePage = () => {
     if (activeProfession) {
       return (
         <RoadmapCards
-          key={activeProfession.title}
+          key={`${activeProfession.title}-${province}}`}
           profession={activeProfession.title.toLocaleLowerCase()}
           province={province}
         />
@@ -92,10 +93,6 @@ const ExplorePage = () => {
           : { ...profession, isActive: false },
       ),
     );
-  };
-
-  const handleSearchAgain = () => {
-    router.push("/");
   };
 
   return (
@@ -115,7 +112,17 @@ const ExplorePage = () => {
             </Paragraph>
           </div>
           <div>
-            <Button onClick={handleSearchAgain}>Search again</Button>
+            <Dialog
+              onOpenChange={setDialogOpen}
+              open={dialogOpen}
+              trigger={
+                <Button onClick={() => setDialogOpen(true)} className="mt-10">
+                  Search again
+                </Button>
+              }
+            >
+              <Form setOpen={setDialogOpen} />
+            </Dialog>
           </div>
         </div>
         <DialogLoading isLoading={isLoading} />

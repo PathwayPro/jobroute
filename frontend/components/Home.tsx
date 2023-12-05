@@ -5,7 +5,7 @@ import Paragraph from "@/ui/Paragraph";
 import NumberedCards from "./NumberedCards";
 import Button from "@/ui/Button";
 
-const Body = () => {
+const Home = () => {
   return (
     <div className="m-auto flex max-w-[1500px] grow flex-row justify-between p-10">
       <div className="mt-[120px] flex w-2/5 flex-col">
@@ -48,4 +48,4 @@ const Body = () => {
   );
 };
 
-export default Body;
+export default Home;

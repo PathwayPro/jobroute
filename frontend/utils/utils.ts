@@ -3,15 +3,16 @@ export function capitalize(text: string) {
 }
 
 export const capitalizeWords = (string: string) => {
-
   if (string) {
-    const words = string.split(' ');
+    const words = string.split(" ");
 
-    const capitalizedWords = words.map(word => {
-      return (word.toLowerCase() !== 'and') ? word.charAt(0).toUpperCase() + word.slice(1) : word;
+    const capitalizedWords = words.map((word) => {
+      return word.toLowerCase() !== "and"
+        ? word.charAt(0).toUpperCase() + word.slice(1)
+        : word;
     });
 
-    const resultString = capitalizedWords.join(' ');
+    const resultString = capitalizedWords.join(" ");
 
     return resultString;
   }

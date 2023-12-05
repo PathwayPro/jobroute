@@ -11,6 +11,8 @@ import React, { ForwardedRef } from "react";
 interface DialogProps {
   children: React.ReactNode;
   trigger: React.ReactNode;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
 type Ref = ForwardedRef<HTMLDivElement>;
@@ -53,9 +55,9 @@ const DialogContent = React.forwardRef<Ref, DialogContentProps>(
 
 DialogContent.displayName = "DialogContent";
 
-const Dialog = ({ children, trigger }: DialogProps) => {
+const Dialog = ({ children, trigger, open, onOpenChange }: DialogProps) => {
   return (
-    <Root>
+    <Root open={open} onOpenChange={onOpenChange}>
       <Trigger asChild>{trigger}</Trigger>
       <Portal>
         <Overlay className="fixed inset-0 z-20 bg-black bg-opacity-50 backdrop-blur-sm" />
