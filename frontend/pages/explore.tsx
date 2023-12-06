@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { capitalizeWords } from "@/utils/utils";
-import { useMatches } from "@/hooks/useMatches";
+import { getProfessionMatches } from "@/hooks/useMatches";
 import Navbar from "@/components/Navbar";
 import PercentageCard from "@/components/PercentageCard";
 import Button from "@/ui/Button";
@@ -10,6 +10,8 @@ import Footer from "@/components/Footer";
 import RoadmapCards from "@/components/roadmap/RoadmapCards";
 import { DialogLoading } from "@/ui/ProgressBar";
 import { provincesLowercase } from "@/provinces";
+import Dialog from "@/components/Dialog";
+import Form from "@/components/Form";
 
 interface Profession {
   title: string;
@@ -19,31 +21,42 @@ interface Profession {
   isActive: boolean;
 }
 
+interface Matches {
+  title: string;
+  Percentage: string;
+  NOC: string;
+}
+
 const ExplorePage = () => {
+  const [dialogOpen, setDialogOpen] = useState(false);
   const effectRan = useRef(false);
+  const effectMatchesRan = useRef(false);
   const router = useRouter();
+  const [matches, setMatches] = useState<Matches[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [professions, setProfessions] = useState<Profession[]>([]);
   const { profession, province } = router.query as {
     profession: string;
     province: string;
   };
 
-  const allowedProvince = provincesLowercase.includes(province?.toLowerCase())
-
   useEffect(() => {
-    if (!profession || !province || !allowedProvince) {
-      router.push("/");
-      return;
+    if (!profession) return;
+    if (!effectMatchesRan.current) {
+      getProfessionMatches(profession, province).then((matches) => {
+        setMatches(matches.content);
+        setIsLoading(false);
+      });
     }
-  }, [profession, province])
-
-  const { isLoading, matches } = useMatches(profession, province);
+    return () => {
+      effectMatchesRan.current = true;
+    };
+  }),
+    [profession, province];
 
   const activeProfession = useMemo(() => {
-    return professions.find(
-      (profession) => profession.isActive,
-    )
-  }, [professions])
+    return professions.find((profession) => profession.isActive);
+  }, [professions]);
 
   useEffect(() => {
     if (matches && matches?.length > 0 && !effectRan.current) {
@@ -94,10 +107,6 @@ const ExplorePage = () => {
     );
   };
 
-  const handleSearchAgain = () => {
-    router.push("/");
-  };
-
   return (
     <>
       <Navbar />
@@ -115,7 +124,17 @@ const ExplorePage = () => {
             </Paragraph>
           </div>
           <div>
-            <Button onClick={handleSearchAgain}>Search again</Button>
+            <Dialog
+              onOpenChange={setDialogOpen}
+              open={dialogOpen}
+              trigger={
+                <Button onClick={() => setDialogOpen(true)} className="mt-10">
+                  Search again
+                </Button>
+              }
+            >
+              <Form setOpen={setDialogOpen} />
+            </Dialog>
           </div>
         </div>
         <DialogLoading isLoading={isLoading} />

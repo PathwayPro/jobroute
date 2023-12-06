@@ -2,6 +2,7 @@ import React, { createContext } from "react";
 import Head from "next/head";
 import type { AppProps } from "next/app";
 import "@/styles/globals.css";
+import { useRouter } from "next/router";
 
 const Context = createContext({});
 
@@ -11,6 +12,7 @@ function App({ Component, pageProps }: AppProps) {
     industry: "",
     region: "",
   };
+  const router = useRouter()
 
   return (
     <>
@@ -18,7 +20,7 @@ function App({ Component, pageProps }: AppProps) {
         <title>JobRoute</title>
       </Head>
       <Context.Provider value={sharedData}>
-        <Component {...pageProps} />
+        <Component key={router.asPath} {...pageProps} />
       </Context.Provider>
     </>
   );

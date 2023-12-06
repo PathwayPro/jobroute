@@ -4,8 +4,14 @@ import { capitalizeWords } from "@/utils/utils";
 
 const handler: NextApiHandler = async (req, res) => {
   if (req.method === "GET") {
-    const { endpoint, province, profession } = req.query as { endpoint: string; province: string; profession: string };
-    const url = `${server}/${endpoint}?profession=${capitalizeWords(profession)}&province=${capitalizeWords(province)}`;
+    const { endpoint, province, profession } = req.query as {
+      endpoint: string;
+      province: string;
+      profession: string;
+    };
+    const url = `${server}/${endpoint}?profession=${capitalizeWords(
+      profession,
+    )}&province=${capitalizeWords(province)}`;
 
     try {
       const response = await fetch(url);
