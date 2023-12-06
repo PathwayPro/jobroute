@@ -32,6 +32,7 @@ pnpm install
 OPENAI_API_KEY=
 RECAPTCHA_SECRET_KEY=
 NEXT_PUBLIC_RECAPTCHA_SITE_KEY=
+NEXT_PUBLIC_SLOW_MODE=true
 ```
 
 4. Run the development server:
