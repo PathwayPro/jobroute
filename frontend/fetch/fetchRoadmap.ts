@@ -5,6 +5,7 @@ export const fetchRoadmap = async (
   endpoint: string,
   profession: string,
   province: string,
+  signal: AbortSignal | null = null
 ) => {
   const allowedProvince = provincesLowercase.includes(province.toLowerCase());
   if (!endpoint || !profession || !province || !allowedProvince) {
@@ -13,16 +14,12 @@ export const fetchRoadmap = async (
 
   const url = `${nextServer}/prompts?endpoint=${endpoint}&profession=${profession}&province=${province}`;
 
-  try {
-    const response = await fetch(url);
+  const response = await fetch(url, { signal });
 
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error(`Error in ${endpoint}:`, error);
-    throw error;
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
   }
+
+  return await response.json();
+
 };

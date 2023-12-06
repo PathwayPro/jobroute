@@ -1,5 +1,4 @@
 import { fetchMatches } from "@/fetch/fetchProfessionMatch";
-import { useEffect, useState } from "react";
 
 interface Response {
   title: string;
@@ -12,7 +11,7 @@ interface Matches {
   NOC: string;
 }
 
-async function getProfessionMatches(
+export async function getProfessionMatches(
   profession: string,
   province: string,
 ): Promise<Response> {
@@ -24,19 +23,3 @@ async function getProfessionMatches(
     return { title: "", content: [] };
   }
 }
-
-export const useMatches = (profession: string, province: string) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [matches, setMatches] = useState<Matches[]>([]);
-
-  useEffect(() => {
-    if (!profession) return;
-    getProfessionMatches(profession, province).then((matches) => {
-      setMatches(matches.content);
-      setIsLoading(false);
-    });
-  }),
-    [profession, province];
-
-  return { isLoading, matches };
-};

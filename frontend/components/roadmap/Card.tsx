@@ -55,7 +55,7 @@ const CardContent = ({
       <div>
         <Badge type={type} />
       </div>
-      <div className="line-clamp-6">{loader || content}</div>
+      <div className="line-clamp-6">{isLoading ? loader : content}</div>
       {!isLoading && (
         <Button variant="secondary" className="ml-auto mt-auto">
           Read more

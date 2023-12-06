@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { capitalizeWords } from "@/utils/utils";
-import { useMatches } from "@/hooks/useMatches";
+import { getProfessionMatches } from "@/hooks/useMatches";
 import Navbar from "@/components/Navbar";
 import PercentageCard from "@/components/PercentageCard";
 import Button from "@/ui/Button";
@@ -21,26 +21,38 @@ interface Profession {
   isActive: boolean;
 }
 
+interface Matches {
+  title: string;
+  Percentage: string;
+  NOC: string;
+}
+
 const ExplorePage = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const effectRan = useRef(false);
+  const effectMatchesRan = useRef(false);
   const router = useRouter();
+  const [matches, setMatches] = useState<Matches[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [professions, setProfessions] = useState<Profession[]>([]);
   const { profession, province } = router.query as {
     profession: string;
     province: string;
   };
 
-  const allowedProvince = provincesLowercase.includes(province?.toLowerCase());
-
   useEffect(() => {
-    if (!profession || !province || !allowedProvince) {
-      router.push("/");
-      return;
+    if (!profession) return;
+    if (!effectMatchesRan.current) {
+      getProfessionMatches(profession, province).then((matches) => {
+        setMatches(matches.content);
+        setIsLoading(false);
+      });
     }
-  }, [profession, province]);
-
-  const { isLoading, matches } = useMatches(profession, province);
+    return () => {
+      effectMatchesRan.current = true;
+    };
+  }),
+    [profession, province];
 
   const activeProfession = useMemo(() => {
     return professions.find((profession) => profession.isActive);
@@ -76,7 +88,7 @@ const ExplorePage = () => {
     if (activeProfession) {
       return (
         <RoadmapCards
-          key={`${activeProfession.title}-${province}}`}
+          key={activeProfession.title}
           profession={activeProfession.title.toLocaleLowerCase()}
           province={province}
         />

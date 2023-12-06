@@ -10,10 +10,13 @@ export interface InfoProps {
   "Language Proficiency": string;
 }
 
-export interface SkillProps {
+interface Skills {
   title: string;
   content: string[];
 }
+
+
+export type SkillProps = Skills[];
 
 export interface EducationProps {
   title: string;
@@ -33,7 +36,7 @@ export interface NetworkingProps {
 }
 
 export interface QualificationProps {
-  regulated: boolean;
+  regulated?: boolean;
   title: string;
   content: {
     title: string;

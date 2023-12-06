@@ -9,8 +9,10 @@ async function getPromptResult(
   try {
     const response = await fetchRoadmap(endpoint, profession, province);
     return response;
-  } catch (error) {
-    console.log(`Error fetching endpoint ${endpoint}`);
+  } catch (error: any) {
+    if (error.name !== "AbortError") {
+      console.log(`Error fetching endpoint ${endpoint}`);
+    }
   }
 }
 
