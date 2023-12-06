@@ -117,7 +117,6 @@ const NetworkingMinimized = ({ content }: NetworkingProps) => {
 const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
   const slowMode: boolean = process.env.NEXT_PUBLIC_SLOW_MODE === 'true';
   
-  console.log('VARIAVEL AMBIENTE', slowMode)
   const allowedProvince = provincesLowercase.includes(province?.toLowerCase());
   if (!profession || !province || !allowedProvince) return null;
 
@@ -180,7 +179,6 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
       results.push(response);
 
       if (slowMode) {
-        console.log('SLOW MODE')
         await new Promise((resolve) => setTimeout(resolve, delayInMs));
       }
     }
