@@ -8,7 +8,7 @@ class Jobroute(models.Model):
     '''
     title = models.CharField(null=True,max_length=255)
     province = models.CharField(null=True,max_length=255)
-    NOC = models.CharField(null=True,max_length=10)
+    NOC = models.TextField(null=True)
     overview = models.TextField(null=True)
     educational_requirement = models.TextField(null=True)
     skills = models.TextField(null=True)
@@ -16,6 +16,9 @@ class Jobroute(models.Model):
     info = models.TextField(null=True)
     qualification = models.TextField(null=True)
     #upskilling = models.TextField()
+
+    class Meta:
+        unique_together = (('title', 'province'))
 
     # def __str__(self):
     #     return self.field1

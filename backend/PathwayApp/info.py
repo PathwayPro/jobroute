@@ -5,6 +5,7 @@ from .models import Jobroute
 from .chatgpt import collect_result
 from .errorhandling import is_json_invalid
 # def get_info(request):
+from django.db import transaction
 
 #     salary = get_salary(request)
 #     degree = get_degree(request)
@@ -107,11 +108,11 @@ from .errorhandling import is_json_invalid
 #     return result
 
 
-
+@transaction.atomic
 def get_all_info1(role, region):
     # role, region, _ = get_input(request)
     result =""
-    occupation_data = Jobroute.objects.filter(title=role,province=region).first()
+    occupation_data = Jobroute.objects.select_for_update().filter(title=role,province=region).first()
 
     if occupation_data and occupation_data.info is not None:
         # if occupation_data.networking is not None:

@@ -5,6 +5,7 @@ from .errorhandling import is_json_invalid
 from .chatgpt import generate_response, choose_model, collect_result
 # from .views import get_input, collect_result
 from .models import Jobroute
+from django.db import transaction
 
 
 # def regulation_check(request):
@@ -121,10 +122,11 @@ from .models import Jobroute
 
 #     return JsonResponse(combined_data, safe=False)
 
+@transaction.atomic
 def get_Education1(role, region):
     # role, region, _ = get_input(request)
     result = ""
-    occupation_data = Jobroute.objects.filter(title=role,province=region).first()
+    occupation_data = Jobroute.objects.select_for_update().filter(title=role,province=region).first()
 
     if occupation_data and occupation_data.educational_requirement is not None:
         # if occupation_data.networking is not None:

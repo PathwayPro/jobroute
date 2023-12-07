@@ -2,14 +2,16 @@ import json
 from django.http import JsonResponse
 from .models import Jobroute
 from.chatgpt import collect_result
+from django.db import transaction
 
+@transaction.atomic
 def get_networking1(role, region):
     '''
     Card to retrieve the networking opportunities for a role
     '''
     # role, region, _ = get_input(request)
     result = ""
-    occupation_data = Jobroute.objects.filter(title=role,province=region).first()
+    occupation_data = Jobroute.objects.select_for_update().filter(title=role,province=region).first()
 
     #Check if info exists in DB
     if occupation_data and occupation_data.networking is not None:

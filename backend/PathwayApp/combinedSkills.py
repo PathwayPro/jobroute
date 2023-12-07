@@ -5,6 +5,7 @@ from .errorhandling import is_json_invalid
 from .models import Jobroute
 # from .views import get_input, collect_result
 from .chatgpt import collect_result
+from django.db import transaction
 
 
 
@@ -78,11 +79,11 @@ def get_soft_skills(role, region):
 
 #     return JsonResponse(combined_data, safe=False)
 
-
+@transaction.atomic
 def hardAndSoftSkills1(role, region):
     # role, region, _ = get_input(request)
     result = ""
-    occupation_data = Jobroute.objects.filter(title=role,province=region).first()
+    occupation_data = Jobroute.objects.select_for_update().filter(title=role,province=region).first()
 
     if occupation_data and occupation_data.skills is not None:
         # if occupation_data.networking is not None:

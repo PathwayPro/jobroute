@@ -6,6 +6,7 @@ from .models import Jobroute
 from .chatgpt import collect_result
 from .errorhandling import is_json_invalid
 from .noc import get_noc
+from django.db import transaction
 
 
 # def role_summary(request):
@@ -26,6 +27,7 @@ from .noc import get_noc
 
 #     return response
 
+@transaction.atomic
 def role_summary1(role, region):
     '''
     Provides the overview for the job role
@@ -33,7 +35,7 @@ def role_summary1(role, region):
     # role, region, _ = get_input(request)
 
     result = ""
-    occupation_data = Jobroute.objects.filter(title=role,province=region).first()
+    occupation_data = Jobroute.objects.select_for_update().filter(title=role,province=region).first()
 
     if occupation_data and occupation_data.overview is not None:
         print("GOTTEN FROM DATABASE")
@@ -69,6 +71,9 @@ def role_summary1(role, region):
                                     province=region,
                                     title=role,
                                     NOC=noc)
-                job_route.save()
+                try:
+                    job_route.save()
+                except Exception as e:
+                    print(f"An exception caught while storing to database: {e}")
 
     return result

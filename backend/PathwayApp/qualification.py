@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from .models import Jobroute
 from .chatgpt import collect_result, generate_response
 from .errorhandling import is_json_invalid
+from django.db import transaction
 
 def qualification_check(role, region):
     '''
@@ -21,11 +22,11 @@ def qualification_check(role, region):
         output = get_Experience(role, region)
         return output
 
-
+@transaction.atomic
 def get_Experience(role, region):
     # role, region, _ = get_input(request)
     result = ""
-    occupation_data = Jobroute.objects.filter(title=role,province=region).first()
+    occupation_data = Jobroute.objects.select_for_update().filter(title=role,province=region).first()
 
     if occupation_data and occupation_data.qualification is not None:
         # if occupation_data.networking is not None:
@@ -78,11 +79,11 @@ def get_Experience(role, region):
 
     return result
 
-
+@transaction.atomic
 def get_License(role, region):
     # role, region, _ = get_input(request)
     result = ""
-    occupation_data = Jobroute.objects.filter(title=role,province=region).first()
+    occupation_data = Jobroute.objects.select_for_update().filter(title=role,province=region).first()
 
     if occupation_data and occupation_data.qualification is not None:
         # if occupation_data.networking is not None:
