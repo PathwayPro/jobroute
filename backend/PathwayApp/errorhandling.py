@@ -31,8 +31,22 @@ def extract_numeric_noc(noc):
     return numeric_noc
 
 def extract_numeric_noc1(noc):
-    match = re.search(r'\bNOC\s+(\d+)\b', noc)
+    match = re.search(r'\bNOC\s*(\d+)\b|\b(\d+)\b', noc)
     if match:
-        return match.group(1)
+        noc_code = match.group(1)
+        if noc_code is None:
+            noc_code = match.group(2)
+        return noc_code
     else:
         return None
+
+
+# Removing brackets to change arrays to object
+def remove_brackets(response):
+    if response.startswith("[[") and response.endswith("]]"):
+        result = response[1:-1]
+    elif response.startswith("[") and response.endswith("]"):
+        result = response[1:-1]
+    else:
+        result = response
+    return result

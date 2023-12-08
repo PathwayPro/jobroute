@@ -4,6 +4,7 @@ import openai
 from dotenv import load_dotenv
 import os
 import openai
+from .errorhandling import remove_brackets
 
 # Load environment variables from .env file
 load_dotenv()
@@ -17,7 +18,7 @@ def collect_result(prompt, model_no):
         try:
             # result = generate_response(prompt)
             result = choose_model(prompt, model_no)
-            result_json = json.loads(result)
+            result_json = json.loads(remove_brackets(result))
             response = JsonResponse(result_json, safe=False)
             return response
         except json.JSONDecodeError as e:
