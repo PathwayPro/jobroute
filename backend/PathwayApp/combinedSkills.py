@@ -104,7 +104,7 @@ def hardAndSoftSkills1(role, region):
         # '''
         soft_response = get_soft_skills(role, region)
         hard_response = get_hard_skills(role, region)
-        if is_json_invalid(soft_response) or is_json_invalid(soft_response):
+        if is_json_invalid(soft_response) or is_json_invalid(hard_response):
             print("error found in result")
             return result
         else:

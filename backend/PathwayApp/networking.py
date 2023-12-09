@@ -1,5 +1,7 @@
 import json
 from django.http import JsonResponse
+
+from .errorhandling import is_json_invalid
 from .models import Jobroute
 from.chatgpt import collect_result
 from django.db import transaction
@@ -54,17 +56,21 @@ def get_networking1(role, region):
                 '''
         result = collect_result(prompt, 4)
         #check if entry exists and only specified field is missing
-        if occupation_data:
-            occupation_data.networking=result.content.decode('utf-8')
-            occupation_data.province = region
-            occupation_data.title=role
-            occupation_data.save()
-        #No entry nor field data
+        if is_json_invalid(result):
+            print("error found in result")
+            return result
         else:
-            job_route = Jobroute(networking = result.content.decode('utf-8'),
-                                 province=region,
-                                 title=role)
-            job_route.save()
+            if occupation_data:
+                occupation_data.networking=result.content.decode('utf-8')
+                occupation_data.province = region
+                occupation_data.title=role
+                occupation_data.save()
+            #No entry nor field data
+            else:
+                job_route = Jobroute(networking = result.content.decode('utf-8'),
+                                    province=region,
+                                    title=role)
+                job_route.save()
 
 
     return result
