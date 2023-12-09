@@ -4,7 +4,7 @@ import openai
 from dotenv import load_dotenv
 import os
 import openai
-from .errorhandling import remove_brackets
+from .errorhandling import remove_brackets,remove_strings
 
 # Load environment variables from .env file
 load_dotenv()
@@ -18,14 +18,14 @@ def collect_result(prompt, model_no):
         try:
             # result = generate_response(prompt)
             result = choose_model(prompt, model_no)
-            result_json = json.loads(remove_brackets(result))
+            result_json = json.loads(remove_strings(result))
             response = JsonResponse(result_json, safe=False)
             return response
         except json.JSONDecodeError as e:
             print("this JSON error is called")
             error_message = f"Error decoding JSON: {e}"
             response = JsonResponse({"error": error_message}, status=500)
-            # prompt = f"Return content strictly in JSON template given and remove any text before  the JSON\n" + prompt
+            prompt = f"Return content strictly in JSON template given and remove any text before  the JSON\n" + prompt
         except Exception as e:
             print("this error Exception is called")
             print(e)
