@@ -378,7 +378,13 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
                   <Paragraph key={content}>• {content}</Paragraph>
                 ))}
                 <Paragraph className="mt-2">
-                  <a href={field.website}>Visit the website</a>
+                  <a
+                    href={field.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Visit the website
+                  </a>
                 </Paragraph>
               </div>
             ),
