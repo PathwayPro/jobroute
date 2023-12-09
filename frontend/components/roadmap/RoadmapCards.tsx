@@ -81,8 +81,6 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
 
   const [error, setError] = useState<EndpointError[]>([]);
 
-  console.log("error", error);
-
   function getRequests() {
     return [
       {

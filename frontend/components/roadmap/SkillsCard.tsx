@@ -9,7 +9,6 @@ const SkillsCard = ({
   hasError,
   isLoading,
 }: RoadmapCardProps) => {
-  console.log("no skills card", hasError, isLoading);
   return (
     <Card
       key="combinedSkills"

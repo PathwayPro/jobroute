@@ -19,7 +19,6 @@ export async function getProfessionMatches(
     const response = await fetchMatches(profession, province);
     return response;
   } catch (error) {
-    console.log("Error fetching matches");
     return { title: "", content: [] };
   }
 }
