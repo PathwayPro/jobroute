@@ -81,7 +81,7 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
 
   const [error, setError] = useState<EndpointError[]>([]);
 
-  console.log('error', error)
+  console.log("error", error);
 
   function getRequests() {
     return [
@@ -149,7 +149,7 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
           results.push(response);
         } catch (error: any) {
           console.error(`Error fetching data for ${endpoint}:`, error);
-          loader(false)
+          loader(false);
           setError((prevError) => [
             ...prevError,
             { endpoint, errorName: error },

@@ -3,7 +3,7 @@ import { nextServer } from "@/tools/routes";
 
 export const fetchMatches = async (profession: string, province: string) => {
   const allowedProvince = provincesLowercase.includes(province.toLowerCase());
-if (!profession || !province || !allowedProvince) {
+  if (!profession || !province || !allowedProvince) {
     return;
   }
   const url = `${nextServer}/professionMatch?profession=${profession}&province=${province}`;
