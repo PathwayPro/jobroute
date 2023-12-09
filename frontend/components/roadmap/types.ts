@@ -1,7 +1,3 @@
-export interface OverviewProps {
-  content: string;
-}
-
 export interface InfoProps {
   salary: string[];
   Degree: string;
