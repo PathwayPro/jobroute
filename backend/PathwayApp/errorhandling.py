@@ -41,6 +41,14 @@ def extract_numeric_noc1(noc):
         return None
 
 
+#Removing text before string
+def remove_strings(response):
+    index = min(response.find('{'), response.find('['))
+    if index == -1:
+        return response
+    result = remove_brackets(response[index:])
+    return result
+
 # Removing brackets to change arrays to object
 def remove_brackets(response):
     if response.startswith("[[") and response.endswith("]]"):
