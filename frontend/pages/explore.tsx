@@ -128,7 +128,7 @@ const ExplorePage = () => {
               onOpenChange={setDialogOpen}
               open={dialogOpen}
               trigger={
-                <Button onClick={() => setDialogOpen(true)} className="mt-10">
+                <Button onClick={() => setDialogOpen(true)}>
                   Search again
                 </Button>
               }

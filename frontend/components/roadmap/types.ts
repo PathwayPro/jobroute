@@ -10,11 +10,10 @@ export interface InfoProps {
   "Language Proficiency": string;
 }
 
-interface Skills {
+export interface Skills {
   title: string;
   content: string[];
 }
-
 
 export type SkillProps = Skills[];
 

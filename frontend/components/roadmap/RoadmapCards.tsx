@@ -1,6 +1,6 @@
 import Paragraph from "@/ui/Paragraph";
 import Card from "./Card";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { fetchRoadmap } from "@/fetch/fetchRoadmap";
 import { capitalizeWords } from "@/utils/utils";
 import {
@@ -9,8 +9,17 @@ import {
   QualificationProps,
   SkillProps,
   InfoProps,
+  Skills,
 } from "./types";
 import { provincesLowercase } from "@/provinces";
+import {
+  EducationMinimized,
+  InfoMinimized,
+  NetworkingMinimized,
+  OverviewMinimized,
+  QualificationMinimized,
+  SkillsMinimized,
+} from "./MinimizedCards";
 
 interface RequestData {
   setter: (data: any) => void;
@@ -23,99 +32,13 @@ interface RoadmapCardProps {
   province: string;
 }
 
-const InfoMinimized = ({
-  salary,
-  "Credential Validation": credentialValidation,
-  Degree: degree,
-  Work: work,
-}: InfoProps) => {
-  return (
-    <div className="grid h-[180px] grid-cols-2 gap-2">
-      <div className="line-clamp-1 flex h-[60px] flex-col rounded-xl bg-light-gray p-2">
-        <p className="text-sm font-bold">Salary</p>
-        <p className="line-clamp-1 text-xs">{salary[0]}</p>
-      </div>
-      <div className="line-clamp-1 flex h-[60px] flex-col rounded-xl bg-light-gray p-2">
-        <p className="text-sm font-bold">Degree</p>
-        <p className="line-clamp-1 text-xs">{degree}</p>
-      </div>
-      <div className="line-clamp-1 flex h-[60px] flex-col rounded-xl bg-light-gray p-2">
-        <p className="text-sm font-bold">Work</p>
-        <p className="line-clamp-1 text-xs">{work[0]}</p>
-      </div>
-      <div className="line-clamp-1 flex h-[60px] flex-col rounded-xl bg-light-gray p-2">
-        <p className="text-sm font-bold">Credential</p>
-        <p className="line-clamp-1 text-xs">{credentialValidation}</p>
-      </div>
-    </div>
-  );
-};
-
-const QualificationMinimized = ({ content }: QualificationProps) => {
-  return (
-    <>
-      <div className="grid h-[180px] grid-cols-2 gap-2">
-        {content?.map(
-          (field: { title: string; desc: string }, index) =>
-            index <= 3 && (
-              <div
-                key={field.title}
-                className="line-clamp-1 flex h-[70px] flex-col rounded-xl bg-light-gray p-2"
-              >
-                <p className="text-sm font-bold">{field.title}</p>
-                <p className="line-clamp-1 text-xs">{field.desc}</p>
-              </div>
-            ),
-        )}
-      </div>
-    </>
-  );
-};
-
-const EducationMinimized = ({ content }: EducationProps) => {
-  return (
-    <>
-      <div className="grid h-[180px] grid-cols-2 gap-2">
-        {content?.map(
-          (field: { title: string; desc: string }, index) =>
-            index <= 3 && (
-              <div
-                key={field.title}
-                className="line-clamp-1 flex h-[70px] flex-col rounded-xl bg-light-gray p-2"
-              >
-                <p className="text-sm font-bold">{field.title}</p>
-                <p className="line-clamp-1 text-xs">{field.desc}</p>
-              </div>
-            ),
-        )}
-      </div>
-    </>
-  );
-};
-
-const NetworkingMinimized = ({ content }: NetworkingProps) => {
-  return (
-    <>
-      <div className="grid h-[180px] grid-cols-2 gap-2">
-        {content?.map(
-          (field: { name: string; services: string[] }, index) =>
-            index <= 3 && (
-              <div
-                key={field.name}
-                className="line-clamp-1 flex h-[70px] flex-col rounded-xl bg-light-gray p-2"
-              >
-                <p className="text-sm font-bold line-clamp-2">{field.name}</p>
-                <p className="line-clamp-1 text-xs">{field.services[0]}...</p>
-              </div>
-            ),
-        )}
-      </div>
-    </>
-  );
-};
+interface EndpointError {
+  endpoint: string;
+  errorName: string;
+}
 
 const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
-  const slowMode: boolean = process.env.NEXT_PUBLIC_SLOW_MODE === 'true';
+  const slowMode: boolean = process.env.NEXT_PUBLIC_SLOW_MODE === "true";
 
   const allowedProvince = provincesLowercase.includes(province?.toLowerCase());
   if (!profession || !province || !allowedProvince) return null;
@@ -150,42 +73,59 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
   const [combinedSkills, setCombinedSkills] = useState<SkillProps>([]);
   const [combinedSkillsLoader, setCombinedSkillsLoader] = useState(true);
 
+  const [error, setError] = useState<EndpointError[]>([]);
+
   const getPrompts = async (
     endpoint: string,
     loader: any,
-    signal: AbortSignal
+    signal: AbortSignal,
   ): Promise<any> => {
     try {
-      const response = await fetchRoadmap(endpoint, profession, province, signal);
+      const response = await fetchRoadmap(
+        endpoint,
+        profession,
+        province,
+        signal,
+      );
       loader(false);
       return response;
-    } catch (error) {
+    } catch (error: any) {
       console.warn(`Failed attempt to call the ${endpoint} prompt`, error);
-      throw error;
+      throw error.name;
     }
   };
 
-  const fetchDataWithDelay = async (
-    requests: RequestData[],
-    abortController: AbortController,
-  ): Promise<any[]> => {
-    const results: any[] = [];
-    const delayInMs = 500;
+  const fetchDataWithDelay = useCallback(
+    async (
+      requests: RequestData[],
+      abortController: AbortController,
+    ): Promise<any[]> => {
+      const results: any[] = [];
+      const delayInMs = 500;
 
-    for (const { setter, endpoint, loader } of requests) {
-      const signal = abortController.signal;
-      const response = await getPrompts(endpoint, loader, signal);
-      setter(response);
-      results.push(response);
+      for (const { setter, endpoint, loader } of requests) {
+        const signal = abortController.signal;
+        try {
+          const response = await getPrompts(endpoint, loader, signal);
+          setter(response);
+          results.push(response);
+        } catch (error: any) {
+          console.error(`Error fetching data for ${endpoint}:`, error);
+          setError((prevError) => [
+            ...prevError,
+            { endpoint, errorName: error },
+          ]);
+        }
 
-      if (slowMode) {
-        await new Promise((resolve) => setTimeout(resolve, delayInMs));
+        if (slowMode) {
+          await new Promise((resolve) => setTimeout(resolve, delayInMs));
+        }
       }
-    }
 
-    return results;
-  };
-
+      return results;
+    },
+    [getPrompts, slowMode],
+  );
   useEffect(() => {
     const abortController = new AbortController();
 
@@ -195,12 +135,32 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
 
     if (profession && province) {
       const requests: RequestData[] = [
-        { setter: setOverview, endpoint: 'overview', loader: setOverviewLoader },
-        { setter: setInfo, endpoint: 'info', loader: setInfoLoader },
-        { setter: setCombinedSkills, endpoint: 'combinedSkills', loader: setCombinedSkillsLoader },
-        { setter: setEducation, endpoint: 'education', loader: setEducationLoader },
-        { setter: setQualification, endpoint: 'qualification', loader: setQualificationLoader },
-        { setter: setNetworking, endpoint: 'networking', loader: setNetworkingLoader },
+        {
+          setter: setOverview,
+          endpoint: "overview",
+          loader: setOverviewLoader,
+        },
+        { setter: setInfo, endpoint: "info", loader: setInfoLoader },
+        {
+          setter: setCombinedSkills,
+          endpoint: "combinedSkills",
+          loader: setCombinedSkillsLoader,
+        },
+        {
+          setter: setEducation,
+          endpoint: "education",
+          loader: setEducationLoader,
+        },
+        {
+          setter: setQualification,
+          endpoint: "qualification",
+          loader: setQualificationLoader,
+        },
+        {
+          setter: setNetworking,
+          endpoint: "networking",
+          loader: setNetworkingLoader,
+        },
       ];
 
       const fetchData = async () => {
@@ -213,9 +173,58 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
     }
   }, [profession, province]);
 
+  function endpointHasError(endpoint: string) {
+    return error.some(
+      (error) =>
+        error.endpoint === endpoint && error.errorName !== "AbortError",
+    );
+  }
+
+  const retry = async (endpoint: string) => {
+    const abortController = new AbortController();
+
+    const requests: RequestData[] = [
+      { setter: setOverview, endpoint: "overview", loader: setOverviewLoader },
+      { setter: setInfo, endpoint: "info", loader: setInfoLoader },
+      {
+        setter: setCombinedSkills,
+        endpoint: "combinedSkills",
+        loader: setCombinedSkillsLoader,
+      },
+      {
+        setter: setEducation,
+        endpoint: "education",
+        loader: setEducationLoader,
+      },
+      {
+        setter: setQualification,
+        endpoint: "qualification",
+        loader: setQualificationLoader,
+      },
+      {
+        setter: setNetworking,
+        endpoint: "networking",
+        loader: setNetworkingLoader,
+      },
+    ];
+
+    const requestsToRetry = requests.filter(
+      (request) => request.endpoint === endpoint,
+    );
+
+    await fetchDataWithDelay(requestsToRetry, abortController);
+  };
+
   return (
     <div className="grid grid-cols-1 justify-evenly gap-8 md:grid-cols-2 lg:grid-cols-3">
-      <Card key="overview" type="overview" isLoading={overviewLoader}>
+      <Card
+        key="overview"
+        type="overview"
+        isLoading={overviewLoader}
+        minimizedContent={<OverviewMinimized {...overview} />}
+        callback={() => retry("overview")}
+        hasError={error.length > 0 && endpointHasError("overview")}
+      >
         <Paragraph>{overview.content}</Paragraph>
       </Card>
       <Card
@@ -223,6 +232,8 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
         type="info"
         isLoading={infoLoader}
         minimizedContent={<InfoMinimized {...info} />}
+        hasError={error.length > 0 && endpointHasError("info")}
+        callback={() => retry("info")}
       >
         <div className="grid grid-cols-2 gap-6 self-center">
           <div className="min-h-[100px] rounded-xl bg-light-gray p-6">
@@ -273,6 +284,9 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
         key="combinedSkills"
         type="combinedSkills"
         isLoading={combinedSkillsLoader}
+        minimizedContent={<SkillsMinimized skills={combinedSkills} />}
+        hasError={error.length > 0 && endpointHasError("combinedSkills")}
+        callback={() => retry("combinedSkills")}
       >
         <div className="grid grid-cols-2 gap-6">
           {combinedSkills.map((category) => (
@@ -294,6 +308,8 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
         type="education"
         isLoading={educationLoader}
         minimizedContent={<EducationMinimized {...education} />}
+        hasError={error.length > 0 && endpointHasError("education")}
+        callback={() => retry("education")}
       >
         <div className="grid grid-cols-2 gap-6">
           {education.content?.map((field: { title: string; desc: string }) => (
@@ -314,11 +330,14 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
         type="qualification"
         isLoading={qualificationLoader}
         minimizedContent={<QualificationMinimized {...qualification} />}
+        hasError={error.length > 0 && endpointHasError("qualification")}
+        callback={() => retry("qualification")}
       >
         <Paragraph weight="bold" size="large">
-          {qualification.regulated
-            ? "Regulated profession"
-            : "Non-regulated profession"}
+          {qualification.regulated === true ? "Regulated profession" : null}
+          {qualification.regulated === false
+            ? "Non-regulated profession"
+            : null}
         </Paragraph>
         <Paragraph className="mb-2">
           {capitalizeWords(profession)} - {qualification.title}:

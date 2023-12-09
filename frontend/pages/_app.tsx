@@ -12,7 +12,7 @@ function App({ Component, pageProps }: AppProps) {
     industry: "",
     region: "",
   };
-  const router = useRouter()
+  const router = useRouter();
 
   return (
     <>
