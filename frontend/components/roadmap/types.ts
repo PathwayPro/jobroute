@@ -1,7 +1,3 @@
-export interface OverviewProps {
-  content: string;
-}
-
 export interface InfoProps {
   salary: string[];
   Degree: string;
@@ -10,11 +6,10 @@ export interface InfoProps {
   "Language Proficiency": string;
 }
 
-interface Skills {
+export interface Skills {
   title: string;
   content: string[];
 }
-
 
 export type SkillProps = Skills[];
 
@@ -42,4 +37,11 @@ export interface QualificationProps {
     title: string;
     desc: string;
   }[];
+}
+
+export interface RoadmapCardProps {
+  isLoading: boolean;
+  callback: () => void;
+  hasError: boolean;
+  data: any;
 }

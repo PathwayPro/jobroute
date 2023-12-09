@@ -5,6 +5,8 @@ import SkeletonLoader from "./SkeletonLoader";
 import { ProgressBarLoading } from "@/ui/ProgressBar";
 import { cva } from "class-variance-authority";
 import Button from "@/ui/Button";
+import Paragraph from "@/ui/Paragraph";
+import { useState } from "react";
 
 type ContentType =
   | "overview"
@@ -20,6 +22,8 @@ interface CardContentProps {
   minimizedContent?: React.ReactNode;
   isLoading: boolean;
   children: React.ReactNode;
+  hasError?: boolean;
+  callback?: () => void;
 }
 
 export interface Field {
@@ -30,8 +34,10 @@ interface CardProps {
   className?: string;
   type: ContentType;
   isLoading: boolean;
+  hasError?: boolean;
   minimizedContent?: React.ReactNode;
   children: React.ReactNode;
+  callback?: () => void;
 }
 
 const cardStyles = cva(
@@ -44,19 +50,39 @@ const CardContent = ({
   minimizedContent,
   isLoading,
   children,
+  hasError,
+  callback,
 }: CardContentProps) => {
   const loader = isLoading && (
     <ProgressBarLoading key={type} isLoading={isLoading} />
   );
   const content = minimizedContent ? minimizedContent : children;
+  const shouldDisplayError = !isLoading && hasError;
+  const shouldDisplayContent = !isLoading && !hasError;
+
+  const ErrorContent = () => {
+    return (
+      <div className="flex flex-col content-center items-center justify-center gap-2 text-center">
+        <Paragraph>AI services are currently down. </Paragraph>
+        <Paragraph>
+          Please bear with us as we work to return to normal service.
+        </Paragraph>
+        <Button onClick={callback} variant="primary-small">
+          Try again
+        </Button>
+      </div>
+    );
+  };
 
   return (
     <div key={type} className={cardStyles({ className })}>
       <div>
         <Badge type={type} />
       </div>
-      <div className="line-clamp-6">{isLoading ? loader : content}</div>
-      {!isLoading && (
+      {loader}
+      <div className="line-clamp-6">{shouldDisplayContent && content}</div>
+      {shouldDisplayError && <ErrorContent />}
+      {!isLoading && !hasError && (
         <Button variant="secondary" className="ml-auto mt-auto">
           Read more
         </Button>
@@ -71,26 +97,44 @@ const Card = ({
   minimizedContent,
   isLoading,
   children,
+  hasError,
+  callback,
 }: CardProps) => {
+  const [open, setOpen] = useState(false);
   return (
     <Dialog
+      onOpenChange={(isOpen) => setOpen(isOpen)}
+      open={!hasError ? open : false}
       trigger={CardContent({
         className,
         type,
         minimizedContent,
         isLoading,
         children,
+        hasError,
+        callback,
       })}
     >
       <div className="flex w-[600px] flex-col gap-4">
         <Badge type={type} />
-        {isLoading ? (
+        {isLoading && (
           <div className="min-w-[500px]">
             <SkeletonLoader />
           </div>
-        ) : (
-          children
         )}
+        {hasError && (
+          <div>
+            <Paragraph>Ops</Paragraph>
+            <Button
+              onClick={callback}
+              variant="secondary"
+              className="ml-auto mt-auto"
+            >
+              Try again
+            </Button>
+          </div>
+        )}
+        {!isLoading && !hasError && children}
       </div>
     </Dialog>
   );

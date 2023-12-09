@@ -117,18 +117,20 @@ const ExplorePage = () => {
               Jobs similar to {capitalizeWords(profession)} in{" "}
               {capitalizeWords(province)}
             </h2>
-            <Paragraph>
-              Your current occupation matches with several professions in{" "}
-              {capitalizeWords(province)}. Select any of them to explore how you
-              can leverage your skills to transition into a new career.
-            </Paragraph>
+            {matches?.length > 0 && (
+              <Paragraph>
+                Your current occupation matches with several professions in{" "}
+                {capitalizeWords(province)}. Select any of them to explore how
+                you can leverage your skills to transition into a new career.
+              </Paragraph>
+            )}
           </div>
           <div>
             <Dialog
               onOpenChange={setDialogOpen}
               open={dialogOpen}
               trigger={
-                <Button onClick={() => setDialogOpen(true)} className="mt-10">
+                <Button onClick={() => setDialogOpen(true)}>
                   Search again
                 </Button>
               }
@@ -152,6 +154,20 @@ const ExplorePage = () => {
                 onClick={() => handleActive(profession.title)}
               />
             ))}
+        </div>
+        <div>
+          {!isLoading && !matches && (
+            <div className="flex flex-col items-center justify-center gap-3">
+              <Paragraph size="large">
+                AI was unable to provide job roles with transferrable skills
+                similar to {capitalizeWords(profession)} in{" "}
+                {capitalizeWords(province)}.
+              </Paragraph>
+              <Paragraph size="large">
+                Try searching for a different job role or province.
+              </Paragraph>
+            </div>
+          )}
         </div>
         <div>{renderRoadmap}</div>
       </div>

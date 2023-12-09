@@ -1,9 +1,41 @@
-import { ButtonProps, InputProps, SelectProps } from "@/types/PropsTypes";
-import React from "react";
+import React, { ButtonHTMLAttributes, ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 import Spinner from "./Spinner";
 
-// TODO - Clean this file to remove redundant components
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: "primary-medium" | "primary-small" | "secondary" | "outlined";
+  children: ReactNode;
+  loading?: boolean;
+}
+
+export type InputProps = {
+  className?: string;
+  styleCaption?: string;
+  styleInput?: string;
+  label?: string;
+  placeholder?: string;
+  value?: string;
+  type?: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+};
+
+export type RequestType = {
+  province: string;
+  industry: string;
+  profession: string;
+};
+
+export type SelectProps = {
+  className?: string;
+  styleCaption?: string;
+  styleSelect?: string;
+  label?: string;
+  options: string[];
+  disabled?: "none" | number[];
+  defaultValue?: "" | number;
+  onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+};
+
 export const Button: React.FC<ButtonProps> = ({
   variant = "primary-medium",
   children,
