@@ -9,7 +9,6 @@ import {
   QualificationProps,
   SkillProps,
   InfoProps,
-  Skills,
 } from "./types";
 import { provincesLowercase } from "@/provinces";
 import {
@@ -20,6 +19,12 @@ import {
   QualificationMinimized,
   SkillsMinimized,
 } from "./MinimizedCards";
+import OverviewCard from "./OverviewCard";
+import InfoCard from "./InfoCard";
+import SkillsCard from "./SkillsCard";
+import EducationCard from "./EducationCard";
+import QualificationCard from "./QualificationCard";
+import NetworkingCard from "./NetworkingCard";
 
 interface RequestData {
   setter: (data: any) => void;
@@ -37,21 +42,22 @@ interface EndpointError {
   errorName: string;
 }
 
+const initCard = { title: "", content: [] };
+const initInfo = {
+  salary: [],
+  "Credential Validation": "",
+  Degree: "",
+  Work: [],
+  "Language Proficiency": "",
+};
+const initQualification = { regulated: undefined, title: "", content: [] };
+
 const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
   const slowMode: boolean = process.env.NEXT_PUBLIC_SLOW_MODE === "true";
 
   const allowedProvince = provincesLowercase.includes(province?.toLowerCase());
   if (!profession || !province || !allowedProvince) return null;
 
-  const initCard = { title: "", content: [] };
-  const initInfo = {
-    salary: [],
-    "Credential Validation": "",
-    Degree: "",
-    Work: [],
-    "Language Proficiency": "",
-  };
-  const initQualification = { regulated: undefined, title: "", content: [] };
   const [education, setEducation] = useState<EducationProps>(initCard);
   const [educationLoader, setEducationLoader] = useState(true);
 
@@ -75,6 +81,39 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
 
   const [error, setError] = useState<EndpointError[]>([]);
 
+  console.log('error', error)
+
+  function getRequests() {
+    return [
+      {
+        setter: setOverview,
+        endpoint: "overview",
+        loader: setOverviewLoader,
+      },
+      { setter: setInfo, endpoint: "info", loader: setInfoLoader },
+      {
+        setter: setCombinedSkills,
+        endpoint: "combinedSkills",
+        loader: setCombinedSkillsLoader,
+      },
+      {
+        setter: setEducation,
+        endpoint: "education",
+        loader: setEducationLoader,
+      },
+      {
+        setter: setQualification,
+        endpoint: "qualification",
+        loader: setQualificationLoader,
+      },
+      {
+        setter: setNetworking,
+        endpoint: "networking",
+        loader: setNetworkingLoader,
+      },
+    ];
+  }
+
   const getPrompts = async (
     endpoint: string,
     loader: any,
@@ -90,7 +129,6 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
       loader(false);
       return response;
     } catch (error: any) {
-      console.warn(`Failed attempt to call the ${endpoint} prompt`, error);
       throw error.name;
     }
   };
@@ -111,6 +149,7 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
           results.push(response);
         } catch (error: any) {
           console.error(`Error fetching data for ${endpoint}:`, error);
+          loader(false)
           setError((prevError) => [
             ...prevError,
             { endpoint, errorName: error },
@@ -134,34 +173,7 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
     };
 
     if (profession && province) {
-      const requests: RequestData[] = [
-        {
-          setter: setOverview,
-          endpoint: "overview",
-          loader: setOverviewLoader,
-        },
-        { setter: setInfo, endpoint: "info", loader: setInfoLoader },
-        {
-          setter: setCombinedSkills,
-          endpoint: "combinedSkills",
-          loader: setCombinedSkillsLoader,
-        },
-        {
-          setter: setEducation,
-          endpoint: "education",
-          loader: setEducationLoader,
-        },
-        {
-          setter: setQualification,
-          endpoint: "qualification",
-          loader: setQualificationLoader,
-        },
-        {
-          setter: setNetworking,
-          endpoint: "networking",
-          loader: setNetworkingLoader,
-        },
-      ];
+      const requests: RequestData[] = getRequests();
 
       const fetchData = async () => {
         await fetchDataWithDelay(requests, abortController);
@@ -183,30 +195,7 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
   const retry = async (endpoint: string) => {
     const abortController = new AbortController();
 
-    const requests: RequestData[] = [
-      { setter: setOverview, endpoint: "overview", loader: setOverviewLoader },
-      { setter: setInfo, endpoint: "info", loader: setInfoLoader },
-      {
-        setter: setCombinedSkills,
-        endpoint: "combinedSkills",
-        loader: setCombinedSkillsLoader,
-      },
-      {
-        setter: setEducation,
-        endpoint: "education",
-        loader: setEducationLoader,
-      },
-      {
-        setter: setQualification,
-        endpoint: "qualification",
-        loader: setQualificationLoader,
-      },
-      {
-        setter: setNetworking,
-        endpoint: "networking",
-        loader: setNetworkingLoader,
-      },
-    ];
+    const requests: RequestData[] = getRequests();
 
     const requestsToRetry = requests.filter(
       (request) => request.endpoint === endpoint,
@@ -217,180 +206,42 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
 
   return (
     <div className="grid grid-cols-1 justify-evenly gap-8 md:grid-cols-2 lg:grid-cols-3">
-      <Card
-        key="overview"
-        type="overview"
-        isLoading={overviewLoader}
-        minimizedContent={<OverviewMinimized {...overview} />}
+      <OverviewCard
         callback={() => retry("overview")}
+        data={overview}
         hasError={error.length > 0 && endpointHasError("overview")}
-      >
-        <Paragraph>{overview.content}</Paragraph>
-      </Card>
-      <Card
-        key="info"
-        type="info"
-        isLoading={infoLoader}
-        minimizedContent={<InfoMinimized {...info} />}
-        hasError={error.length > 0 && endpointHasError("info")}
+        isLoading={overviewLoader}
+      />
+      <InfoCard
         callback={() => retry("info")}
-      >
-        <div className="grid grid-cols-2 gap-6 self-center">
-          <div className="min-h-[100px] rounded-xl bg-light-gray p-6">
-            <Paragraph className="mb-2" weight="bold">
-              Salary
-            </Paragraph>
-            {info.salary.map((content: string, index: number) => (
-              <Paragraph key={content}>
-                {index === info.salary.length - 1 && "*"} {content}
-              </Paragraph>
-            ))}
-          </div>
-
-          <div className="min-h-[150px] rounded-xl bg-light-gray p-6">
-            <Paragraph className="mb-2" weight="bold">
-              Degree
-            </Paragraph>
-            <Paragraph>{info.Degree}</Paragraph>
-          </div>
-
-          <div className="min-h-[150px] rounded-xl bg-light-gray p-6">
-            <Paragraph className="mb-2" weight="bold">
-              Work
-            </Paragraph>
-            {info.Work.map((content: string) => (
-              <Paragraph key={content} className="mb-1">
-                {content}
-              </Paragraph>
-            ))}
-          </div>
-
-          <div className="min-h-[150px] rounded-xl bg-light-gray p-6">
-            <Paragraph className="mb-2" weight="bold">
-              Credential Validation
-            </Paragraph>
-            <Paragraph>{info["Credential Validation"]}</Paragraph>
-          </div>
-
-          <div className="min-h-[150px] rounded-xl bg-light-gray p-6">
-            <Paragraph className="mb-2" weight="bold">
-              Language Proficiency
-            </Paragraph>
-            <Paragraph>{info["Language Proficiency"]}</Paragraph>
-          </div>
-        </div>
-      </Card>
-      <Card
-        key="combinedSkills"
-        type="combinedSkills"
-        isLoading={combinedSkillsLoader}
-        minimizedContent={<SkillsMinimized skills={combinedSkills} />}
-        hasError={error.length > 0 && endpointHasError("combinedSkills")}
+        data={info}
+        hasError={error.length > 0 && endpointHasError("info")}
+        isLoading={infoLoader}
+      />
+      <SkillsCard
         callback={() => retry("combinedSkills")}
-      >
-        <div className="grid grid-cols-2 gap-6">
-          {combinedSkills.map((category) => (
-            <div key={category.title}>
-              <Paragraph className="mb-2" weight="bold">
-                {category.title}
-              </Paragraph>
-              {category.content.map((content: string) => (
-                <Paragraph className="mb-1 line-clamp-1" key={content}>
-                  • {content}
-                </Paragraph>
-              ))}
-            </div>
-          ))}
-        </div>
-      </Card>
-      <Card
-        key="education"
-        type="education"
-        isLoading={educationLoader}
-        minimizedContent={<EducationMinimized {...education} />}
-        hasError={error.length > 0 && endpointHasError("education")}
+        data={combinedSkills}
+        hasError={error.length > 0 && endpointHasError("combinedSkills")}
+        isLoading={combinedSkillsLoader}
+      />
+      <EducationCard
         callback={() => retry("education")}
-      >
-        <div className="grid grid-cols-2 gap-6">
-          {education.content?.map((field: { title: string; desc: string }) => (
-            <div
-              className="min-h-[100px] rounded-xl bg-light-gray p-6"
-              key={field.title}
-            >
-              <Paragraph className="mb-1" weight="bold">
-                {field.title}
-              </Paragraph>
-              <Paragraph className="mb-2">{field.desc}</Paragraph>
-            </div>
-          ))}
-        </div>
-      </Card>
-      <Card
-        key="qualification"
-        type="qualification"
-        isLoading={qualificationLoader}
-        minimizedContent={<QualificationMinimized {...qualification} />}
-        hasError={error.length > 0 && endpointHasError("qualification")}
+        data={education}
+        hasError={error.length > 0 && endpointHasError("education")}
+        isLoading={educationLoader}
+      />
+      <QualificationCard
         callback={() => retry("qualification")}
-      >
-        <Paragraph weight="bold" size="large">
-          {qualification.regulated === true ? "Regulated profession" : null}
-          {qualification.regulated === false
-            ? "Non-regulated profession"
-            : null}
-        </Paragraph>
-        <Paragraph className="mb-2">
-          {capitalizeWords(profession)} - {qualification.title}:
-        </Paragraph>
-        <div className="grid grid-cols-2 gap-6">
-          {qualification.content?.map(
-            (field: { title: string; desc: string }) => (
-              <div
-                className="min-h-[150px] rounded-xl bg-light-gray p-6"
-                key={field.title}
-              >
-                <Paragraph className="mb-2" weight="bold">
-                  {field.title}
-                </Paragraph>
-                <Paragraph className="mb-2">{field.desc}</Paragraph>
-              </div>
-            ),
-          )}
-        </div>
-      </Card>
-      <Card
-        key="networking"
-        type="networking"
+        data={qualification}
+        hasError={error.length > 0 && endpointHasError("qualification")}
+        isLoading={qualificationLoader}
+      />
+      <NetworkingCard
+        callback={() => retry("networking")}
+        data={networking}
+        hasError={error.length > 0 && endpointHasError("networking")}
         isLoading={networkingLoader}
-        minimizedContent={<NetworkingMinimized {...networking} />}
-      >
-        <div className="grid grid-cols-2 gap-6">
-          {networking.content?.map(
-            (field: { name: string; services: string[]; website: string }) => (
-              <div
-                className="min-h-[200px] rounded-xl bg-light-gray p-6"
-                key={field.name}
-              >
-                <Paragraph className="mb-2" weight="bold">
-                  {field.name}
-                </Paragraph>
-                {field.services.map((content: string) => (
-                  <Paragraph key={content}>• {content}</Paragraph>
-                ))}
-                <Paragraph className="mt-2">
-                  <a
-                    href={field.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Visit the website
-                  </a>
-                </Paragraph>
-              </div>
-            ),
-          )}
-        </div>
-      </Card>
+      />
     </div>
   );
 };

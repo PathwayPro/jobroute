@@ -38,3 +38,10 @@ export interface QualificationProps {
     desc: string;
   }[];
 }
+
+export interface RoadmapCardProps {
+  isLoading: boolean;
+  callback: () => void;
+  hasError: boolean;
+  data: any;
+}
