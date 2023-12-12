@@ -73,7 +73,7 @@ export const DialogLoading = ({ isLoading }: { isLoading: boolean }) => {
 
   return open ? (
     <div className="fixed inset-0 z-20 bg-black bg-opacity-50 backdrop-blur-sm">
-      <div className="fixed left-1/3 top-1/4 z-30 max-h-[600px] min-w-[454px] max-w-[800px] overflow-hidden rounded-3xl border-2 border-dialog bg-white">
+      <div className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-30 max-h-[600px] min-w-[454px] max-w-[800px] overflow-hidden rounded-3xl border-2 border-dialog bg-white">
         <div className="flex h-[500px] w-full items-center justify-center p-10">
           <ProgressBarLoading
             isLoading={isLoading}
