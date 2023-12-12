@@ -29,12 +29,12 @@ export enum BadgeType {
 
 interface BadgeProps {
   type:
-    | "overview"
-    | "info"
-    | "combinedSkills"
-    | "education"
-    | "qualification"
-    | "networking";
+  | "overview"
+  | "info"
+  | "combinedSkills"
+  | "education"
+  | "qualification"
+  | "networking";
 }
 
 const Badge = ({ type }: BadgeProps) => {
@@ -43,7 +43,7 @@ const Badge = ({ type }: BadgeProps) => {
   }
 
   return (
-    <div className="flex w-max items-center gap-2 rounded-full bg-black p-2 shadow-md">
+    <div style={{ padding: '4px 20px 4px 4px' }} className="flex w-max items-center gap-3 rounded-full bg-black shadow-md">
       <div className="w-max rounded-full bg-white p-1">
         <Iconly name={icon[type]} set="bold" primaryColor="black" size={20} />
       </div>
