@@ -18,14 +18,14 @@ const SkillsCard = ({
       hasError={hasError}
       callback={callback}
     >
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-2 gap-8">
         {data.map((category: Skills) => (
           <div key={category.title}>
             <Paragraph className="mb-2" weight="bold">
               {category.title}
             </Paragraph>
             {category.content.map((content: string) => (
-              <Paragraph className="mb-1 line-clamp-1" key={content}>
+              <Paragraph className="mb-1" key={content}>
                 • {content}
               </Paragraph>
             ))}

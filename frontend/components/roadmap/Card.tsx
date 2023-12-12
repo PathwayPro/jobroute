@@ -83,12 +83,12 @@ const CardContent = ({
       <div className="line-clamp-6">{shouldDisplayContent && content}</div>
       {shouldDisplayError && <ErrorContent />}
       {!isLoading && !hasError && (
-        <button className="flex flex-row items-center rounded-full font-bold normal-case text-base gap-2 w-max text-dark group-hover:text-primary group-active:text-active-color group-hover:flex-row-reverse transition group-hover:duration-150 ml-auto mt-auto">
+        <button className="ml-auto mt-auto flex w-max flex-row items-center gap-2 rounded-full text-base font-bold normal-case text-dark transition group-hover:flex-row-reverse group-hover:text-primary group-hover:duration-150 group-active:text-active-color">
           <>
-          <span className="group-hover:text-primary group-active:text-active-color">
-          Read More
-          </span>
-            <div className="m-0 rounded-full p-2 bg-black group-hover:bg-primary group-active:bg-active-color">
+            <span className="group-hover:text-primary group-active:text-active-color">
+              Read More
+            </span>
+            <div className="m-0 rounded-full bg-black p-2 group-hover:bg-primary group-active:bg-active-color">
               <svg
                 width="10"
                 height="10"

@@ -25,7 +25,7 @@ const DialogContent = React.forwardRef<Ref, DialogContentProps>(
   (props, ref) => (
     <Content
       ref={ref as ForwardedRef<HTMLDivElement>}
-      className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 max-h-[600px] min-w-[454px] max-w-[800px] overflow-hidden rounded-3xl border-2 border-[#D0D0D0] bg-white"
+      className="fixed left-1/2 top-1/2 z-30 max-h-[600px] min-w-[454px] max-w-[800px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-3xl border-2 border-[#D0D0D0] bg-white"
     >
       <div className="flex justify-end p-[12px]">
         <Close asChild>

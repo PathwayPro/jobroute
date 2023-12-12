@@ -52,7 +52,7 @@ export const SkillsMinimized = ({ skills }: { skills: SkillProps }) => {
           <Paragraph className="mb-2" weight="bold">
             {category.title}
           </Paragraph>
-          {category.content.map((content: string) => (
+          {category.content.slice(0, 5).map((content: string) => (
             <Paragraph className="mb-1 line-clamp-1" key={content}>
               • {content}
             </Paragraph>

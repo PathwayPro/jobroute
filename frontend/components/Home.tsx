@@ -16,8 +16,8 @@ const Home = () => {
         <div className="mt-[120px] flex w-2/5 flex-col">
           <div className="max-w-[536px]">
             <h1>
-              Your path to a <span className="text-primary">new career</span>{" "}
-              in Canada
+              Your path to a <span className="text-primary">new career</span> in
+              Canada
             </h1>
           </div>
           <Dialog trigger={<Button className="mt-10">Get Started</Button>}>

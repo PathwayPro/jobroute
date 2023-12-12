@@ -37,7 +37,9 @@ const Roadmap: React.FC<RoadmapProps> = () => {
   return (
     <>
       <Head>
-        <title>{capitalizeWords(profession)} in {capitalizeWords(province)}</title>
+        <title>
+          {capitalizeWords(profession)} in {capitalizeWords(province)}
+        </title>
       </Head>
       <Navbar />
       <div className="m-auto mt-[50px] flex max-w-[1500px] grow flex-col gap-10 p-10 px-[88px]">
