@@ -16,7 +16,10 @@ async function fetchAutocompleteResults(
     parsedResponse = results;
   }
 
-  if (Array.isArray(parsedResponse.professions)) {
+  if (
+    Array.isArray(parsedResponse.professions) &&
+    !parsedResponse.professions.includes("No match found")
+  ) {
     return parsedResponse.professions;
   } else {
     return [];
