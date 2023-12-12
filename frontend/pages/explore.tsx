@@ -9,7 +9,6 @@ import Paragraph from "@/ui/Paragraph";
 import Footer from "@/components/Footer";
 import RoadmapCards from "@/components/roadmap/RoadmapCards";
 import { DialogLoading } from "@/ui/ProgressBar";
-import { provincesLowercase } from "@/provinces";
 import Dialog from "@/components/Dialog";
 import Form from "@/components/Form";
 import Head from "next/head";
@@ -88,11 +87,13 @@ const ExplorePage = () => {
   const renderRoadmap = useMemo(() => {
     if (activeProfession) {
       return (
+        <div className="mt-10">
         <RoadmapCards
           key={activeProfession.title}
           profession={activeProfession.title.toLocaleLowerCase()}
           province={province}
         />
+        </div>
       );
     }
     return null;
@@ -117,7 +118,7 @@ const ExplorePage = () => {
         </title>
       </Head>
       <Navbar />
-      <div className="m-auto mt-[50px] flex max-w-[1500px] grow flex-col gap-10 p-10 px-[88px]">
+      <div className="m-auto mt-[50px] flex max-w-[1500px] grow flex-col p-10 px-[88px]">
         <div className="flex items-center justify-around rounded-xl bg-[#F0F0F0] px-12 py-6">
           <div className="flex w-[70%] flex-col gap-6">
             <h2>
@@ -132,22 +133,20 @@ const ExplorePage = () => {
               </Paragraph>
             )}
           </div>
-          <div>
-            <Dialog
-              onOpenChange={setDialogOpen}
-              open={dialogOpen}
-              trigger={
-                <Button onClick={() => setDialogOpen(true)}>
-                  Search Again
-                </Button>
-              }
-            >
-              <Form setOpen={setDialogOpen} />
-            </Dialog>
-          </div>
+          <Dialog
+            onOpenChange={setDialogOpen}
+            open={dialogOpen}
+            trigger={
+              <Button onClick={() => setDialogOpen(true)}>
+                Search Again
+              </Button>
+            }
+          >
+            <Form setOpen={setDialogOpen} />
+          </Dialog>
         </div>
         <DialogLoading isLoading={isLoading} />
-        <div className="flex flex-wrap justify-center gap-4">
+        <div className="mt-10 flex flex-wrap justify-center gap-4">
           {!isLoading &&
             matches &&
             professions?.map((profession) => (
