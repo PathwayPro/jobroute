@@ -88,11 +88,11 @@ const ExplorePage = () => {
     if (activeProfession) {
       return (
         <div className="mt-10">
-        <RoadmapCards
-          key={activeProfession.title}
-          profession={activeProfession.title.toLocaleLowerCase()}
-          province={province}
-        />
+          <RoadmapCards
+            key={activeProfession.title}
+            profession={activeProfession.title.toLocaleLowerCase()}
+            province={province}
+          />
         </div>
       );
     }
@@ -137,9 +137,7 @@ const ExplorePage = () => {
             onOpenChange={setDialogOpen}
             open={dialogOpen}
             trigger={
-              <Button onClick={() => setDialogOpen(true)}>
-                Search Again
-              </Button>
+              <Button onClick={() => setDialogOpen(true)}>Search Again</Button>
             }
           >
             <Form setOpen={setDialogOpen} />
