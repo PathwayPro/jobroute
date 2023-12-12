@@ -41,7 +41,7 @@ interface CardProps {
 }
 
 const cardStyles = cva(
-  "flex flex-col cursor-pointer max-w-[405px] p-6 h-[356px] gap-8 rounded-3xl border-2 border-stone-300 hover:border-black",
+  "group flex flex-col cursor-pointer max-w-[405px] p-6 h-[356px] gap-8 rounded-3xl border-2 border-stone-300 hover:border-black",
 );
 
 const CardContent = ({
@@ -76,16 +76,35 @@ const CardContent = ({
 
   return (
     <div key={type} className={cardStyles({ className })}>
-      <div>
+      <div className="flex">
         <Badge type={type} />
       </div>
       {loader}
       <div className="line-clamp-6">{shouldDisplayContent && content}</div>
       {shouldDisplayError && <ErrorContent />}
       {!isLoading && !hasError && (
-        <Button variant="secondary" className="ml-auto mt-auto">
-          Read more
-        </Button>
+        <button className="flex flex-row items-center rounded-full font-bold normal-case text-base gap-2 w-max text-dark group-hover:text-primary group-active:text-active-color group-hover:flex-row-reverse transition group-hover:duration-150 ml-auto mt-auto">
+          <>
+          <span className="group-hover:text-primary group-active:text-active-color">
+          Read More
+          </span>
+            <div className="m-0 rounded-full p-2 bg-black group-hover:bg-primary group-active:bg-active-color">
+              <svg
+                width="10"
+                height="10"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  id="Vector"
+                  d="M1.28205 11.282H15.641L9.35897 17.564C8.84615 18.0769 8.84615 18.8461 9.35897 19.3589C9.87179 19.8717 10.641 19.8717 11.1538 19.3589L19.6154 10.8974C20.1282 10.3846 20.1282 9.61532 19.6154 9.1025L11.1538 0.640963C10.641 0.128143 9.87179 0.128143 9.35897 0.640963C8.84615 1.15378 8.84615 1.92301 9.35897 2.43583L15.641 8.71789H1.28205C0.51282 8.71789 0 9.23071 0 9.99994C0 10.7692 0.51282 11.282 1.28205 11.282Z"
+                  fill="white"
+                />
+              </svg>
+            </div>
+          </>
+        </button>
       )}
     </div>
   );
@@ -130,7 +149,7 @@ const Card = ({
               variant="secondary"
               className="ml-auto mt-auto"
             >
-              Try again
+              Try Again
             </Button>
           </div>
         )}
