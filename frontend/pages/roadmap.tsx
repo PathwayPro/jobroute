@@ -7,7 +7,7 @@ import RoadmapCards from "@/components/roadmap/RoadmapCards";
 import { useEffect, useState } from "react";
 import Dialog from "@/components/Dialog";
 import Form from "@/components/Form";
-import { provincesLowercase } from "@/provinces";
+import Head from "next/head";
 
 type TitleContent = {
   title: string;
@@ -36,19 +36,22 @@ const Roadmap: React.FC<RoadmapProps> = () => {
 
   return (
     <>
+      <Head>
+        <title>{capitalizeWords(profession)} in {capitalizeWords(province)}</title>
+      </Head>
       <Navbar />
       <div className="m-auto mt-[50px] flex max-w-[1500px] grow flex-col gap-10 p-10 px-[88px]">
         <div className="flex items-center justify-between rounded-xl bg-[#F0F0F0] px-12 py-6">
-          <h2>
+          <h1 className="text-[40px]">
             {capitalizeWords(profession)} in {capitalizeWords(province)}
-          </h2>
+          </h1>
           <div>
             <Dialog
               onOpenChange={setDialogOpen}
               open={dialogOpen}
               trigger={
                 <Button onClick={() => setDialogOpen(true)}>
-                  Search again
+                  Search Again
                 </Button>
               }
             >

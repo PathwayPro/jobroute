@@ -12,6 +12,7 @@ import { DialogLoading } from "@/ui/ProgressBar";
 import { provincesLowercase } from "@/provinces";
 import Dialog from "@/components/Dialog";
 import Form from "@/components/Form";
+import Head from "next/head";
 
 interface Profession {
   title: string;
@@ -109,6 +110,9 @@ const ExplorePage = () => {
 
   return (
     <>
+      <Head>
+        <title>Jobs similar to {capitalizeWords(profession)} in {capitalizeWords(province)}</title>
+      </Head>
       <Navbar />
       <div className="m-auto mt-[50px] flex max-w-[1500px] grow flex-col gap-10 p-10 px-[88px]">
         <div className="flex items-center justify-around rounded-xl bg-[#F0F0F0] px-12 py-6">
@@ -131,7 +135,7 @@ const ExplorePage = () => {
               open={dialogOpen}
               trigger={
                 <Button onClick={() => setDialogOpen(true)}>
-                  Search again
+                  Search Again
                 </Button>
               }
             >
