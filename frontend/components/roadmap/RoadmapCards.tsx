@@ -146,7 +146,6 @@ const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
           setter(response);
           results.push(response);
         } catch (error: any) {
-          console.error(`Error fetching data for ${endpoint}:`, error);
           loader(false);
           setError((prevError) => [
             ...prevError,
