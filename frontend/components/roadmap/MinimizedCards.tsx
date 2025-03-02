@@ -45,18 +45,23 @@ export const InfoMinimized = ({
 };
 
 export const SkillsMinimized = ({ skills }: { skills: SkillProps }) => {
-  // Ensure skills is an array and provide fallback if it's not
-  const skillsArray = Array.isArray(skills) ? skills : [];
+  // Flatten the nested array structure and provide fallback if needed
+  const skillsArray = Array.isArray(skills) 
+    ? skills.flatMap(skillGroup => skillGroup) 
+    : [];
   
   return (
     <div className="grid grid-cols-2 gap-6">
-      {skillsArray.map((category: Skills) => (
-        <div key={category.title}>
+      {skillsArray.map((category: Skills, categoryIndex: number) => (
+        <div key={`${categoryIndex}`}>
           <Paragraph className="mb-2" weight="bold">
             {category.title}
           </Paragraph>
-          {category.content.slice(0, 5).map((content: string) => (
-            <Paragraph className="mb-1 line-clamp-1" key={content}>
+          {category.content?.slice(0, 5).map((content: string, index: number) => (
+            <Paragraph 
+              className="mb-1 line-clamp-1" 
+              key={`${categoryIndex}-${index}`}
+            >
               • {content}
             </Paragraph>
           ))}
