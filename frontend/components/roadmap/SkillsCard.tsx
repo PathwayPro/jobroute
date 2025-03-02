@@ -9,6 +9,9 @@ const SkillsCard = ({
   hasError,
   isLoading,
 }: RoadmapCardProps) => {
+  // Ensure data is an array and provide fallback if it's not
+  const skills = Array.isArray(data) ? data : [];
+
   return (
     <Card
       key="combinedSkills"
@@ -19,7 +22,7 @@ const SkillsCard = ({
       callback={callback}
     >
       <div className="grid grid-cols-2 gap-8">
-        {data.map((category: Skills) => (
+        {skills.map((category: Skills) => (
           <div key={category.title}>
             <Paragraph className="mb-2" weight="bold">
               {category.title}

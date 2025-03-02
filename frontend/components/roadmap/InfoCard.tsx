@@ -23,7 +23,7 @@ const InfoCard = ({
           <Paragraph className="mb-2" weight="bold">
             Salary
           </Paragraph>
-          {data.salary.map((content: string, index: number) => (
+          {data.salary && data.salary.map((content: string, index: number) => (
             <Paragraph key={content}>
               {index === data.salary.length - 1 && "*"} {content}
             </Paragraph>
@@ -41,7 +41,7 @@ const InfoCard = ({
           <Paragraph className="mb-2" weight="bold">
             Work
           </Paragraph>
-          {data.Work.map((content: string) => (
+          {data.Work && data.Work.map((content: string) => (
             <Paragraph key={content} className="mb-1">
               {content}
             </Paragraph>

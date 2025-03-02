@@ -26,7 +26,7 @@ export const InfoMinimized = ({
     <div className="grid h-[180px] grid-cols-2 gap-2">
       <div className="line-clamp-1 flex h-[60px] flex-col rounded-xl bg-light-gray p-2">
         <p className="text-sm font-bold">Salary</p>
-        <p className="line-clamp-1 text-xs">{salary[0]}</p>
+        <p className="line-clamp-1 text-xs">{salary?.[0]}</p>
       </div>
       <div className="line-clamp-1 flex h-[60px] flex-col rounded-xl bg-light-gray p-2">
         <p className="text-sm font-bold">Degree</p>
@@ -34,7 +34,7 @@ export const InfoMinimized = ({
       </div>
       <div className="line-clamp-1 flex h-[60px] flex-col rounded-xl bg-light-gray p-2">
         <p className="text-sm font-bold">Work</p>
-        <p className="line-clamp-1 text-xs">{work[0]}</p>
+        <p className="line-clamp-1 text-xs">{work?.[0]}</p>
       </div>
       <div className="line-clamp-1 flex h-[60px] flex-col rounded-xl bg-light-gray p-2">
         <p className="text-sm font-bold">Credential</p>
@@ -45,9 +45,12 @@ export const InfoMinimized = ({
 };
 
 export const SkillsMinimized = ({ skills }: { skills: SkillProps }) => {
+  // Ensure skills is an array and provide fallback if it's not
+  const skillsArray = Array.isArray(skills) ? skills : [];
+  
   return (
     <div className="grid grid-cols-2 gap-6">
-      {skills.map((category: Skills) => (
+      {skillsArray.map((category: Skills) => (
         <div key={category.title}>
           <Paragraph className="mb-2" weight="bold">
             {category.title}
