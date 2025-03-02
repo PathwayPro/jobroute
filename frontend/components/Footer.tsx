@@ -10,7 +10,7 @@ const Footer = () => {
       <div className="flex content-center justify-between gap-12">
         <Logo variant="secondary" />
         <Paragraph size="medium" weight="regular" className="text-white">
-          © 2023 JobRoute. All rights reserved
+          © {new Date().getFullYear()} {process.env.NEXT_PUBLIC_APP_NAME}. All rights reserved
         </Paragraph>
       </div>
       <div className="flex justify-between gap-8">
