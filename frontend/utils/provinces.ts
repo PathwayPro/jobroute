@@ -17,7 +17,8 @@ export const PROVINCES: ProvinceMapping = {
   'PE': 'Prince Edward Island',
   'QC': 'Quebec',
   'SK': 'Saskatchewan',
-  'YT': 'Yukon'
+  'YT': 'Yukon',
+  'CA': 'Canada'
 };
 
 // Helper function to get full province name from abbreviation

@@ -120,10 +120,14 @@ const Form = ({ setOpen }: FormProps) => {
       <Content value="professionOverview">
         <div className="flex flex-col gap-[16px] py-[36px]">
           <Select
-            options={["Province / Territory", "Canada", ...PROVINCE_NAMES]}
+            options={[
+              "Province / Territory",
+              PROVINCES['CA'],
+              ...PROVINCE_NAMES.filter(name => name !== 'Canada')
+            ]}
             defaultValue={0}
             onChange={(event) => {
-              if (event.target.value === "Province / Territory" || event.target.value === "Canada") {
+              if (event.target.value === "Province / Territory") {
                 setSelectedLocation("");
                 return;
               }
@@ -186,10 +190,14 @@ const Form = ({ setOpen }: FormProps) => {
       <Content value="exploreJobs">
         <div className="flex flex-col gap-[16px] py-[36px]">
           <Select
-            options={["Province / Territory", "Canada", ...PROVINCE_NAMES]}
+            options={[
+              "Province / Territory",
+              PROVINCES['CA'],
+              ...PROVINCE_NAMES.filter(name => name !== 'Canada')
+            ]}
             defaultValue={0}
             onChange={(event) => {
-              if (event.target.value === "Province / Territory" || event.target.value === "Canada") {
+              if (event.target.value === "Province / Territory") {
                 setSelectedLocation("");
                 return;
               }

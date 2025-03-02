@@ -19,7 +19,7 @@ from .noc import get_noc
 # Add this constant at the top of the file
 VALID_PROVINCE_CODES = {
     'AB', 'BC', 'MB', 'NB', 'NL', 'NS', 'NT', 
-    'NU', 'ON', 'PE', 'QC', 'SK', 'YT'
+    'NU', 'ON', 'PE', 'QC', 'SK', 'YT', 'CA'
 }
 
 def validate_province_code(province_code: str) -> bool:
