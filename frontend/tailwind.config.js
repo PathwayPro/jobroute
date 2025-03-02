@@ -19,8 +19,8 @@ module.exports = {
         ],
       },
       colors: {
-        primary: "#DF044D",
-        secondary: "#3E3E3E",
+        primary: process.env.NEXT_PUBLIC_PRIMARY_COLOR,
+        secondary: process.env.NEXT_PUBLIC_SECONDARY_COLOR,
         dark: "#242529",
         disabled: "#959595",
         "light-gray": "#F0F0F0",

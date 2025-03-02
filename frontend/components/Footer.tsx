@@ -15,19 +15,32 @@ const Footer = () => {
       </div>
       <div className="flex justify-between gap-8">
         <div className="flex items-center ">
-          <Paragraph size="medium" weight="regular" className="text-white">
-            Terms & Policies
-          </Paragraph>
+          <a href={process.env.NEXT_PUBLIC_TERMS_OF_SERVICE_URL} target="_blank" rel="noopener">
+            <Paragraph size="medium" weight="regular" className="text-white">
+              Terms & Policies
+            </Paragraph>
+          </a>
         </div>
         <div className="flex items-center">
-          <Paragraph size="medium" weight="regular" className="text-white">
-            Privacy Policy
-          </Paragraph>
+          <a href={process.env.NEXT_PUBLIC_PRIVACY_POLICY_URL} target="_blank" rel="noopener">
+            <Paragraph size="medium" weight="regular" className="text-white">
+              Privacy Policy
+            </Paragraph>
+          </a>
         </div>
         <div className="flex items-center">
-          <Paragraph size="medium" weight="regular" className="text-white">
-            Contact
-          </Paragraph>
+          <a href={process.env.NEXT_PUBLIC_ABOUT_US_URL} target="_blank" rel="noopener">
+            <Paragraph size="medium" weight="regular" className="text-white">
+              About Us
+            </Paragraph>
+          </a>
+        </div>
+        <div className="flex items-center">
+          <a href={process.env.NEXT_PUBLIC_CONTACT_URL} target="_blank" rel="noopener">
+            <Paragraph size="medium" weight="regular" className="text-white">
+              Contact
+            </Paragraph>
+          </a>
         </div>
       </div>
     </footer>
