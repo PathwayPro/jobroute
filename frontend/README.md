@@ -29,7 +29,6 @@ pnpm install
 3. Create a .env file that will store the environment variables. Example:
 
 ```
-OPENAI_API_KEY=
 RECAPTCHA_SECRET_KEY=
 NEXT_PUBLIC_RECAPTCHA_SITE_KEY=
 NEXT_PUBLIC_SLOW_MODE=true

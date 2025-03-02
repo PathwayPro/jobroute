@@ -10,13 +10,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(400).json({ error: "Missing required parameters" });
     }
 
+    // Ensure we're working with strings
+    const queryStr = Array.isArray(query) ? query[0] : query;
+    const locationStr = Array.isArray(location) ? location[0] : location;
+
     // Validate input lengths
-    if (typeof query === 'string' && query.length > 100 || 
-        typeof location === 'string' && location.length > 100) {
+    if (queryStr.length > 100 || locationStr.length > 100) {
       return res.status(400).json({ error: "Input too long" });
     }
 
-    const url = `${server}/topRoles?term=${encodeURIComponent(query)}&province=${encodeURIComponent(location)}`;
+    const url = `${server}/topRoles?term=${encodeURIComponent(queryStr)}&province=${encodeURIComponent(locationStr)}`;
 
     try {
       const controller = new AbortController();
