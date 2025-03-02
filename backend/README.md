@@ -4,9 +4,13 @@ Follow the steps to work with backend
 
 1. Create a virtual environment in your system using command:  # venv is the name of the virtual environment
     `python -m venv jobroute_venv` or `python3 -m venv jobroute_venv`
+
+    Currently the project supports Python 3.10 - 3.11.
+
 2. Activate created virtual environment:
 
-    `source jobroute_venv/bin/activate`
+    `source jobroute_venv/bin/activate` (for Linux/MacOS)
+    `.\jobroute_venv\Scripts\activate` (for Windows)
 
 3. Install dependecies using the requirements.txt file:
 

@@ -5,6 +5,7 @@
 venv/
 /my_venv/
 /new_venv/
+/jobroute_venv/
 
 # Database files
 *.sqlite3
