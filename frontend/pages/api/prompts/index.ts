@@ -1,6 +1,6 @@
 import { NextApiHandler } from "next";
 import { server } from "@/tools/routes";
-import { capitalizeWords } from "@/utils/utils";
+import { capitalizeWords, validateProvinceCode } from "@/utils/utils";
 
 const handler: NextApiHandler = async (req, res) => {
   if (req.method === "GET") {
@@ -9,6 +9,11 @@ const handler: NextApiHandler = async (req, res) => {
       province: string;
       profession: string;
     };
+
+    if (!validateProvinceCode(province)) {
+      return res.status(400).json({ error: "Invalid province code" });
+    }
+
     const url = `${server}/${endpoint}?profession=${capitalizeWords(
       profession,
     )}&province=${capitalizeWords(province)}`;

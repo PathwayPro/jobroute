@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/router";
-import { capitalizeWords } from "@/utils/utils";
+import { capitalizeWords, validateProvinceCode } from "@/utils/utils";
 import { getProfessionMatches } from "@/hooks/useMatches";
 import Navbar from "@/components/Navbar";
 import PercentageCard from "@/components/PercentageCard";
@@ -12,6 +12,7 @@ import { DialogLoading } from "@/ui/ProgressBar";
 import Dialog from "@/components/Dialog";
 import Form from "@/components/Form";
 import Head from "next/head";
+import { getProvinceName } from "@/utils/provinces";
 
 interface Profession {
   title: string;
@@ -35,13 +36,42 @@ const ExplorePage = () => {
   const [matches, setMatches] = useState<Matches[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [professions, setProfessions] = useState<Profession[]>([]);
+
+  // Get query params - move this up before any conditional returns
   const { profession, province } = router.query as {
     profession: string;
     province: string;
   };
 
+  // Keep all hooks at the top level
+  const activeProfession = useMemo(() => {
+    return professions.find((profession) => profession.isActive);
+  }, [professions]);
+
+  const renderRoadmap = useMemo(() => {
+    if (activeProfession) {
+      return (
+        <div className="mt-10">
+          <RoadmapCards
+            key={activeProfession.title}
+            profession={activeProfession.title.toLocaleLowerCase()}
+            province={province}
+          />
+        </div>
+      );
+    }
+    return null;
+  }, [activeProfession, province]);
+
   useEffect(() => {
-    if (!profession) return;
+    // Wait for router to be ready
+    if (!router.isReady) return;
+    
+    if (!profession || !province || !validateProvinceCode(province)) {
+      router.push('/'); // Redirect to home if invalid params
+      return;
+    }
+
     if (!effectMatchesRan.current) {
       getProfessionMatches(profession, province).then((matches) => {
         setMatches(matches.content);
@@ -51,12 +81,7 @@ const ExplorePage = () => {
     return () => {
       effectMatchesRan.current = true;
     };
-  }),
-    [profession, province];
-
-  const activeProfession = useMemo(() => {
-    return professions.find((profession) => profession.isActive);
-  }, [professions]);
+  }, [router.isReady, router, profession, province]);
 
   useEffect(() => {
     if (matches && matches?.length > 0 && !effectRan.current) {
@@ -84,20 +109,8 @@ const ExplorePage = () => {
     }
   }, [matches]);
 
-  const renderRoadmap = useMemo(() => {
-    if (activeProfession) {
-      return (
-        <div className="mt-10">
-          <RoadmapCards
-            key={activeProfession.title}
-            profession={activeProfession.title.toLocaleLowerCase()}
-            province={province}
-          />
-        </div>
-      );
-    }
-    return null;
-  }, [activeProfession]);
+  // Don't render if router isn't ready
+  if (!router.isReady) return null;
 
   const handleActive = (professionTitle: string) => {
     setProfessions((prevProfessions) =>
@@ -113,8 +126,7 @@ const ExplorePage = () => {
     <>
       <Head>
         <title>
-          Jobs similar to {capitalizeWords(profession)} in{" "}
-          {capitalizeWords(province)}
+          Jobs similar to {capitalizeWords(profession)} in {getProvinceName(province)}
         </title>
       </Head>
       <Navbar />
@@ -122,13 +134,12 @@ const ExplorePage = () => {
         <div className="flex items-center justify-around rounded-xl bg-[#F0F0F0] px-12 py-6">
           <div className="flex w-[70%] flex-col gap-6">
             <h2>
-              Jobs similar to {capitalizeWords(profession)} in{" "}
-              {capitalizeWords(province)}
+              Jobs similar to {capitalizeWords(profession)} in {getProvinceName(province)}
             </h2>
             {matches?.length > 0 && (
               <Paragraph>
                 Your current occupation matches with several professions in{" "}
-                {capitalizeWords(province)}. Select any of them to explore how
+                {getProvinceName(province)}. Select any of them to explore how
                 you can leverage your skills to transition into a new career.
               </Paragraph>
             )}
@@ -164,8 +175,7 @@ const ExplorePage = () => {
             <div className="flex flex-col items-center justify-center gap-3">
               <Paragraph size="large">
                 AI was unable to provide job roles with transferrable skills
-                similar to {capitalizeWords(profession)} in{" "}
-                {capitalizeWords(province)}.
+                similar to {capitalizeWords(profession)} in {getProvinceName(province)}.
               </Paragraph>
               <Paragraph size="large">
                 Try searching for a different job role or province.

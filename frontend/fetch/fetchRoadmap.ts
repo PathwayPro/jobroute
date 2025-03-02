@@ -1,5 +1,5 @@
-import { provincesLowercase } from "@/provinces";
 import { nextServer } from "@/tools/routes";
+import { validateProvinceCode } from "@/utils/utils";
 
 export const fetchRoadmap = async (
   endpoint: string,
@@ -7,9 +7,8 @@ export const fetchRoadmap = async (
   province: string,
   signal: AbortSignal | null = null,
 ) => {
-  const allowedProvince = provincesLowercase.includes(province.toLowerCase());
-  if (!endpoint || !profession || !province || !allowedProvince) {
-    return;
+  if (!endpoint || !profession || !province || !validateProvinceCode(province)) {
+    throw new Error("Invalid province code or missing parameters");
   }
 
   const url = `${nextServer}/prompts?endpoint=${endpoint}&profession=${profession}&province=${province}`;

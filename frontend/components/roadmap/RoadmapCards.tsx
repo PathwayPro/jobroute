@@ -2,7 +2,7 @@ import Paragraph from "@/ui/Paragraph";
 import Card from "./Card";
 import { useCallback, useEffect, useState } from "react";
 import { fetchRoadmap } from "@/fetch/fetchRoadmap";
-import { capitalizeWords } from "@/utils/utils";
+import { capitalizeWords, validateProvinceCode } from "@/utils/utils";
 import {
   EducationProps,
   NetworkingProps,
@@ -10,7 +10,6 @@ import {
   SkillProps,
   InfoProps,
 } from "./types";
-import { provincesLowercase } from "@/provinces";
 import {
   EducationMinimized,
   InfoMinimized,
@@ -55,8 +54,10 @@ const initQualification = { regulated: undefined, title: "", content: [] };
 const RoadmapCards = ({ profession, province }: RoadmapCardProps) => {
   const slowMode: boolean = process.env.NEXT_PUBLIC_SLOW_MODE === "true";
 
-  const allowedProvince = provincesLowercase.includes(province?.toLowerCase());
-  if (!profession || !province || !allowedProvince) return null;
+  if (!profession || !validateProvinceCode(province)) {
+    console.debug('Invalid province or missing profession', { profession, province });
+    return null;
+  }
 
   const [education, setEducation] = useState<EducationProps>(initCard);
   const [educationLoader, setEducationLoader] = useState(true);

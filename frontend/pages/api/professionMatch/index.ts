@@ -1,9 +1,15 @@
 import { NextApiHandler } from "next";
 import { server } from "@/tools/routes";
+import { validateProvinceCode } from "@/utils/utils";
 
 const handler: NextApiHandler = async (req, res) => {
   if (req.method === "GET") {
     const { province, profession } = req.query;
+    
+    if (!validateProvinceCode(province as string)) {
+      return res.status(400).json({ error: "Invalid province code" });
+    }
+
     const url = `${server}/relatedRoles?profession=${profession}&province=${province}`;
 
     try {

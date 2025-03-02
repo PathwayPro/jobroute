@@ -1,7 +1,7 @@
 import { Root, List, Trigger, Content } from "@radix-ui/react-tabs";
 import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
-import { trim } from "@/utils/utils";
+import { trim, validateProvinceCode } from "@/utils/utils";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useAutocomplete } from "@/hooks/useAutocomplete";
 import { useCaptcha } from "@/hooks/useCaptcha";
@@ -9,7 +9,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import Paragraph from "@/ui/Paragraph";
 import Select from "@/ui/Select";
 import InputField from "@/ui/InputField";
-import { provinces } from "@/provinces";
+import { PROVINCES, PROVINCE_NAMES } from "@/utils/provinces";
 
 interface FormProps {
   setOpen?: (open: boolean) => void;
@@ -44,6 +44,11 @@ const Form = ({ setOpen }: FormProps) => {
   }, [debouncedValue]);
 
   const handleSubmit = () => {
+    if (!validateProvinceCode(selectedLocation)) {
+      console.error("Invalid province code");
+      return;
+    }
+
     if (activeTab === "professionOverview") {
       router.push(
         `/roadmap?province=${trim(selectedLocation)}&profession=${trim(
@@ -115,14 +120,17 @@ const Form = ({ setOpen }: FormProps) => {
       <Content value="professionOverview">
         <div className="flex flex-col gap-[16px] py-[36px]">
           <Select
-            options={provinces}
+            options={["Province / Territory", "Canada", ...PROVINCE_NAMES]}
             defaultValue={0}
             onChange={(event) => {
-              if (event.target.value === provinces[0]) {
+              if (event.target.value === "Province / Territory" || event.target.value === "Canada") {
                 setSelectedLocation("");
                 return;
               }
-              setSelectedLocation(event.target.value);
+              const provinceCode = Object.keys(PROVINCES).find(
+                key => PROVINCES[key] === event.target.value
+              );
+              setSelectedLocation(provinceCode || "");
             }}
           />
           <InputField
@@ -178,10 +186,17 @@ const Form = ({ setOpen }: FormProps) => {
       <Content value="exploreJobs">
         <div className="flex flex-col gap-[16px] py-[36px]">
           <Select
-            options={provinces}
+            options={["Province / Territory", "Canada", ...PROVINCE_NAMES]}
             defaultValue={0}
             onChange={(event) => {
-              setSelectedLocation(event.target.value);
+              if (event.target.value === "Province / Territory" || event.target.value === "Canada") {
+                setSelectedLocation("");
+                return;
+              }
+              const provinceCode = Object.keys(PROVINCES).find(
+                key => PROVINCES[key] === event.target.value
+              );
+              setSelectedLocation(provinceCode || "");
             }}
           />
           <InputField

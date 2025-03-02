@@ -16,6 +16,17 @@ from rest_framework.decorators import api_view
 
 from .noc import get_noc
 
+# Add this constant at the top of the file
+VALID_PROVINCE_CODES = {
+    'AB', 'BC', 'MB', 'NB', 'NL', 'NS', 'NT', 
+    'NU', 'ON', 'PE', 'QC', 'SK', 'YT'
+}
+
+def validate_province_code(province_code: str) -> bool:
+    """Validates that a province code is 2 characters and in the valid set"""
+    if not province_code:
+        return False
+    return len(province_code) == 2 and province_code.upper() in VALID_PROVINCE_CODES
 
 def get_input(request):
     if request.method == "GET":

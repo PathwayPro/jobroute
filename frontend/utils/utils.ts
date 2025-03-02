@@ -1,3 +1,5 @@
+import { PROVINCE_CODES } from './provinces';
+
 export function capitalize(text: string) {
   return text.replace(/(^\w{1})|(\s+\w{1})/g, (letter) => letter.toUpperCase());
 }
@@ -21,3 +23,8 @@ export const capitalizeWords = (string: string) => {
 export function trim(text: string) {
   return text.trim().toLowerCase();
 }
+
+export const validateProvinceCode = (province: string | undefined): boolean => {
+  if (!province) return false;
+  return PROVINCE_CODES.includes(province.toUpperCase());
+};

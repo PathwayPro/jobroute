@@ -1,13 +1,14 @@
 import { server } from "@/tools/routes";
 import { NextApiRequest, NextApiResponse } from "next";
+import { validateProvinceCode } from "@/utils/utils";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
     const { query, location } = req.query;
     
     // Validate required parameters
-    if (!query || !location) {
-      return res.status(400).json({ error: "Missing required parameters" });
+    if (!query || !location || !validateProvinceCode(location as string)) {
+      return res.status(400).json({ error: "Invalid province code or missing parameters" });
     }
 
     // Ensure we're working with strings

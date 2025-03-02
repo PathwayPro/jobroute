@@ -1,11 +1,11 @@
-import { provincesLowercase } from "@/provinces";
 import { nextServer } from "@/tools/routes";
+import { validateProvinceCode } from "@/utils/utils";
 
 export const fetchMatches = async (profession: string, province: string) => {
-  const allowedProvince = provincesLowercase.includes(province.toLowerCase());
-  if (!profession || !province || !allowedProvince) {
-    return;
+  if (!profession || !province || !validateProvinceCode(province)) {
+    throw new Error("Invalid province code or missing parameters");
   }
+  
   const url = `${nextServer}/professionMatch?profession=${profession}&province=${province}`;
 
   const response = await fetch(url);
