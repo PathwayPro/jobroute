@@ -13,7 +13,6 @@ from .qualification import qualification_check
 from .roles import get_top5_roles
 
 from rest_framework.decorators import api_view
-from .errorhandling import is_request_invalid
 
 from .noc import get_noc
 
@@ -45,26 +44,35 @@ def collect_result(prompt, model_no):
     return response
 
 def is_request_not_valid(role, region):
-    #checking for empty parameter
+    print(f"Validating request - Role: '{role}', Region: '{region}'")
+    
+    # checking for empty parameter
     if not role.strip() or not region.strip():
-        print("Request is blank")
-        return True
+        return True, "Empty parameters detected"
 
-    pattern = re.compile('[^a-zA-Z0-9 ]')
-    if pattern.search(role) or pattern.search(region):
-        print("Contains non-alphanumeric character")
-        return True
-    return False
+    # Allow letters, numbers, spaces, commas, and hyphens
+    pattern = re.compile('[^a-zA-Z0-9 ,\-]')
+    has_special_chars_role = bool(pattern.search(role))
+    has_special_chars_region = bool(pattern.search(region))
+    
+    if has_special_chars_role or has_special_chars_region:
+        special_chars_role = pattern.findall(role)
+        special_chars_region = pattern.findall(region)
+        return True, f"Special characters found - Role: {special_chars_role}, Region: {special_chars_region}"
+    
+    return False, ""
 
 
 @api_view(['GET'])
 def get_summary(request):
-    # role, region, _ = get_input(request)
     role = request.GET.get('profession', '')
     region = request.GET.get('province', '')
-    # if is_request_invalid(role, region):
-    #     return JsonResponse({"error":"Request is empty or contains non alphanumeric character"}, status= 400)
-    industry = request.GET.get('industry', '')
+    
+    is_invalid, error_details = is_request_not_valid(role, region)
+    if is_invalid:
+        error_msg = f"Invalid request: {error_details}"
+        return JsonResponse({"error": error_msg}, status=400)
+    
     return role_summary1(role, region)
 
 @api_view(['GET'])
@@ -72,7 +80,7 @@ def get_info1(request):
     # role, region, _ = get_input(request)
     role = request.GET.get('profession', '')
     region = request.GET.get('province', '')
-    if is_request_invalid(role, region):
+    if is_request_not_valid(role, region)[0]:
         return JsonResponse({"error":"Request is empty or contains non alphanumeric character"}, status= 400)
     industry = request.GET.get('industry', '')
     return get_all_info1(role, region)
@@ -82,7 +90,7 @@ def get_combined_skills(request):
     # role, region, _ = get_input(request)
     role = request.GET.get('profession', '')
     region = request.GET.get('province', '')
-    if is_request_invalid(role, region):
+    if is_request_not_valid(role, region)[0]:
         return JsonResponse({"error":"Request is empty or contains non alphanumeric character"}, status= 400)
     industry = request.GET.get('industry', '')
     return hardAndSoftSkills1(role, region)
@@ -92,7 +100,7 @@ def get_education(request):
     # role, region, _ = get_input(request)
     role = request.GET.get('profession', '')
     region = request.GET.get('province', '')
-    if is_request_invalid(role, region):
+    if is_request_not_valid(role, region)[0]:
         return JsonResponse({"error":"Request is empty or contains non alphanumeric character"}, status= 400)
     industry = request.GET.get('industry', '')
     return get_Education1(role, region)
@@ -102,7 +110,7 @@ def get_networking(request):
     # role, region, _ = get_input(request)
     role = request.GET.get('profession', '')
     region = request.GET.get('province', '')
-    if is_request_invalid(role, region):
+    if is_request_not_valid(role, region)[0]:
         return JsonResponse({"error":"Request is empty or contains non alphanumeric character"}, status= 400)
     industry = request.GET.get('industry', '')
     return get_networking1(role, region)
@@ -110,12 +118,14 @@ def get_networking(request):
 
 @api_view(['GET'])
 def get_related_jobs(request):
-    # role, region, _ = get_input(request)
     role = request.GET.get('profession', '')
     region = request.GET.get('province', '')
-    if is_request_invalid(role, region):
-        return JsonResponse({"error":"Request is empty or contains non alphanumeric character"}, status= 400)
-    industry = request.GET.get('industry', '')
+    
+    is_invalid, error_details = is_request_not_valid(role, region)
+    if is_invalid:
+        error_msg = f"Invalid request: {error_details}"
+        return JsonResponse({"error": error_msg}, status=400)
+    
     return get_related_roles(role, region)
 
 
@@ -124,7 +134,7 @@ def get_qualification(request):
     # role, region, _ = get_input(request)
     role = request.GET.get('profession', '')
     region = request.GET.get('province', '')
-    if is_request_invalid(role, region):
+    if is_request_not_valid(role, region)[0]:
         return JsonResponse({"error":"Request is empty or contains non alphanumeric character"}, status= 400)
     industry = request.GET.get('industry', '')
     return qualification_check(role, region)
@@ -133,6 +143,9 @@ def get_qualification(request):
 @api_view(['GET'])
 def get_top_roles(request):
     term = request.GET.get('term', '')
-    if is_request_invalid("Canada", term):
-        return JsonResponse({"error":"Request is empty or contains non alphanumeric character"}, status= 400)
+    is_invalid, error_details = is_request_not_valid("Canada", term)
+    if is_invalid:
+        error_msg = f"Invalid request: {error_details}"
+        return JsonResponse({"error": error_msg}, status=400)
+    
     return get_top5_roles(term)
