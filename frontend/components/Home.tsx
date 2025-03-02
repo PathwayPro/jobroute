@@ -10,7 +10,7 @@ const Home = () => {
   return (
     <>
       <Head>
-        <title>JobRoute</title>
+        <title>{process.env.NEXT_PUBLIC_APP_NAME} - Career Explorer</title>
       </Head>
       <div className="m-auto flex max-w-[1500px] grow flex-row justify-between p-10">
         <div className="mt-[120px] flex w-2/5 flex-col">

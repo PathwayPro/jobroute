@@ -17,7 +17,7 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>JobRoute</title>
+        <title>{process.env.NEXT_PUBLIC_APP_NAME} - Career Explorer</title>
       </Head>
       <Context.Provider value={sharedData}>
         <Component key={router.asPath} {...pageProps} />
