@@ -1,7 +1,6 @@
 import json
 from django.http import JsonResponse
-import openai
-from openai import AzureOpenAI
+from openai import OpenAI, AzureOpenAI
 from dotenv import load_dotenv
 import os
 from .errorhandling import remove_brackets, remove_strings
@@ -20,7 +19,9 @@ if USE_AZURE:
     )
     AZURE_DEPLOYMENT = os.getenv('DEPLOYMENT_NAME')
 else:
-    openai.api_key = os.getenv('API_KEY')
+    client = OpenAI(
+        api_key=os.getenv('API_KEY')
+    )
 
 response = ""
 
@@ -89,9 +90,8 @@ def generate_response(prompt):
             frequency_penalty=0,
             presence_penalty=0
         )
-        generated_text = response.choices[0].message.content.strip()
     else:
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-4",
             messages=messages,
             temperature=0,
@@ -100,8 +100,8 @@ def generate_response(prompt):
             frequency_penalty=0,
             presence_penalty=0
         )
-        generated_text = response.choices[0].message['content'].strip()
 
+    generated_text = response.choices[0].message.content.strip()
     print("\n[CHAT GPT] Response : \n", response)
     return generated_text
 
@@ -118,9 +118,8 @@ def generate_response_turbo(prompt):
             frequency_penalty=0,
             presence_penalty=0
         )
-        generated_text = response.choices[0].message.content.strip()
     else:
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=messages,
             temperature=0,
@@ -129,8 +128,8 @@ def generate_response_turbo(prompt):
             frequency_penalty=0,
             presence_penalty=0
         )
-        generated_text = response.choices[0].message['content'].strip()
 
+    generated_text = response.choices[0].message.content.strip()
     print("[CHAT GPT 3.5]Response :\n", response)
     return generated_text
 
