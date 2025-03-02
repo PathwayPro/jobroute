@@ -130,14 +130,14 @@ const ExplorePage = () => {
         </title>
       </Head>
       <Navbar />
-      <div className="m-auto mt-[50px] flex max-w-[1500px] grow flex-col p-10 px-[88px]">
-        <div className="flex items-center justify-around rounded-xl bg-[#F0F0F0] px-12 py-6">
-          <div className="flex w-[70%] flex-col gap-6">
-            <h2>
+      <div className="mx-auto mt-[50px] flex max-w-[1500px] grow flex-col p-4 md:p-10 md:px-[88px]">
+        <div className="flex flex-col items-center rounded-xl bg-[#F0F0F0] p-6 md:flex-row md:justify-around md:px-12">
+          <div className="flex w-full flex-col gap-6 text-left md:w-[70%] md:text-left">
+            <h2 className="text-2xl md:text-3xl">
               Jobs similar to {capitalizeWords(profession)} in {getProvinceName(province)}
             </h2>
             {matches?.length > 0 && (
-              <Paragraph>
+              <Paragraph className="text-sm md:text-base">
                 Your current occupation matches with several professions in{" "}
                 {getProvinceName(province)}. Select any of them to explore how
                 you can leverage your skills to transition into a new career.
@@ -148,14 +148,14 @@ const ExplorePage = () => {
             onOpenChange={setDialogOpen}
             open={dialogOpen}
             trigger={
-              <Button onClick={() => setDialogOpen(true)}>Search Again</Button>
+              <Button className="mt-6 w-full md:mt-0 md:w-auto" onClick={() => setDialogOpen(true)}>Search Again</Button>
             }
           >
             <Form setOpen={setDialogOpen} />
           </Dialog>
         </div>
         <DialogLoading isLoading={isLoading} />
-        <div className="mt-10 flex flex-wrap justify-center gap-4">
+        <div className="mt-6 flex flex-col items-center gap-4 md:mt-10 md:flex-row md:flex-wrap md:justify-center">
           {!isLoading &&
             matches &&
             professions?.map((profession) => (
@@ -172,7 +172,7 @@ const ExplorePage = () => {
         </div>
         <div>
           {!isLoading && !matches && (
-            <div className="flex flex-col items-center justify-center gap-3">
+            <div className="flex flex-col items-center justify-center gap-3 px-4 text-center">
               <Paragraph size="large">
                 AI was unable to provide job roles with transferrable skills
                 similar to {capitalizeWords(profession)} in {getProvinceName(province)}.
