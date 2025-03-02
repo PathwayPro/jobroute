@@ -121,22 +121,24 @@ def get_all_info1(role, region):
         result = JsonResponse(json.loads(response), safe=False)
     else:
         print("GOTTEN FROM OPENAI")
-        prompt = f'as an AI assistant that provides Canadian education paths for the role "{role}" in the region "{region}" regarding salary, degree, work, credential and language proficiency required to be successful strictly following this template return reply as JSON array of objects: ' + \
-                '''{
-                        "salary": [
-                            "$00.00 - $0000.00",
-                            "will vary according to seniority"],
-                        "Degree": "return is it mandatory to have a degree 2 - 3 tokens max.",
-                        "Work": [ // Provide all possible options ,
-                            "Just list all possible options for type of participation and return
-                                only: Remote | Hybrid | In Person - use as separator "|"",
-                            "Just list all possible options for type of work and return only:
-                            Part-time | Full-time | Contract Freelance | Consulting - use as separator "|"",
-                            ],
-                        "Credential Validation": "Not required" or "Required",
-                        "Language Proficiency": "using 10 tokens tell about recommended language proficiency",
-                    }
-                '''
+        prompt = (
+            f'Return only a valid JSON object with no additional text or formatting for the following request: '
+            f'For the role "{role}" in the region "{region}", provide information about salary, degree, work, '
+            f'credential and language proficiency in exactly this format:\n'
+            '''{
+                "salary": [
+                    "$00.00 - $0000.00",
+                    "will vary according to seniority"
+                ],
+                "Degree": "Required/Not Required/Recommended",
+                "Work": [
+                    "Remote | Hybrid | In Person",
+                    "Part-time | Full-time | Contract Freelance | Consulting"
+                ],
+                "Credential Validation": "Required/Not Required",
+                "Language Proficiency": "Brief language requirement"
+            }'''
+        )
         result = collect_result(prompt, 4)
         if is_json_invalid(result):
             print("error found in result")
