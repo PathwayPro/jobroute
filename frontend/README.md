@@ -26,6 +26,9 @@ pnpm install
 
 2. This project uses [reCAPTCHA v2](https://www.google.com/recaptcha/admin/create) validation, so generate the keys that will be stored in .env.
 
+To manage the existing reCAPTCHA, go to the following URL:
+(https://www.google.com/recaptcha/admin/site/719764561)
+
 3. Create a .env file that will store the environment variables. Example:
 
 ```
@@ -34,7 +37,11 @@ NEXT_PUBLIC_RECAPTCHA_SITE_KEY=
 NEXT_PUBLIC_SLOW_MODE=true
 ```
 
-4. Run the development server:
+4. Run the back-end development server:
+
+- Follow the steps in the backend's [README.md](../backend/README.md) file.
+
+5. Run the front-end development server:
 
 ```bash
 npm run dev
